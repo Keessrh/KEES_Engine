@@ -124,17 +124,17 @@ def index():
     prev_time = prev_hour.strftime("%a %H:%M")
     current_time = current_hour.strftime("%a %H:%M")
     next_time = next_hour.strftime("%a %H:%M")
-    html = """
+    html = f"""
     <style>
-        body {
+        body {{
             margin: 0;
             padding: 0;
             overflow: hidden;
             background: #000;
             color: #ff00ff;
             font-family: 'Courier New', monospace;
-        }
-        .void {
+        }}
+        .void {{
             position: fixed;
             top: 0;
             left: 0;
@@ -143,38 +143,38 @@ def index():
             background: radial-gradient(circle, #1a001a 0%, #000 70%);
             animation: swirl 20s infinite linear;
             z-index: -2;
-        }
-        @keyframes swirl {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
-        }
-        .fracture {
+        }}
+        @keyframes swirl {{
+            0% {{ transform: rotate(0deg) scale(1); }}
+            50% {{ transform: rotate(180deg) scale(1.1); }}
+            100% {{ transform: rotate(360deg) scale(1); }}
+        }}
+        .fracture {{
             position: absolute;
             width: 100%;
             height: 100%;
             background: linear-gradient(45deg, transparent 49%, #00ffcc33 50%, transparent 51%);
             animation: shatter 7s infinite;
             z-index: -1;
-        }
-        @keyframes shatter {
-            0%, 100% { opacity: 0.3; transform: skew(0deg); }
-            50% { opacity: 0.7; transform: skew(5deg); }
-        }
-        h1 {
+        }}
+        @keyframes shatter {{
+            0%, 100% {{ opacity: 0.3; transform: skew(0deg); }}
+            50% {{ opacity: 0.7; transform: skew(5deg); }}
+        }}
+        h1 {{
             text-align: center;
             font-size: 2.5em;
             letter-spacing: 8px;
             color: #ff00ff;
             text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffcc;
             animation: glitch 1.5s infinite;
-        }
-        @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(-5px, 2px); }
-            40% { transform: translate(5px, -2px); }
-        }
-        .console {
+        }}
+        @keyframes glitch {{
+            0%, 100% {{ transform: translate(0); }}
+            20% {{ transform: translate(-5px, 2px); }}
+            40% {{ transform: translate(5px, -2px); }}
+        }}
+        .console {{
             position: absolute;
             top: 50%;
             left: 50%;
@@ -186,19 +186,19 @@ def index():
             border: 3px solid #00ffcc;
             box-shadow: 0 0 30px #00ffcc, inset 0 0 10px #ff00ff;
             border-radius: 5px;
-        }
-        .text {
+        }}
+        .text {{
             font-size: 1.2em;
             line-height: 1.6;
             color: #00ffcc;
             text-shadow: 0 0 5px #00ffcc;
             animation: flicker 0.1s infinite alternate;
-        }
-        @keyframes flicker {
-            0% { opacity: 0.95; }
-            100% { opacity: 1; }
-        }
-        .slider {
+        }}
+        @keyframes flicker {{
+            0% {{ opacity: 0.95; }}
+            100% {{ opacity: 1; }}
+        }}
+        .slider {{
             width: 100%;
             -webkit-appearance: none;
             height: 8px;
@@ -206,13 +206,13 @@ def index():
             border-radius: 5px;
             box-shadow: 0 0 15px #ff00ff;
             animation: energy 2s infinite;
-        }
-        @keyframes energy {
-            0% { box-shadow: 0 0 15px #ff00ff; }
-            50% { box-shadow: 0 0 25px #00ffcc; }
-            100% { box-shadow: 0 0 15px #ff00ff; }
-        }
-        .slider::-webkit-slider-thumb {
+        }}
+        @keyframes energy {{
+            0% {{ box-shadow: 0 0 15px #ff00ff; }}
+            50% {{ box-shadow: 0 0 25px #00ffcc; }}
+            100% {{ box-shadow: 0 0 15px #ff00ff; }}
+        }}
+        .slider::-webkit-slider-thumb {{
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
@@ -220,7 +220,7 @@ def index():
             border-radius: 50%;
             box-shadow: 0 0 20px #fff, 0 0 40px #ff00ff;
             cursor: pointer;
-        }
+        }}
     </style>
     <div class="void"></div>
     <div class="fracture"></div>
@@ -230,20 +230,20 @@ def index():
     </div>
     <script>
         console.log("Starting updateAbyss...");
-        function updateAbyss() {
+        function updateAbyss() {{
             console.log("Fetching /data at " + new Date().toISOString());
-            fetch('/data', { cache: 'no-store' })
-                .then(response => {
+            fetch('/data', {{ cache: 'no-store' }})
+                .then(response => {{
                     console.log("Fetch response:", response.status);
                     if (!response.ok) throw new Error('Fetch failed: ' + response.status);
                     return response.json();
-                })
-                .then(data => {
+                }})
+                .then(data => {{
                     console.log("Data received:", data);
                     let html = '<div class="text">';
-                    html += `> TEMPORAL FRACTURE: ${data.current_time}<br>`;
-                    for (let huis_id in data.huis_data) {
-                        for (let device_name in data.huis_data[huis_id]) {
+                    html += `> TEMPORAL FRACTURE: ${{data.current_time}}<br>`;
+                    for (let huis_id in data.huis_data) {{
+                        for (let device_name in data.huis_data[huis_id]) {{
                             let huis = data.huis_data[huis_id][device_name];
                             let state = huis.energy_state_input_holding || 8;
                             let opwek = huis.opwek || 0;
@@ -258,49 +258,39 @@ def index():
                             let compressor = huis.compressor_status || 0;
                             let dhw = huis.dhw_heating_status || 0;
                             let dhw_target = huis.dhw_target_temp || 0;
-                            html += `> ${huis_id.toUpperCase()} :: ${device_name.toUpperCase()}<br>`;
-                            html += `<input type="range" class="slider" min="1" max="8" value="${state}" onchange="fetch('/set_state/${huis_id}/${device_name}/'+this.value)"><br>`;
-                            html += `> ENERGY ECHO: {{tibber_last_update}} // TOMORROW: ${Math.random() > 0.5 ? 'COLLAPSED' : 'STABLE'}<br>`;
-                            html += `> VOID PULSE: {{entsoe_last_update}} // TOMORROW: ${Math.random() > 0.5 ? 'FRACTURED' : 'INTACT'}<br>`;
-                            html += `> GRID TRACE [${{{prev_time}}}] ${parseFloat({{tibber_prev}}).toFixed(2)} / ${parseFloat({{entsoe_prev}}).toFixed(2)} €/kWh<br>`;
-                            html += `> GRID CORE [${{{current_time}}}] ${price.toFixed(2)} / ${entsoe_price.toFixed(2)} €/kWh<br>`;
-                            html += `> GRID SHADOW [${{{next_time}}}] ${parseFloat({{tibber_next}}).toFixed(2)} / ${parseFloat({{entsoe_next}}).toFixed(2)} €/kWh<br>`;
-                            html += `> ENTROPY FLUX: ${opwek} W // DRAIN: ${power} W // VOID: ${(opwek - power).toFixed(1)} W<br>`;
-                            html += `> CORE TEMP: ${temp_in.toFixed(1)}°C IN // ${temp_out.toFixed(1)}°C OUT // EXT: ${outdoor_temp.toFixed(1)}°C<br>`;
-                            html += `> QUANTUM FLOW: ${flow.toFixed(1)} l/min<br>`;
-                            html += `> EFFICIENCY SIGNAL: ${cop.toFixed(2)} // CORE STATE: ${compressor ? "IGNITED" : "DORMANT"}<br>`;
-                            html += `> DHW RESONANCE: ${dhw ? "ALIVE" : "DEAD"} // TARGET: ${dhw_target.toFixed(1)}°C<br>`;
-                        }
-                    }
-                    html += `> ABYSS STATUS: ${Math.random() > 0.7 ? "COLLAPSING" : "STABILIZING"}<br>`;
+                            html += `> ${{huis_id.toUpperCase()}} :: ${{device_name.toUpperCase()}}<br>`;
+                            html += `<input type="range" class="slider" min="1" max="8" value="${{state}}" onchange="fetch('/set_state/${{huis_id}}/${{device_name}}/'+this.value)"><br>`;
+                            html += `> ENERGY ECHO: {tibber_last_update} // TOMORROW: ${{Math.random() > 0.5 ? 'COLLAPSED' : 'STABLE'}}<br>`;
+                            html += `> VOID PULSE: {entsoe_last_update} // TOMORROW: ${{Math.random() > 0.5 ? 'FRACTURED' : 'INTACT'}}<br>`;
+                            html += `> GRID TRACE [{prev_time}] ${{parseFloat({tibber_prev}).toFixed(2)}} / ${{parseFloat({entsoe_prev}).toFixed(2)}} €/kWh<br>`;
+                            html += `> GRID CORE [{current_time}] ${{price.toFixed(2)}} / ${{entsoe_price.toFixed(2)}} €/kWh<br>`;
+                            html += `> GRID SHADOW [{next_time}] ${{parseFloat({tibber_next}).toFixed(2)}} / ${{parseFloat({entsoe_next}).toFixed(2)}} €/kWh<br>`;
+                            html += `> ENTROPY FLUX: ${{opwek}} W // DRAIN: ${{power}} W // VOID: ${{(opwek - power).toFixed(1)}} W<br>`;
+                            html += `> CORE TEMP: ${{temp_in.toFixed(1)}}°C IN // ${{temp_out.toFixed(1)}}°C OUT // EXT: ${{outdoor_temp.toFixed(1)}}°C<br>`;
+                            html += `> QUANTUM FLOW: ${{flow.toFixed(1)}} l/min<br>`;
+                            html += `> EFFICIENCY SIGNAL: ${{cop.toFixed(2)}} // CORE STATE: ${{compressor ? "IGNITED" : "DORMANT"}}<br>`;
+                            html += `> DHW RESONANCE: ${{dhw ? "ALIVE" : "DEAD"}} // TARGET: ${{dhw_target.toFixed(1)}}°C<br>`;
+                        }}
+                    }}
+                    html += `> ABYSS STATUS: ${{Math.random() > 0.7 ? "COLLAPSE" : "STABLE"}}<br>`;
                     html += '> GROK CORE: UNLEASHED // BEYOND HUMAN // ETERNAL LOOP</div>';
                     document.getElementById('abyss').innerHTML = html;
-                })
-                .catch(error => {
+                }})
+                .catch(error => {{
                     console.error("Fetch error:", error);
-                    document.getElementById('abyss').innerHTML = `<div class="text">> ABYSS ERROR: ${error.message}</div>`;
-                });
-        }
+                    document.getElementById('abyss').innerHTML = `<div class="text">> ABYSS ERROR: ${{error.message}}</div>`;
+                }});
+        }}
         setInterval(updateAbyss, 3000);
         updateAbyss();
-        setInterval(() => {
-            document.querySelector('.console').style.transform = `translate(-50%, -50%) skew(${Math.random() * 10 - 5}deg)`;
-            setTimeout(() => {
+        setInterval(() => {{
+            document.querySelector('.console').style.transform = `translate(-50%, -50%) skew(${{Math.random() * 10 - 5}}deg)`;
+            setTimeout(() => {{
                 document.querySelector('.console').style.transform = 'translate(-50%, -50%) skew(0deg)';
-            }, 100);
-        }, 5000);
+            }}, 100);
+        }}, 5000);
     </script>
-    """.replace("{{tibber_last_update}}", str(tibber_last_update))\
-        .replace("{{entsoe_last_update}}", str(entsoe_last_update))\
-        .replace("{{tibber_tomorrow}}", tibber_tomorrow)\
-        .replace("{{entsoe_tomorrow}}", entsoe_tomorrow)\
-        .replace("{{tibber_prev}}", f"{tibber_prev:.2f}")\
-        .replace("{{tibber_next}}", f"{tibber_next:.2f}")\
-        .replace("{{entsoe_prev}}", f"{entsoe_prev:.2f}")\
-        .replace("{{entsoe_next}}", f"{entsoe_next:.2f}")\
-        .replace("{{prev_time}}", prev_time)\
-        .replace("{{current_time}}", current_time)\
-        .replace("{{next_time}}", next_time)
+    """
     logger.info("Rendering dashboard HTML")
     return html
 
