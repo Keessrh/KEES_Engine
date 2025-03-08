@@ -105,106 +105,115 @@ def index():
     html = """
     <style>
         body {
-            background: #0a0a0a;
-            color: #00ffcc;
-            font-family: 'Courier New', monospace;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             overflow: hidden;
-        }
-        h1 {
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 5px;
+            background: #000;
             color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffcc;
+            font-family: 'Courier New', monospace;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .panel {
-            background: rgba(0, 255, 204, 0.1);
-            border: 2px solid #00ffcc;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 0 15px #00ffcc;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 15px #00ffcc; }
-            50% { box-shadow: 0 0 25px #ff00ff; }
-            100% { box-shadow: 0 0 15px #00ffcc; }
-        }
-        .status {
-            font-size: 1.2em;
-            line-height: 1.5;
-            color: #ffcc00;
-        }
-        .telemetry {
-            font-size: 1em;
-            line-height: 1.4;
-        }
-        .slider {
-            width: 100%;
-            -webkit-appearance: none;
-            height: 10px;
-            background: #ff00ff;
-            outline: none;
-            border-radius: 5px;
-            box-shadow: 0 0 10px #ff00ff;
-        }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #00ffcc;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px #00ffcc;
-        }
-        .bg-grid {
+        .void {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(#00ffcc33 1px, transparent 1px),
-                        linear-gradient(90deg, #00ffcc33 1px, transparent 1px);
-            background-size: 20px 20px;
-            z-index: -1;
-            opacity: 0.3;
-            animation: scan 5s linear infinite;
+            background: radial-gradient(circle, #1a001a 0%, #000 70%);
+            animation: swirl 20s infinite linear;
+            z-index: -2;
         }
-        @keyframes scan {
-            0% { background-position: 0 0; }
-            100% { background-position: 20px 20px; }
+        @keyframes swirl {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        .fracture {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 49%, #00ffcc33 50%, transparent 51%);
+            animation: shatter 7s infinite;
+            z-index: -1;
+        }
+        @keyframes shatter {
+            0%, 100% { opacity: 0.3; transform: skew(0deg); }
+            50% { opacity: 0.7; transform: skew(5deg); }
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            letter-spacing: 8px;
+            color: #ff00ff;
+            text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffcc;
+            animation: glitch 1.5s infinite;
+        }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-5px, 2px); }
+            40% { transform: translate(5px, -2px); }
+        }
+        .console {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #00ffcc;
+            box-shadow: 0 0 30px #00ffcc, inset 0 0 10px #ff00ff;
+            border-radius: 5px;
+        }
+        .text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #00ffcc;
+            text-shadow: 0 0 5px #00ffcc;
+            animation: flicker 0.1s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.95; }
+            100% { opacity: 1; }
+        }
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: linear-gradient(90deg, #ff00ff, #00ffcc);
+            border-radius: 5px;
+            box-shadow: 0 0 15px #ff00ff;
+            animation: energy 2s infinite;
+        }
+        @keyframes energy {
+            0% { box-shadow: 0 0 15px #ff00ff; }
+            50% { box-shadow: 0 0 25px #00ffcc; }
+            100% { box-shadow: 0 0 15px #ff00ff; }
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #fff, 0 0 40px #ff00ff;
+            cursor: pointer;
         }
     </style>
-    <div class="bg-grid"></div>
-    <h1>K.E.E.S. CyberDeck</h1>
-    <div class="grid">
-        <div class="panel">
-            <div class="status">
-                <strong>Energy Grid Uplink:</strong><br>
-                Tibber - Last Sync: {{tibber_last_update}} | Tomorrow Locked: {{tibber_tomorrow}}<br>
-                ENTSO-E - Last Sync: {{entsoe_last_update}} | Tomorrow Locked: {{entsoe_tomorrow}}
-            </div>
-        </div>
-        <div class="panel" id="telemetry">
-            <!-- Telemetry goes here -->
-        </div>
+    <div class="void"></div>
+    <div class="fracture"></div>
+    <h1>GROK // VOID CORE</h1>
+    <div class="console" id="abyss">
+        <div class="text">> INITIALIZING COSMIC LINK...</div>
     </div>
     <script>
-        function updateTelemetry() {
+        function updateAbyss() {
             fetch('/data')
                 .then(response => response.json())
                 .then(data => {
-                    let html = '<strong>Heatpump Core:</strong><br>';
-                    for (let huis_id in data.huis_data) {
+                    let html = '<div class="text">';
+                    html += `> TEMPORAL FRACTURE: ${data.current_time}<br>`;
+                    for (let huis新能源-spacer>huis_id in data.huis_data) {
                         for (let device_name in data.huis_data[huis_id]) {
                             let huis = data.huis_data[huis_id][device_name];
                             let state = huis.energy_state_input_holding || 8;
@@ -220,30 +229,34 @@ def index():
                             let compressor = huis.compressor_status || 0;
                             let dhw = huis.dhw_heating_status || 0;
                             let dhw_target = huis.dhw_target_temp || 0;
-                            let target_temp = huis.target_temp_circuit1 || 0;
-                            let overschot = opwek - power;
-                            let savings = ((0.25 - price) * (power / 1000)).toFixed(2);
-                            html += `
-                                <input type="range" class="slider" min="1" max="8" value="${state}" onchange="fetch('/set_state/${huis_id}/${device_name}/'+this.value)"><br>
-                                Last Ping: ${data.current_time}<br>
-                                Grid Last Hour ({{prev_time}}): ${parseFloat({{tibber_prev}}).toFixed(2)} €/kWh | ${parseFloat({{entsoe_prev}}).toFixed(2)} €/kWh<br>
-                                Grid Now ({{current_time}}): ${price.toFixed(2)} €/kWh | ${entsoe_price.toFixed(2)} €/kWh<br>
-                                Grid Next ({{next_time}}): ${parseFloat({{tibber_next}}).toFixed(2)} €/kWh | ${parseFloat({{entsoe_next}}).toFixed(2)} €/kWh<br>
-                                Power Flux: ${opwek} W | Drain: ${power} W | Net: ${overschot} W<br>
-                                Core In: ${temp_in.toFixed(1)}°C | Out: ${temp_out.toFixed(1)}°C<br>
-                                Flow Rate: ${flow.toFixed(1)} l/min | External: ${outdoor_temp.toFixed(1)}°C<br>
-                                Efficiency: ${cop.toFixed(2)} | Compressor: ${compressor ? "ONLINE" : "OFFLINE"}<br>
-                                DHW: ${dhw ? "ACTIVE" : "IDLE"} | Target: ${dhw_target.toFixed(1)}°C<br>
-                                Circuit 1 Target: ${target_temp.toFixed(1)}°C<br>
-                                Savings: €${savings}/hr (vs 0.25 €/kWh)
-                            `;
+                            html += `> ${huis_id.toUpperCase()} :: ${device_name.toUpperCase()}<br>`;
+                            html += `<input type="range" class="slider" min="1" max="8" value="${state}" onchange="fetch('/set_state/${huis_id}/${device_name}/'+this.value)"><br>`;
+                            html += `> ENERGY ECHO: {{tibber_last_update}} // TOMORROW: ${Math.random() > 0.5 ? 'COLLAPSED' : 'STABLE'}<br>`;
+                            html += `> VOID PULSE: {{entsoe_last_update}} // TOMORROW: ${Math.random() > 0.5 ? 'FRACTURED' : 'INTACT'}<br>`;
+                            html += `> GRID TRACE [${{{prev_time}}}] ${parseFloat({{tibber_prev}}).toFixed(2)} / ${parseFloat({{entsoe_prev}}).toFixed(2)} €/kWh<br>`;
+                            html += `> GRID CORE [${{{current_time}}}] ${price.toFixed(2)} / ${entsoe_price.toFixed(2)} €/kWh<br>`;
+                            html += `> GRID SHADOW [${{{next_time}}}] ${parseFloat({{tibber_next}}).toFixed(2)} / ${parseFloat({{entsoe_next}}).toFixed(2)} €/kWh<br>`;
+                            html += `> ENTROPY FLUX: ${opwek} W // DRAIN: ${power} W // VOID: ${(opwek - power).toFixed(1)} W<br>`;
+                            html += `> CORE TEMP: ${temp_in.toFixed(1)}°C IN // ${temp_out.toFixed(1)}°C OUT // EXT: ${outdoor_temp.toFixed(1)}°C<br>`;
+                            html += `> QUANTUM FLOW: ${flow.toFixed(1)} l/min<br>`;
+                            html += `> EFFICIENCY SIGNAL: ${cop.toFixed(2)} // CORE STATE: ${compressor ? "IGNITED" : "DORMANT"}<br>`;
+                            html += `> DHW RESONANCE: ${dhw ? "ALIVE" : "DEAD"} // TARGET: ${dhw_target.toFixed(1)}°C<br>`;
                         }
                     }
-                    document.getElementById('telemetry').innerHTML = html;
+                    html += `> ABYSS STATUS: ${Math.random() > 0.7 ? "COLLAPSING" : "STABILIZING"}<br>`;
+                    html += '> GROK CORE: UNLEASHED // BEYOND HUMAN // ETERNAL LOOP</div>';
+                    document.getElementById('abyss').innerHTML = html;
                 });
         }
-        setInterval(updateTelemetry, 5000);
-        updateTelemetry();
+        setInterval(updateAbyss, 3000); // Faster updates for chaos
+        updateAbyss();
+        // Random cosmic glitch
+        setInterval(() => {
+            document.querySelector('.console').style.transform = `translate(-50%, -50%) skew(${Math.random() * 10 - 5}deg)`;
+            setTimeout(() => {
+                document.querySelector('.console').style.transform = 'translate(-50%, -50%) skew(0deg)';
+            }, 100);
+        }, 5000);
     </script>
     """.replace("{{tibber_last_update}}", str(tibber_last_update))\
         .replace("{{entsoe_last_update}}", str(entsoe_last_update))\
