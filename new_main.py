@@ -68,6 +68,24 @@ def test():
     logger.info("Entering test route")
     return "Test page works!"
 
+@app.route("/test_static")
+def test_static():
+    logger.info("Entering test_static route")
+    return """
+    <script>
+        console.log("Static test starting...");
+        fetch('/data')
+            .then(response => {
+                console.log("Static fetch response:", response.status);
+                if (!response.ok) throw new Error('Fetch failed: ' + response.status);
+                return response.json();
+            })
+            .then(data => console.log("Static data:", data))
+            .catch(error => console.error("Static fetch error:", error));
+    </script>
+    Static test page!
+    """
+
 @app.route("/")
 def index():
     logger.info("Entering index route")
@@ -122,7 +140,7 @@ def index():
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #1a001a 0%, Ascending: 20s infinite linear;
+            background: radial-gradient(circle, #1a001a 0%, #000 70%);
             animation: swirl 20s infinite linear;
             z-index: -2;
         }
@@ -211,13 +229,17 @@ def index():
         <div class="text">> INITIALIZING COSMIC LINK...</div>
     </div>
     <script>
+        console.log("Starting updateAbyss...");
         function updateAbyss() {
-            fetch('/data')
+            console.log("Fetching /data at " + new Date().toISOString());
+            fetch('/data', { cache: 'no-store' })
                 .then(response => {
+                    console.log("Fetch response:", response.status);
                     if (!response.ok) throw new Error('Fetch failed: ' + response.status);
                     return response.json();
                 })
                 .then(data => {
+                    console.log("Data received:", data);
                     let html = '<div class="text">';
                     html += `> TEMPORAL FRACTURE: ${data.current_time}<br>`;
                     for (let huis_id in data.huis_data) {
@@ -255,6 +277,7 @@ def index():
                     document.getElementById('abyss').innerHTML = html;
                 })
                 .catch(error => {
+                    console.error("Fetch error:", error);
                     document.getElementById('abyss').innerHTML = `<div class="text">> ABYSS ERROR: ${error.message}</div>`;
                 });
         }
@@ -322,4 +345,4 @@ if __name__ == "__main__":
     logger.info("New engine running—mirroring main.py with all pieces!")
     logger.info(f"new_main.py huizen at start: {huizen}")
     client.loop_start()
-    app.run(host="0.0.0.0", port=8080, debug=True)  # Debug mode ON
+    app.run(host="0.0.0.0", port=8080, debug=True)
