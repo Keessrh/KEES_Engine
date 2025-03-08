@@ -78,8 +78,6 @@ def index():
     entsoe_last_update = price_data.get("entsoe", {}).get("last_update", "")
     tibber_tomorrow = price_data.get("tibber", {}).get("tomorrow_prices_known", False)
     entsoe_tomorrow = price_data.get("entsoe", {}).get("tomorrow_prices_known", False)
-    tibber_price = tibber_prices.get(current_hour_str, 0.05)
-    entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
     prev_hour = current_hour - timedelta(hours=1)
     next_hour = current_hour + timedelta(hours=1)
     prev_hour_str = prev_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -94,8 +92,8 @@ def index():
     html = """
     <h1>K.E.E.S. Control</h1>
     <p><b>Prijs Status:</b></p>
-    <p>Tibber - Laatste Update: {{tibber_last_update}} | Tomorrow Prijzen Bekend: {{tibber_tomorrow ? 'Ja' : 'Nee'}}</p>
-    <p>ENTSO-E - Laatste Update: {{entsoe_last_update}} | Tomorrow Prijzen Bekend: {{entsoe_tomorrow ? 'Ja' : 'Nee'}}</p>
+    <p>Tibber - Laatste Update: {{ tibber_last_update }} | Tomorrow Prijzen Bekend: {% if tibber_tomorrow %}Ja{% else %}Nee{% endif %}</p>
+    <p>ENTSO-E - Laatste Update: {{ entsoe_last_update }} | Tomorrow Prijzen Bekend: {% if entsoe_tomorrow %}Ja{% else %}Nee{% endif %}</p>
     <div id="dashboard"></div>
     <script>
         function updateDashboard() {
@@ -133,9 +131,9 @@ def index():
                                 <input type='range' min='1' max='8' value='${state}' onchange='fetch("/set_state/${huis_id}/${device_name}/"+this.value)'>
                                 <p><b>Live Waarden:</b></p>
                                 <p>Laatste Update: ${data.current_time}</p>
-                                <p>Prijs Vorige Uur ({{prev_time}}): {{tibber_prev.toFixed(2)}} €/kWh (Tibber) | {{entsoe_prev.toFixed(2)}} €/kWh (ENTSO-E)</p>
-                                <p>Prijs Nu ({{current_time}}): ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
-                                <p>Prijs Volgende Uur ({{next_time}}): {{tibber_next.toFixed(2)}} €/kWh (Tibber) | {{entsoe_next.toFixed(2)}} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Vorige Uur ({{ prev_time }}): {{ tibber_prev.toFixed(2) }} €/kWh (Tibber) | {{ entsoe_prev.toFixed(2) }} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Nu ({{ current_time }}): ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Volgende Uur ({{ next_time }}): {{ tibber_next.toFixed(2) }} €/kWh (Tibber) | {{ entsoe_next.toFixed(2) }} €/kWh (ENTSO-E)</p>
                                 <p>Opwek: ${opwek} W | Verbruik: ${power} W | Overschot: ${overschot} W</p>
                                 <p>Temp In: ${temp_in.toFixed(1)}°C | Temp Out: ${temp_out.toFixed(1)}°C</p>
                                 <p>Stroom (Flow): ${flow.toFixed(1)} l/min | Buitentemp: ${outdoor_temp.toFixed(1)}°C</p>
@@ -153,18 +151,12 @@ def index():
         setInterval(updateDashboard, 5000);
         updateDashboard();
     </script>
-    """.replace("{{tibber_last_update}}", tibber_last_update)\
-        .replace("{{entsoe_last_update}}", entsoe_last_update)\
-        .replace("{{tibber_tomorrow}}", str(tibber_tomorrow))\
-        .replace("{{entsoe_tomorrow}}", str(entsoe_tomorrow))\
-        .replace("{{tibber_prev}}", str(tibber_prev))\
-        .replace("{{tibber_next}}", str(tibber_next))\
-        .replace("{{entsoe_prev}}", str(entsoe_prev))\
-        .replace("{{entsoe_next}}", str(entsoe_next))\
-        .replace("{{prev_time}}", prev_time)\
-        .replace("{{current_time}}", current_time)\
-        .replace("{{next_time}}", next_time)
-    return render_template_string(html)
+    """
+    return render_template_string(html, tibber_last_update=tibber_last_update, entsoe_last_update=entsoe_last_update, 
+                                  tibber_tomorrow=tibber_tomorrow, entsoe_tomorrow=entsoe_tomorrow, 
+                                  tibber_prev=tibber_prev, tibber_next=tibber_next, 
+                                  entsoe_prev=entsoe_prev, entsoe_next=entsoe_next, 
+                                  prev_time=prev_time, current_time=current_time, next_time=next_time)
 
 @app.route("/data")
 def data():
