@@ -39,6 +39,7 @@ def on_message(client, userdata, msg):
             else:
                 huis_data["cop"] = 0.0
             huizen["julianalaan_39"]["warmtepomp"] = huis_data
+            logger.info(f"Updated huizen: {huizen}")  # Debug to confirm
 
 def calculate_cop(power, temp_in, temp_out, flow):
     try:
@@ -57,7 +58,6 @@ def calculate_cop(power, temp_in, temp_out, flow):
 
 def run_heatpump():
     prices_file = "/root/master_kees/prices_test.json"
-    # Create file at the start, no excuses
     if not os.path.exists(prices_file):
         with open(prices_file, "w") as f:
             json.dump({}, f)
@@ -69,6 +69,7 @@ def run_heatpump():
     client.subscribe("julianalaan_39/telemetry")
     client.subscribe("julianalaan_39/command")
     client.loop_start()
+    logger.info("Heatpump thread started, MQTT loop running")
     
     while True:
         now = datetime.now(CET)
