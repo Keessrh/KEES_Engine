@@ -61,6 +61,7 @@ def update_cop_24h():
 
 @app.route("/")
 def index():
+    logger.info("Entering index route")
     logger.info(f"Rendering index, huizen: {huizen}")
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
@@ -152,6 +153,7 @@ def index():
         updateDashboard();
     </script>
     """
+    logger.info("Rendering dashboard HTML")
     return render_template_string(html, tibber_last_update=tibber_last_update, entsoe_last_update=entsoe_last_update, 
                                   tibber_tomorrow=tibber_tomorrow, entsoe_tomorrow=entsoe_tomorrow, 
                                   tibber_prev=tibber_prev, tibber_next=tibber_next, 
@@ -160,12 +162,16 @@ def index():
 
 @app.route("/data")
 def data():
+    logger.info("Entering data route")
     logger.info(f"Serving /data, huizen: {huizen}")
     now = datetime.now(CET)
-    return json.dumps({"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")})
+    data_to_return = {"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")}
+    logger.info(f"Returning data: {json.dumps(data_to_return)}")
+    return json.dumps(data_to_return)
 
 @app.route("/set_state/<huis_id>/<device_name>/<int:state>")
 def set_state(huis_id, device_name, state):
+    logger.info(f"Entering set_state route for {huis_id}/{device_name} with state {state}")
     client.publish(f"{huis_id}/command", json.dumps({"energy_state_input_holding": state}))
     logger.info(f"State set: {huis_id}/{device_name} to {state}")
     return "State set!"
