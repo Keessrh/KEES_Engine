@@ -1,0 +1,13 @@
+master:
+  mqtt_broker: "159.223.10.31"
+  mqtt_port: 1883
+clients:
+  julianalaan_39:
+    heatpump: "lg_therma_v"
+    dhw: "500L_boiler"
+  swimming_pool_guy:
+    pool_heatpump: "shelly_switch"
+external_sources:
+  prices:
+    tibber: true
+    entsoe: false
