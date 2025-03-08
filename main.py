@@ -14,7 +14,7 @@ from xml.etree import ElementTree as ET
 
 app = Flask(__name__)
 
-logging.basicConfig(filename="/root/master_kees/main.log", level=logging.DEBUG, 
+logging.basicConfig(filename="/root/main.log", level=logging.DEBUG, 
                     format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger()
 
