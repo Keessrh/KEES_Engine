@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil import tz
 import json
 import os
-from shared_data import huizen, cop_buffer  # Shared data
+from shared_data import huizen, cop_buffer
 
 logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG, 
                     format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
@@ -55,7 +55,7 @@ def calculate_cop(power, temp_in, temp_out, flow):
         return 0.0
 
 def run_heatpump():
-    prices_file = "/root/master_kees/prices_test.json"
+    prices_file = "/root/master_kees/prices.json"  # Match main.py
     if not os.path.exists(prices_file):
         with open(prices_file, "w") as f:
             json.dump({}, f)
