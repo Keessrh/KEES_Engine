@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import collections
 from dateutil import tz
 import os
-import time  # Added!
+import time
 
 app = Flask(__name__)
 logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG, 
@@ -47,7 +47,6 @@ def calculate_cop(power, temp_in, temp_out, flow):
         return 0.0
 
 def update_cop_24h():
-    global cop_buffer
     while True:
         now = datetime.now(CET)
         for huis_id in huizen:
@@ -64,6 +63,7 @@ def update_cop_24h():
 
 @app.route("/")
 def index():
+    logger.info(f"Rendering index, huizen: {huizen}")  # Debug
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -148,6 +148,7 @@ def index():
 
 @app.route("/data")
 def data():
+    logger.info(f"Serving /data, huizen: {huizen}")  # Debug
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -179,6 +180,6 @@ if __name__ == "__main__":
     threading.Thread(target=run_heatpump, daemon=True).start()
     threading.Thread(target=update_cop_24h, daemon=True).start()
     logger.info("New engine running—mirroring main.py with all pieces!")
-logger.info(f"new_main.py huizen: {huizen}")
+    logger.info(f"new_main.py huizen: {huizen}")  # Debug
     client.loop_start()
-    app.run(host="0.0.0.0", port=8080)  # Port 8080 to avoid clash with main.py
+    app.run(host="0.0.0.0", port=8080)
