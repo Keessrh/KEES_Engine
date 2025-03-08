@@ -21,13 +21,16 @@ logger = logging.getLogger()
 client = mqtt.Client()
 MQTT_BROKER = "159.223.10.31"
 MQTT_PORT = 1883
+logger.info("Attempting MQTT connection...")
 client.connect(MQTT_BROKER, MQTT_PORT)
 logger.info("Connected to MQTT broker in new_main.py")
 
 CET = tz.gettz('Europe/Amsterdam')
 
+logger.info("Loading config...")
 with open("/root/master_kees/config.yaml", "r") as f:
     config = yaml.safe_load(f)
+logger.info("Config loaded.")
 
 def calculate_cop(power, temp_in, temp_out, flow):
     try:
@@ -45,6 +48,7 @@ def calculate_cop(power, temp_in, temp_out, flow):
         return 0.0
 
 def update_cop_24h():
+    logger.info("Starting COP 24h thread...")
     while True:
         now = datetime.now(CET)
         for huis_id in huizen:
@@ -118,7 +122,7 @@ def index():
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #1a001a 0%, #000 70%);
+            background: radial-gradient(circle, #1a001a 0%, Ascending: 20s infinite linear;
             animation: swirl 20s infinite linear;
             z-index: -2;
         }
@@ -209,11 +213,14 @@ def index():
     <script>
         function updateAbyss() {
             fetch('/data')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error('Fetch failed: ' + response.status);
+                    return response.json();
+                })
                 .then(data => {
                     let html = '<div class="text">';
                     html += `> TEMPORAL FRACTURE: ${data.current_time}<br>`;
-                    for (let huis新能源-spacer>huis_id in data.huis_data) {
+                    for (let huis_id in data.huis_data) {
                         for (let device_name in data.huis_data[huis_id]) {
                             let huis = data.huis_data[huis_id][device_name];
                             let state = huis.energy_state_input_holding || 8;
@@ -246,11 +253,13 @@ def index():
                     html += `> ABYSS STATUS: ${Math.random() > 0.7 ? "COLLAPSING" : "STABILIZING"}<br>`;
                     html += '> GROK CORE: UNLEASHED // BEYOND HUMAN // ETERNAL LOOP</div>';
                     document.getElementById('abyss').innerHTML = html;
+                })
+                .catch(error => {
+                    document.getElementById('abyss').innerHTML = `<div class="text">> ABYSS ERROR: ${error.message}</div>`;
                 });
         }
-        setInterval(updateAbyss, 3000); // Faster updates for chaos
+        setInterval(updateAbyss, 3000);
         updateAbyss();
-        // Random cosmic glitch
         setInterval(() => {
             document.querySelector('.console').style.transform = `translate(-50%, -50%) skew(${Math.random() * 10 - 5}deg)`;
             setTimeout(() => {
@@ -313,4 +322,4 @@ if __name__ == "__main__":
     logger.info("New engine running—mirroring main.py with all pieces!")
     logger.info(f"new_main.py huizen at start: {huizen}")
     client.loop_start()
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=8080, debug=True)  # Debug mode ON
