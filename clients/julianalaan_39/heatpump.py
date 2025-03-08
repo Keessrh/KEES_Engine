@@ -5,6 +5,7 @@ from datetime import datetime
 from dateutil import tz
 import json
 import os
+from shared_data import huizen, cop_buffer  # Shared data
 
 logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG, 
                     format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
@@ -13,11 +14,8 @@ logger = logging.getLogger()
 MQTT_BROKER = "159.223.10.31"
 MQTT_PORT = 1883
 CET = tz.gettz('Europe/Amsterdam')
-huizen = {"julianalaan_39": {"warmtepomp": {}}}
-cop_buffer = []
 
 def on_message(client, userdata, msg):
-    global cop_buffer
     logger.info(f"Received: {msg.topic} - {msg.payload}")
     parts = msg.topic.split("/")
     if len(parts) >= 2 and parts[0] == "julianalaan_39":
@@ -39,7 +37,7 @@ def on_message(client, userdata, msg):
             else:
                 huis_data["cop"] = 0.0
             huizen["julianalaan_39"]["warmtepomp"] = huis_data
-            logger.info(f"Updated huizen: {huizen}")  # Debug to confirm
+            logger.info(f"Updated huizen: {huizen}")
 
 def calculate_cop(power, temp_in, temp_out, flow):
     try:

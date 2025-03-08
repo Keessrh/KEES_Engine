@@ -12,6 +12,7 @@ import collections
 from dateutil import tz
 import os
 import time
+from shared_data import huizen, cop_buffer  # Shared data
 
 app = Flask(__name__)
 logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG, 
@@ -24,8 +25,6 @@ MQTT_PORT = 1883
 client.connect(MQTT_BROKER, MQTT_PORT)
 logger.info("Connected to MQTT broker in new_main.py")
 
-huizen = {}
-cop_buffer = collections.deque(maxlen=1440)
 CET = tz.gettz('Europe/Amsterdam')
 
 with open("/root/master_kees/config.yaml", "r") as f:
@@ -53,7 +52,7 @@ def update_cop_24h():
             for device_name in huizen[huis_id]:
                 huis_data = huizen[huis_id][device_name]
                 while cop_buffer and (now - cop_buffer[0][0]) > timedelta(hours=24):
-                    cop_buffer.popleft()
+                    cop_buffer.pop(0)  # List, not deque
                 if cop_buffer:
                     valid_cops = [cop for timestamp, cop in cop_buffer if cop > 0]
                     huis_data["cop_24h"] = sum(valid_cops) / len(valid_cops) if valid_cops else 0.0
@@ -63,7 +62,7 @@ def update_cop_24h():
 
 @app.route("/")
 def index():
-    logger.info(f"Rendering index, huizen: {huizen}")  # Debug
+    logger.info(f"Rendering index, huizen: {huizen}")
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -148,7 +147,7 @@ def index():
 
 @app.route("/data")
 def data():
-    logger.info(f"Serving /data, huizen: {huizen}")  # Debug
+    logger.info(f"Serving /data, huizen: {huizen}")
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -180,6 +179,6 @@ if __name__ == "__main__":
     threading.Thread(target=run_heatpump, daemon=True).start()
     threading.Thread(target=update_cop_24h, daemon=True).start()
     logger.info("New engine running—mirroring main.py with all pieces!")
-    logger.info(f"new_main.py huizen: {huizen}")  # Debug
+    logger.info(f"new_main.py huizen at start: {huizen}")
     client.loop_start()
     app.run(host="0.0.0.0", port=8080)
