@@ -1,69 +1,3 @@
-import threading
-import logging
-import yaml
-import json
-import paho.mqtt.client as mqtt
-from flask import Flask, render_template_string
-from data.prices_tibber import fetch_tibber_prices
-from data.prices_entsoe import fetch_entsoe_prices
-from clients.julianalaan_39.heatpump import run_heatpump
-from datetime import datetime, timedelta
-from dateutil import tz
-import os
-import time
-from shared_data import huizen, cop_buffer
-
-app = Flask(__name__)
-logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG, 
-                    format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-logger = logging.getLogger()
-
-client = mqtt.Client()
-MQTT_BROKER = "159.223.10.31"
-MQTT_PORT = 1883
-client.connect(MQTT_BROKER, MQTT_PORT)
-logger.info("Connected to MQTT broker in new_main.py")
-
-CET = tz.gettz('Europe/Amsterdam')
-
-with open("/root/master_kees/config.yaml", "r") as f:
-    config = yaml.safe_load(f)
-
-def calculate_cop(power, temp_in, temp_out, flow):
-    try:
-        power = float(power or 0)
-        temp_in = float(temp_in or 0)
-        temp_out = float(temp_out or 0)
-        flow = float(flow or 0)
-        if power <= 0 or flow <= 0 or temp_out <= temp_in:
-            return 0.0
-        heat_output = (flow * (temp_out - temp_in) * 4.18) / 60
-        cop = heat_output / (power / 1000)
-        return cop
-    except Exception as e:
-        logger.error(f"COP calc error: {str(e)}")
-        return 0.0
-
-def update_cop_24h():
-    while True:
-        now = datetime.now(CET)
-        for huis_id in huizen:
-            for device_name in huizen[huis_id]:
-                huis_data = huizen[huis_id][device_name]
-                while cop_buffer and (now - cop_buffer[0][0]) > timedelta(hours=24):
-                    cop_buffer.pop(0)
-                if cop_buffer:
-                    valid_cops = [cop for timestamp, cop in cop_buffer if cop > 0]
-                    huis_data["cop_24h"] = sum(valid_cops) / len(valid_cops) if valid_cops else 0.0
-                else:
-                    huis_data["cop_24h"] = 0.0
-        time.sleep(60)
-
-@app.route("/test")
-def test():
-    logger.info("Entering test route")
-    return "Test page works!"
-
 @app.route("/")
 def index():
     logger.info("Entering index route")
@@ -84,7 +18,6 @@ def index():
     entsoe_prices = entsoe_data.get("prices", {})
     tibber_last_update = tibber_data.get("timestamp", "N/A")
     entsoe_last_update = entsoe_data.get("timestamp", "N/A")
-    # Infer tomorrow_prices_known from presence of tomorrow's data
     tomorrow = (current_hour + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     tomorrow_str = tomorrow.strftime("%Y-%m-%dT%H:00:00.000+01:00")
     tibber_tomorrow = "Ja" if tomorrow_str in tibber_prices else "Nee"
@@ -104,17 +37,107 @@ def index():
     current_time = current_hour.strftime("%a %H:%M")
     next_time = next_hour.strftime("%a %H:%M")
     html = """
-    <h1>K.E.E.S. Control</h1>
-    <p><b>Prijs Status:</b></p>
-    <p>Tibber - Laatste Update: {{tibber_last_update}} | Tomorrow Prijzen Bekend: {{tibber_tomorrow}}</p>
-    <p>ENTSO-E - Laatste Update: {{entsoe_last_update}} | Tomorrow Prijzen Bekend: {{entsoe_tomorrow}}</p>
-    <div id="dashboard"></div>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffcc;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .panel {
+            background: rgba(0, 255, 204, 0.1);
+            border: 2px solid #00ffcc;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px #00ffcc;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px #00ffcc; }
+            50% { box-shadow: 0 0 25px #ff00ff; }
+            100% { box-shadow: 0 0 15px #00ffcc; }
+        }
+        .status {
+            font-size: 1.2em;
+            line-height: 1.5;
+            color: #ffcc00;
+        }
+        .telemetry {
+            font-size: 1em;
+            line-height: 1.4;
+        }
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 10px;
+            background: #ff00ff;
+            outline: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ff00ff;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00ffcc;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(#00ffcc33 1px, transparent 1px),
+                        linear-gradient(90deg, #00ffcc33 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: scan 5s linear infinite;
+        }
+        @keyframes scan {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+    </style>
+    <div class="bg-grid"></div>
+    <h1>K.E.E.S. CyberDeck</h1>
+    <div class="grid">
+        <div class="panel">
+            <div class="status">
+                <strong>Energy Grid Uplink:</strong><br>
+                Tibber - Last Sync: {{tibber_last_update}} | Tomorrow Locked: {{tibber_tomorrow}}<br>
+                ENTSO-E - Last Sync: {{entsoe_last_update}} | Tomorrow Locked: {{entsoe_tomorrow}}
+            </div>
+        </div>
+        <div class="panel" id="telemetry">
+            <!-- Telemetry goes here -->
+        </div>
+    </div>
     <script>
-        function updateDashboard() {
+        function updateTelemetry() {
             fetch('/data')
                 .then(response => response.json())
                 .then(data => {
-                    let html = '';
+                    let html = '<strong>Heatpump Core:</strong><br>';
                     for (let huis_id in data.huis_data) {
                         for (let device_name in data.huis_data[huis_id]) {
                             let huis = data.huis_data[huis_id][device_name];
@@ -128,42 +151,33 @@ def index():
                             let outdoor_temp = huis.outdoor_air_temp || 0;
                             let power = huis.sdm120_watt || 0;
                             let cop = huis.cop || 0;
-                            let cop_24h = huis.cop_24h || 0;
                             let compressor = huis.compressor_status || 0;
                             let dhw = huis.dhw_heating_status || 0;
                             let dhw_target = huis.dhw_target_temp || 0;
                             let target_temp = huis.target_temp_circuit1 || 0;
                             let overschot = opwek - power;
                             let savings = ((0.25 - price) * (power / 1000)).toFixed(2);
-                            let decision = "State 8: Normaal verbruik";
-                            if (price <= 0.15 || opwek > 2500) decision = "State 5: Laag tarief of overschot > 2500W";
-                            else if (price <= 0.25 || opwek > 1500) decision = "State 4: Matig tarief of overschot > 1500W";
-                            else if (price <= 0.35) decision = "State 3: Normaal tarief";
-                            else decision = "State 2: Hoog tarief";
                             html += `
-                                <h3>${huis_id} - ${device_name}</h3>
-                                <input type='range' min='1' max='8' value='${state}' onchange='fetch("/set_state/${huis_id}/${device_name}/"+this.value)'>
-                                <p><b>Live Waarden:</b></p>
-                                <p>Laatste Update: ${data.current_time}</p>
-                                <p>Prijs Vorige Uur ({{prev_time}}): {{tibber_prev}} €/kWh (Tibber) | {{entsoe_prev}} €/kWh (ENTSO-E)</p>
-                                <p>Prijs Nu ({{current_time}}): ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
-                                <p>Prijs Volgende Uur ({{next_time}}): {{tibber_next}} €/kWh (Tibber) | {{entsoe_next}} €/kWh (ENTSO-E)</p>
-                                <p>Opwek: ${opwek} W | Verbruik: ${power} W | Overschot: ${overschot} W</p>
-                                <p>Temp In: ${temp_in.toFixed(1)}°C | Temp Out: ${temp_out.toFixed(1)}°C</p>
-                                <p>Stroom (Flow): ${flow.toFixed(1)} l/min | Buitentemp: ${outdoor_temp.toFixed(1)}°C</p>
-                                <p>COP: ${cop.toFixed(2)} | COP 24h: ${cop_24h.toFixed(2)} | Compressor: ${compressor ? "Aan" : "Uit"}</p>
-                                <p>DHW: ${dhw ? "Aan" : "Uit"} | DHW Doel: ${dhw_target.toFixed(1)}°C</p>
-                                <p>Doeltemp Circuit 1: ${target_temp.toFixed(1)}°C</p>
-                                <p><b>Besparing:</b> €${savings} per uur (vs 0.25 €/kWh)</p>
-                                <p><b>Beslissing:</b> ${decision}</p>
+                                <input type="range" class="slider" min="1" max="8" value="${state}" onchange="fetch('/set_state/${huis_id}/${device_name}/'+this.value)"><br>
+                                Last Ping: ${data.current_time}<br>
+                                Grid Last Hour ({{prev_time}}): ${parseFloat({{tibber_prev}}).toFixed(2)} €/kWh | ${parseFloat({{entsoe_prev}}).toFixed(2)} €/kWh<br>
+                                Grid Now ({{current_time}}): ${price.toFixed(2)} €/kWh | ${entsoe_price.toFixed(2)} €/kWh<br>
+                                Grid Next ({{next_time}}): ${parseFloat({{tibber_next}}).toFixed(2)} €/kWh | ${parseFloat({{entsoe_next}}).toFixed(2)} €/kWh<br>
+                                Power Flux: ${opwek} W | Drain: ${power} W | Net: ${overschot} W<br>
+                                Core In: ${temp_in.toFixed(1)}°C | Out: ${temp_out.toFixed(1)}°C<br>
+                                Flow Rate: ${flow.toFixed(1)} l/min | External: ${outdoor_temp.toFixed(1)}°C<br>
+                                Efficiency: ${cop.toFixed(2)} | Compressor: ${compressor ? "ONLINE" : "OFFLINE"}<br>
+                                DHW: ${dhw ? "ACTIVE" : "IDLE"} | Target: ${dhw_target.toFixed(1)}°C<br>
+                                Circuit 1 Target: ${target_temp.toFixed(1)}°C<br>
+                                Savings: €${savings}/hr (vs 0.25 €/kWh)
                             `;
                         }
                     }
-                    document.getElementById('dashboard').innerHTML = html;
+                    document.getElementById('telemetry').innerHTML = html;
                 });
         }
-        setInterval(updateDashboard, 5000);
-        updateDashboard();
+        setInterval(updateTelemetry, 5000);
+        updateTelemetry();
     </script>
     """.replace("{{tibber_last_update}}", str(tibber_last_update))\
         .replace("{{entsoe_last_update}}", str(entsoe_last_update))\
@@ -178,46 +192,3 @@ def index():
         .replace("{{next_time}}", next_time)
     logger.info("Rendering dashboard HTML")
     return html
-
-@app.route("/data")
-def data():
-    logger.info("Entering data route")
-    logger.info(f"Serving /data, huizen: {huizen}")
-    now = datetime.now(CET)
-    current_hour = now.replace(minute=0, second=0, microsecond=0)
-    current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
-    prices_file = "/root/master_kees/prices.json"
-    with open(prices_file, "r") as f:
-        price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"prices": {}}, "entsoe": {"prices": {}}}
-    tibber_prices = price_data.get("tibber", {}).get("prices", {})
-    entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
-    current_price = tibber_prices.get(current_hour_str, 0.05)
-    entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
-    for huis_id in huizen:
-        for device_name in huizen[huis_id]:
-            huis_data = huizen[huis_id][device_name]
-            huis_data["price"] = current_price
-            huis_data["entsoe_price"] = entsoe_price
-            state = 5 if current_price <= 0.15 else 4 if current_price <= 0.25 else 3 if current_price <= 0.35 else 2
-            huis_data["energy_state_input_holding"] = state
-    data_to_return = {"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")}
-    logger.info(f"Returning data: {json.dumps(data_to_return)}")
-    return json.dumps(data_to_return)
-
-@app.route("/set_state/<huis_id>/<device_name>/<int:state>")
-def set_state(huis_id, device_name, state):
-    logger.info(f"Entering set_state route for {huis_id}/{device_name} with state {state}")
-    client.publish(f"{huis_id}/command", json.dumps({"energy_state_input_holding": state}))
-    logger.info(f"State set: {huis_id}/{device_name} to {state}")
-    return "State set!"
-
-if __name__ == "__main__":
-    logger.info("Starting NEW K.E.E.S. Engine (mirroring main.py)")
-    threading.Thread(target=fetch_tibber_prices, daemon=True).start()
-    threading.Thread(target=fetch_entsoe_prices, daemon=True).start()
-    threading.Thread(target=run_heatpump, daemon=True).start()
-    threading.Thread(target=update_cop_24h, daemon=True).start()
-    logger.info("New engine running—mirroring main.py with all pieces!")
-    logger.info(f"new_main.py huizen at start: {huizen}")
-    client.loop_start()
-    app.run(host="0.0.0.0", port=8080)
