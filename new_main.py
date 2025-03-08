@@ -68,13 +68,132 @@ def test():
 def index():
     logger.info("Entering index route")
     logger.info(f"Rendering index, huizen: {huizen}")
-    return "Hello, K.E.E.S. is alive!"
+    now = datetime.now(CET)
+    current_hour = now.replace(minute=0, second=0, microsecond=0)
+    current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
+    prices_file = "/root/master_kees/prices.json"
+    if not os.path.exists(prices_file):
+        with open(prices_file, "w") as f:
+            json.dump({"tibber": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}, 
+                       "entsoe": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}}, f)
+    with open(prices_file, "r") as f:
+        price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"prices": {}}, "entsoe": {"prices": {}}}
+    tibber_prices = price_data.get("tibber", {}).get("prices", {})
+    entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
+    tibber_last_update = price_data.get("tibber", {}).get("last_update", "")
+    entsoe_last_update = price_data.get("entsoe", {}).get("last_update", "")
+    tibber_tomorrow = "Ja" if price_data.get("tibber", {}).get("tomorrow_prices_known", False) else "Nee"
+    entsoe_tomorrow = "Ja" if price_data.get("entsoe", {}).get("tomorrow_prices_known", False) else "Nee"
+    tibber_price = tibber_prices.get(current_hour_str, 0.05)
+    entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
+    prev_hour = current_hour - timedelta(hours=1)
+    next_hour = current_hour + timedelta(hours=1)
+    prev_hour_str = prev_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
+    next_hour_str = next_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
+    tibber_prev = tibber_prices.get(prev_hour_str, 0.05)
+    tibber_next = tibber_prices.get(next_hour_str, 0.05)
+    entsoe_prev = entsoe_prices.get(prev_hour_str, 0.05)
+    entsoe_next = entsoe_prices.get(next_hour_str, 0.05)
+    prev_time = prev_hour.strftime("%a %H:%M")
+    current_time = current_hour.strftime("%a %H:%M")
+    next_time = next_hour.strftime("%a %H:%M")
+    html = """
+    <h1>K.E.E.S. Control</h1>
+    <p><b>Prijs Status:</b></p>
+    <p>Tibber - Laatste Update: {{tibber_last_update}} | Tomorrow Prijzen Bekend: {{tibber_tomorrow}}</p>
+    <p>ENTSO-E - Laatste Update: {{entsoe_last_update}} | Tomorrow Prijzen Bekend: {{entsoe_tomorrow}}</p>
+    <div id="dashboard"></div>
+    <script>
+        function updateDashboard() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    let html = '';
+                    for (let huis_id in data.huis_data) {
+                        for (let device_name in data.huis_data[huis_id]) {
+                            let huis = data.huis_data[huis_id][device_name];
+                            let state = huis.energy_state_input_holding || 8;
+                            let opwek = huis.opwek || 0;
+                            let price = huis.price || 0.05;
+                            let entsoe_price = huis.entsoe_price || 0.05;
+                            let temp_in = huis.water_inlet_temp || 0;
+                            let temp_out = huis.water_outlet_temp || 0;
+                            let flow = huis.current_flow_rate || 0;
+                            let outdoor_temp = huis.outdoor_air_temp || 0;
+                            let power = huis.sdm120_watt || 0;
+                            let cop = huis.cop || 0;
+                            let cop_24h = huis.cop_24h || 0;
+                            let compressor = huis.compressor_status || 0;
+                            let dhw = huis.dhw_heating_status || 0;
+                            let dhw_target = huis.dhw_target_temp || 0;
+                            let target_temp = huis.target_temp_circuit1 || 0;
+                            let overschot = opwek - power;
+                            let savings = ((0.25 - price) * (power / 1000)).toFixed(2);
+                            let decision = "State 8: Normaal verbruik";
+                            if (price <= 0.15 || opwek > 2500) decision = "State 5: Laag tarief of overschot > 2500W";
+                            else if (price <= 0.25 || opwek > 1500) decision = "State 4: Matig tarief of overschot > 1500W";
+                            else if (price <= 0.35) decision = "State 3: Normaal tarief";
+                            else decision = "State 2: Hoog tarief";
+                            html += `
+                                <h3>${huis_id} - ${device_name}</h3>
+                                <input type='range' min='1' max='8' value='${state}' onchange='fetch("/set_state/${huis_id}/${device_name}/"+this.value)'>
+                                <p><b>Live Waarden:</b></p>
+                                <p>Laatste Update: ${data.current_time}</p>
+                                <p>Prijs Vorige Uur ({{prev_time}}): {{tibber_prev}} €/kWh (Tibber) | {{entsoe_prev}} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Nu ({{current_time}}): ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Volgende Uur ({{next_time}}): {{tibber_next}} €/kWh (Tibber) | {{entsoe_next}} €/kWh (ENTSO-E)</p>
+                                <p>Opwek: ${opwek} W | Verbruik: ${power} W | Overschot: ${overschot} W</p>
+                                <p>Temp In: ${temp_in.toFixed(1)}°C | Temp Out: ${temp_out.toFixed(1)}°C</p>
+                                <p>Stroom (Flow): ${flow.toFixed(1)} l/min | Buitentemp: ${outdoor_temp.toFixed(1)}°C</p>
+                                <p>COP: ${cop.toFixed(2)} | COP 24h: ${cop_24h.toFixed(2)} | Compressor: ${compressor ? "Aan" : "Uit"}</p>
+                                <p>DHW: ${dhw ? "Aan" : "Uit"} | DHW Doel: ${dhw_target.toFixed(1)}°C</p>
+                                <p>Doeltemp Circuit 1: ${target_temp.toFixed(1)}°C</p>
+                                <p><b>Besparing:</b> €${savings} per uur (vs 0.25 €/kWh)</p>
+                                <p><b>Beslissing:</b> ${decision}</p>
+                            `;
+                        }
+                    }
+                    document.getElementById('dashboard').innerHTML = html;
+                });
+        }
+        setInterval(updateDashboard, 5000);
+        updateDashboard();
+    </script>
+    """.replace("{{tibber_last_update}}", tibber_last_update)\
+        .replace("{{entsoe_last_update}}", entsoe_last_update)\
+        .replace("{{tibber_tomorrow}}", tibber_tomorrow)\
+        .replace("{{entsoe_tomorrow}}", entsoe_tomorrow)\
+        .replace("{{tibber_prev}}", f"{tibber_prev:.2f}")\
+        .replace("{{tibber_next}}", f"{tibber_next:.2f}")\
+        .replace("{{entsoe_prev}}", f"{entsoe_prev:.2f}")\
+        .replace("{{entsoe_next}}", f"{entsoe_next:.2f}")\
+        .replace("{{prev_time}}", prev_time)\
+        .replace("{{current_time}}", current_time)\
+        .replace("{{next_time}}", next_time)
+    logger.info("Rendering dashboard HTML")
+    return html
 
 @app.route("/data")
 def data():
     logger.info("Entering data route")
     logger.info(f"Serving /data, huizen: {huizen}")
     now = datetime.now(CET)
+    current_hour = now.replace(minute=0, second=0, microsecond=0)
+    current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
+    prices_file = "/root/master_kees/prices.json"
+    with open(prices_file, "r") as f:
+        price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"prices": {}}, "entsoe": {"prices": {}}}
+    tibber_prices = price_data.get("tibber", {}).get("prices", {})
+    entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
+    current_price = tibber_prices.get(current_hour_str, 0.05)
+    entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
+    for huis_id in huizen:
+        for device_name in huizen[huis_id]:
+            huis_data = huizen[huis_id][device_name]
+            huis_data["price"] = current_price
+            huis_data["entsoe_price"] = entsoe_price
+            state = 5 if current_price <= 0.15 else 4 if current_price <= 0.25 else 3 if current_price <= 0.35 else 2
+            huis_data["energy_state_input_holding"] = state
     data_to_return = {"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")}
     logger.info(f"Returning data: {json.dumps(data_to_return)}")
     return json.dumps(data_to_return)
