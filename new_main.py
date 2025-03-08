@@ -72,20 +72,24 @@ def index():
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
     prices_file = "/root/master_kees/prices.json"
-    if not os.path.exists(prices_file):
-        with open(prices_file, "w") as f:
-            json.dump({"tibber": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}, 
-                       "entsoe": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}}, f)
-    with open(prices_file, "r") as f:
-        price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"prices": {}}, "entsoe": {"prices": {}}}
-    tibber_data = price_data.get("tibber", {})
-    entsoe_data = price_data.get("entsoe", {})
+    try:
+        with open(prices_file, "r") as f:
+            price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"timestamp": "N/A", "prices": {}}, "entsoe": {"timestamp": "N/A", "prices": {}}}
+    except Exception as e:
+        logger.error(f"Error reading prices.json: {str(e)}")
+        price_data = {"tibber": {"timestamp": "N/A", "prices": {}}, "entsoe": {"timestamp": "N/A", "prices": {}}}
+    tibber_data = price_data.get("tibber", {"timestamp": "N/A", "prices": {}})
+    entsoe_data = price_data.get("entsoe", {"timestamp": "N/A", "prices": {}})
     tibber_prices = tibber_data.get("prices", {})
     entsoe_prices = entsoe_data.get("prices", {})
-    tibber_last_update = tibber_data.get("last_update", "")
-    entsoe_last_update = entsoe_data.get("last_update", "")
-    tibber_tomorrow = "Ja" if tibber_data.get("tomorrow_prices_known", False) else "Nee"
-    entsoe_tomorrow = "Ja" if entsoe_data.get("tomorrow_prices_known", False) else "Nee"
+    tibber_last_update = tibber_data.get("timestamp", "N/A")
+    entsoe_last_update = entsoe_data.get("timestamp", "N/A")
+    # Infer tomorrow_prices_known from presence of tomorrow's data
+    tomorrow = (current_hour + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    tomorrow_str = tomorrow.strftime("%Y-%m-%dT%H:00:00.000+01:00")
+    tibber_tomorrow = "Ja" if tomorrow_str in tibber_prices else "Nee"
+    entsoe_tomorrow = "Ja" if tomorrow_str in entsoe_prices else "Nee"
+    logger.info(f"Price data: tibber_timestamp={tibber_last_update}, tibber_tomorrow={tibber_tomorrow}, entsoe_timestamp={entsoe_last_update}, entsoe_tomorrow={entsoe_tomorrow}")
     tibber_price = tibber_prices.get(current_hour_str, 0.05)
     entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
     prev_hour = current_hour - timedelta(hours=1)
@@ -161,8 +165,8 @@ def index():
         setInterval(updateDashboard, 5000);
         updateDashboard();
     </script>
-    """.replace("{{tibber_last_update}}", tibber_last_update)\
-        .replace("{{entsoe_last_update}}", entsoe_last_update)\
+    """.replace("{{tibber_last_update}}", str(tibber_last_update))\
+        .replace("{{entsoe_last_update}}", str(entsoe_last_update))\
         .replace("{{tibber_tomorrow}}", tibber_tomorrow)\
         .replace("{{entsoe_tomorrow}}", entsoe_tomorrow)\
         .replace("{{tibber_prev}}", f"{tibber_prev:.2f}")\
