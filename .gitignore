@@ -1,0 +1,5 @@
+main.log
+git.log
+git_errors.log
+*.pyc
+__pycache__/
