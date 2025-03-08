@@ -119,4 +119,64 @@ def index():
                             if (price <= 0.15 || opwek > 2500) decision = "State 5: Laag tarief of overschot > 2500W";
                             else if (price <= 0.25 || opwek > 1500) decision = "State 4: Matig tarief of overschot > 1500W";
                             else if (price <= 0.35) decision = "State 3: Normaal tarief";
-                            else decision
+                            else decision = "State 2: Hoog tarief";
+                            html += `
+                                <h3>${huis_id} - ${device_name}</h3>
+                                <input type='range' min='1' max='8' value='${state}' onchange='fetch("/set_state/${huis_id}/${device_name}/"+this.value)'>
+                                <p><b>Live Waarden:</b></p>
+                                <p>Prijs Nu: ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
+                                <p>Opwek: ${opwek} W | Verbruik: ${power} W | Overschot: ${overschot} W</p>
+                                <p>Temp In: ${temp_in.toFixed(1)}°C | Temp Out: ${temp_out.toFixed(1)}°C</p>
+                                <p>Flow: ${flow.toFixed(1)} l/min | Buitentemp: ${outdoor_temp.toFixed(1)}°C</p>
+                                <p>COP: ${cop.toFixed(2)} | COP 24h: ${cop_24h.toFixed(2)} | Compressor: ${compressor ? "Aan" : "Uit"}</p>
+                                <p>DHW: ${dhw ? "Aan" : "Uit"} | DHW Doel: ${dhw_target.toFixed(1)}°C</p>
+                                <p>Doeltemp: ${target_temp.toFixed(1)}°C</p>
+                                <p><b>Besparing:</b> €${savings} per uur (vs 0.25 €/kWh)</p>
+                                <p><b>Beslissing:</b> ${decision}</p>
+                            `;
+                        }
+                    }
+                    document.getElementById('dashboard').innerHTML = html;
+                });
+        }
+        setInterval(updateDashboard, 5000);
+        updateDashboard();
+    </script>
+    """
+    return render_template_string(html)
+
+@app.route("/data")
+def data():
+    now = datetime.now(CET)
+    current_hour = now.replace(minute=0, second=0, microsecond=0)
+    current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
+    with open("/root/master_kees/prices_test.json", "r") as f:
+        price_data = json.load(f) if os.path.getsize("/root/master_kees/prices_test.json") > 0 else {}
+    tibber_prices = price_data.get("tibber", {}).get("prices", {})
+    entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
+    current_price = tibber_prices.get(current_hour_str, 0.05)
+    entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
+    for huis_id in huizen:
+        for device_name in huizen[huis_id]:
+            huis_data = huizen[huis_id][device_name]
+            huis_data["price"] = current_price
+            huis_data["entsoe_price"] = entsoe_price
+            state = 5 if current_price <= 0.15 else 4 if current_price <= 0.25 else 3 if current_price <= 0.35 else 2
+            huis_data["energy_state_input_holding"] = state
+    return json.dumps({"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")})
+
+@app.route("/set_state/<huis_id>/<device_name>/<int:state>")
+def set_state(huis_id, device_name, state):
+    client.publish(f"{huis_id}/command", json.dumps({"energy_state_input_holding": state}))
+    logger.info(f"State set: {huis_id}/{device_name} to {state}")
+    return "State set!"
+
+if __name__ == "__main__":
+    logger.info("Starting NEW K.E.E.S. Engine (test mode)")
+    threading.Thread(target=fetch_tibber_prices, daemon=True).start()
+    threading.Thread(target=fetch_entsoe_prices, daemon=True).start()
+    threading.Thread(target=run_heatpump, daemon=True).start()
+    threading.Thread(target=update_cop_24h, daemon=True).start()
+    logger.info("New engine running—mirroring main.py with all pieces!")
+    client.loop_start()
+    app.run(host="0.0.0.0", port=8080)  # Port 8080 to avoid clash with main.py
