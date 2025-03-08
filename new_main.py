@@ -78,12 +78,14 @@ def index():
                        "entsoe": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}}, f)
     with open(prices_file, "r") as f:
         price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"prices": {}}, "entsoe": {"prices": {}}}
-    tibber_prices = price_data.get("tibber", {}).get("prices", {})
-    entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
-    tibber_last_update = price_data.get("tibber", {}).get("last_update", "")
-    entsoe_last_update = price_data.get("entsoe", {}).get("last_update", "")
-    tibber_tomorrow = "Ja" if price_data.get("tibber", {}).get("tomorrow_prices_known", False) else "Nee"
-    entsoe_tomorrow = "Ja" if price_data.get("entsoe", {}).get("tomorrow_prices_known", False) else "Nee"
+    tibber_data = price_data.get("tibber", {})
+    entsoe_data = price_data.get("entsoe", {})
+    tibber_prices = tibber_data.get("prices", {})
+    entsoe_prices = entsoe_data.get("prices", {})
+    tibber_last_update = tibber_data.get("last_update", "")
+    entsoe_last_update = entsoe_data.get("last_update", "")
+    tibber_tomorrow = "Ja" if tibber_data.get("tomorrow_prices_known", False) else "Nee"
+    entsoe_tomorrow = "Ja" if entsoe_data.get("tomorrow_prices_known", False) else "Nee"
     tibber_price = tibber_prices.get(current_hour_str, 0.05)
     entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
     prev_hour = current_hour - timedelta(hours=1)
