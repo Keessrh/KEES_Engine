@@ -8,11 +8,10 @@ from data.prices_tibber import fetch_tibber_prices
 from data.prices_entsoe import fetch_entsoe_prices
 from clients.julianalaan_39.heatpump import run_heatpump
 from datetime import datetime, timedelta
-import collections
 from dateutil import tz
 import os
 import time
-from shared_data import huizen, cop_buffer  # Shared data
+from shared_data import huizen, cop_buffer
 
 app = Flask(__name__)
 logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG, 
@@ -52,7 +51,7 @@ def update_cop_24h():
             for device_name in huizen[huis_id]:
                 huis_data = huizen[huis_id][device_name]
                 while cop_buffer and (now - cop_buffer[0][0]) > timedelta(hours=24):
-                    cop_buffer.pop(0)  # List, not deque
+                    cop_buffer.pop(0)
                 if cop_buffer:
                     valid_cops = [cop for timestamp, cop in cop_buffer if cop > 0]
                     huis_data["cop_24h"] = sum(valid_cops) / len(valid_cops) if valid_cops else 0.0
@@ -66,13 +65,19 @@ def index():
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
-    if not os.path.exists("/root/master_kees/prices_test.json"):
-        with open("/root/master_kees/prices_test.json", "w") as f:
-            json.dump({}, f)
-    with open("/root/master_kees/prices_test.json", "r") as f:
-        price_data = json.load(f) if os.path.getsize("/root/master_kees/prices_test.json") > 0 else {}
+    prices_file = "/root/master_kees/prices.json"
+    if not os.path.exists(prices_file):
+        with open(prices_file, "w") as f:
+            json.dump({"tibber": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}, 
+                       "entsoe": {"last_update": "", "tomorrow_prices_known": False, "prices": {}}}, f)
+    with open(prices_file, "r") as f:
+        price_data = json.load(f) if os.path.getsize(prices_file) > 0 else {"tibber": {"prices": {}}, "entsoe": {"prices": {}}}
     tibber_prices = price_data.get("tibber", {}).get("prices", {})
     entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
+    tibber_last_update = price_data.get("tibber", {}).get("last_update", "")
+    entsoe_last_update = price_data.get("entsoe", {}).get("last_update", "")
+    tibber_tomorrow = price_data.get("tibber", {}).get("tomorrow_prices_known", False)
+    entsoe_tomorrow = price_data.get("entsoe", {}).get("tomorrow_prices_known", False)
     tibber_price = tibber_prices.get(current_hour_str, 0.05)
     entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
     prev_hour = current_hour - timedelta(hours=1)
@@ -88,6 +93,9 @@ def index():
     next_time = next_hour.strftime("%a %H:%M")
     html = """
     <h1>K.E.E.S. Control</h1>
+    <p><b>Prijs Status:</b></p>
+    <p>Tibber - Laatste Update: {{tibber_last_update}} | Tomorrow Prijzen Bekend: {{tibber_tomorrow ? 'Ja' : 'Nee'}}</p>
+    <p>ENTSO-E - Laatste Update: {{entsoe_last_update}} | Tomorrow Prijzen Bekend: {{entsoe_tomorrow ? 'Ja' : 'Nee'}}</p>
     <div id="dashboard"></div>
     <script>
         function updateDashboard() {
@@ -124,13 +132,16 @@ def index():
                                 <h3>${huis_id} - ${device_name}</h3>
                                 <input type='range' min='1' max='8' value='${state}' onchange='fetch("/set_state/${huis_id}/${device_name}/"+this.value)'>
                                 <p><b>Live Waarden:</b></p>
-                                <p>Prijs Nu: ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
+                                <p>Laatste Update: ${data.current_time}</p>
+                                <p>Prijs Vorige Uur ({{prev_time}}): {{tibber_prev.toFixed(2)}} €/kWh (Tibber) | {{entsoe_prev.toFixed(2)}} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Nu ({{current_time}}): ${price.toFixed(2)} €/kWh (Tibber) | ${entsoe_price.toFixed(2)} €/kWh (ENTSO-E)</p>
+                                <p>Prijs Volgende Uur ({{next_time}}): {{tibber_next.toFixed(2)}} €/kWh (Tibber) | {{entsoe_next.toFixed(2)}} €/kWh (ENTSO-E)</p>
                                 <p>Opwek: ${opwek} W | Verbruik: ${power} W | Overschot: ${overschot} W</p>
                                 <p>Temp In: ${temp_in.toFixed(1)}°C | Temp Out: ${temp_out.toFixed(1)}°C</p>
-                                <p>Flow: ${flow.toFixed(1)} l/min | Buitentemp: ${outdoor_temp.toFixed(1)}°C</p>
+                                <p>Stroom (Flow): ${flow.toFixed(1)} l/min | Buitentemp: ${outdoor_temp.toFixed(1)}°C</p>
                                 <p>COP: ${cop.toFixed(2)} | COP 24h: ${cop_24h.toFixed(2)} | Compressor: ${compressor ? "Aan" : "Uit"}</p>
                                 <p>DHW: ${dhw ? "Aan" : "Uit"} | DHW Doel: ${dhw_target.toFixed(1)}°C</p>
-                                <p>Doeltemp: ${target_temp.toFixed(1)}°C</p>
+                                <p>Doeltemp Circuit 1: ${target_temp.toFixed(1)}°C</p>
                                 <p><b>Besparing:</b> €${savings} per uur (vs 0.25 €/kWh)</p>
                                 <p><b>Beslissing:</b> ${decision}</p>
                             `;
@@ -142,28 +153,23 @@ def index():
         setInterval(updateDashboard, 5000);
         updateDashboard();
     </script>
-    """
+    """.replace("{{tibber_last_update}}", tibber_last_update)\
+        .replace("{{entsoe_last_update}}", entsoe_last_update)\
+        .replace("{{tibber_tomorrow}}", str(tibber_tomorrow))\
+        .replace("{{entsoe_tomorrow}}", str(entsoe_tomorrow))\
+        .replace("{{tibber_prev}}", str(tibber_prev))\
+        .replace("{{tibber_next}}", str(tibber_next))\
+        .replace("{{entsoe_prev}}", str(entsoe_prev))\
+        .replace("{{entsoe_next}}", str(entsoe_next))\
+        .replace("{{prev_time}}", prev_time)\
+        .replace("{{current_time}}", current_time)\
+        .replace("{{next_time}}", next_time)
     return render_template_string(html)
 
 @app.route("/data")
 def data():
     logger.info(f"Serving /data, huizen: {huizen}")
     now = datetime.now(CET)
-    current_hour = now.replace(minute=0, second=0, microsecond=0)
-    current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
-    with open("/root/master_kees/prices_test.json", "r") as f:
-        price_data = json.load(f) if os.path.getsize("/root/master_kees/prices_test.json") > 0 else {}
-    tibber_prices = price_data.get("tibber", {}).get("prices", {})
-    entsoe_prices = price_data.get("entsoe", {}).get("prices", {})
-    current_price = tibber_prices.get(current_hour_str, 0.05)
-    entsoe_price = entsoe_prices.get(current_hour_str, 0.05)
-    for huis_id in huizen:
-        for device_name in huizen[huis_id]:
-            huis_data = huizen[huis_id][device_name]
-            huis_data["price"] = current_price
-            huis_data["entsoe_price"] = entsoe_price
-            state = 5 if current_price <= 0.15 else 4 if current_price <= 0.25 else 3 if current_price <= 0.35 else 2
-            huis_data["energy_state_input_holding"] = state
     return json.dumps({"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")})
 
 @app.route("/set_state/<huis_id>/<device_name>/<int:state>")
@@ -173,7 +179,7 @@ def set_state(huis_id, device_name, state):
     return "State set!"
 
 if __name__ == "__main__":
-    logger.info("Starting NEW K.E.E.S. Engine (test mode)")
+    logger.info("Starting NEW K.E.E.S. Engine (mirroring main.py)")
     threading.Thread(target=fetch_tibber_prices, daemon=True).start()
     threading.Thread(target=fetch_entsoe_prices, daemon=True).start()
     threading.Thread(target=run_heatpump, daemon=True).start()
