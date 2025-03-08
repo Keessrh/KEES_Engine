@@ -179,5 +179,6 @@ if __name__ == "__main__":
     threading.Thread(target=run_heatpump, daemon=True).start()
     threading.Thread(target=update_cop_24h, daemon=True).start()
     logger.info("New engine running—mirroring main.py with all pieces!")
+logger.info(f"new_main.py huizen: {huizen}")
     client.loop_start()
     app.run(host="0.0.0.0", port=8080)  # Port 8080 to avoid clash with main.py
