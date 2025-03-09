@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 from flask import Flask, render_template_string
 from data.prices_tibber import fetch_tibber_prices
 from data.prices_entsoe import fetch_entsoe_prices
-from clients.julianalaan_39.heatpump_fixed_fixed import run_heatpump
+from clients.julianalaan_39.heatpump_fixed import run_heatpump
 from datetime import datetime, timedelta
 from dateutil import tz
 import os
