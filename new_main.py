@@ -3,11 +3,11 @@ import logging
 import yaml
 import json
 import paho.mqtt.client as mqtt
-client.on_message = lambda c, u, m: process_data(m.topic, m.payload.decode())
 from flask import Flask, render_template_string
 from data.prices_tibber import fetch_tibber_prices
 from data.prices_entsoe import fetch_entsoe_prices
 from clients.julianalaan_39.heatpump_fixed import run_heatpump
+from clients.julianalaan_39.heatpump_fixed import process_data
 from datetime import datetime, timedelta
 from dateutil import tz
 import os
@@ -20,6 +20,7 @@ logging.basicConfig(filename="/root/new_main.log", level=logging.DEBUG,
 logger = logging.getLogger()
 
 client = mqtt.Client()
+client.on_message = lambda c, u, m: process_data(m.topic, m.payload.decode())
 MQTT_BROKER = "159.223.10.31"
 MQTT_PORT = 1883
 logger.info("Attempting MQTT connection...")

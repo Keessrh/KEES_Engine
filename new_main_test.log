@@ -1,4 +1,7 @@
-Traceback (most recent call last):
-  File "/root/master_kees/new_main.py", line 6, in <module>
-    client.on_message = lambda c, u, m: process_data(m.topic, m.payload.decode())
-NameError: name 'client' is not defined
+/root/master_kees/new_main.py:22: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+  client = mqtt.Client()
+Running heatpump logic
+ * Serving Flask app 'new_main'
+ * Debug mode: on
+Address already in use
+Port 8080 is in use by another program. Either identify and stop that program, or start the server with a different port.
