@@ -1,7 +1,4 @@
-/root/master_kees/new_main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
-  client = mqtt.Client()
-Running heatpump logic
- * Serving Flask app 'new_main'
- * Debug mode: on
-/root/master_kees/new_main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
-  client = mqtt.Client()
+Traceback (most recent call last):
+  File "/root/master_kees/new_main.py", line 9, in <module>
+    from clients.julianalaan_39.heatpump_fixed_fixed import run_heatpump
+ModuleNotFoundError: No module named 'clients.julianalaan_39.heatpump_fixed_fixed'
