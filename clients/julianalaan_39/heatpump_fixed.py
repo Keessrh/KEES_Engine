@@ -30,7 +30,7 @@ def process_data(topic, payload):
     if "opwek" in payload_dict:
         data["opwek"] = float(payload_dict["opwek"])
     if "energy_state_input_holding" in payload_dict:
-        data["energy_state_input_holding"] = int(payload_dict["energy_state_input_holding"])
+        data["energy_state_input_holding"] = float(payload_dict["energy_state_input_holding"])
     
     print(f"Processed data: {data}")
     
