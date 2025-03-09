@@ -1,4 +1,7 @@
-Traceback (most recent call last):
-  File "/root/master_kees/new_main.py", line 9, in <module>
-    from clients.julianalaan_39.heatpump import run_heatpump
-ImportError: cannot import name 'run_heatpump' from 'clients.julianalaan_39.heatpump' (/root/master_kees/clients/julianalaan_39/heatpump.py)
+/root/master_kees/new_main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+  client = mqtt.Client()
+Running heatpump logic
+ * Serving Flask app 'new_main'
+ * Debug mode: on
+/root/master_kees/new_main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+  client = mqtt.Client()

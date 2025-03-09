@@ -28,3 +28,6 @@ def process_data(topic, payload):
         data["price"] = float(payload_dict["price"])
     if "energy_state_input_holding" in payload_dict:
         data["energy_state_input_holding"] = int(payload_dict["energy_state_input_holding"])
+def run_heatpump():
+    print("Running heatpump logic")
+    return data["energy_state_input_holding"]
