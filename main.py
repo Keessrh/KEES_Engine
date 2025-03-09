@@ -203,4 +203,4 @@ if __name__ == "__main__":
     logger.info("New engine running—mirroring main.py with all pieces!")
     logger.info(f"new_main.py huizen at start: {huizen}")
     client.loop_start()
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="0.0.0.0", port=80)
