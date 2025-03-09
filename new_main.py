@@ -20,7 +20,7 @@ logger = logging.getLogger()
 
 client = mqtt.Client()
 MQTT_BROKER = "159.223.10.31"
-MQTT_PORT = 1883
+MQTT_PORT = 1884
 logger.info("Attempting MQTT connection...")
 client.connect(MQTT_BROKER, MQTT_PORT)
 logger.info("Connected to MQTT broker in new_main.py")
