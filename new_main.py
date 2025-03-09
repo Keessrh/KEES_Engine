@@ -13,7 +13,7 @@ logging.basicConfig(filename="/root/master_kees/new_main.log", level=logging.INF
 logger = logging.getLogger(__name__)
 
 MQTT_BROKER = "159.223.10.31"
-MQTT_PORT = 1883
+MQTT_PORT = 1884
 client = mqtt.Client()
 client.on_message = lambda c, u, m: process_data(m.topic, m.payload.decode())
 logger.info("Attempting MQTT connection...")
@@ -23,7 +23,7 @@ client.subscribe("julianalaan_39/command")
 logger.info("Connected to MQTT broker in new_main.py")
 client.loop_start()
 
-from clients.julianalaan_39.heatpump_fixed import run_heatpump, process_data, get_data
+from clients.julianalaan_39.heatpump_fixed_fixed import run_heatpump, process_data, get_data
 
 def fetch_tibber_prices():
     # Placeholder—copy from main.py if needed
