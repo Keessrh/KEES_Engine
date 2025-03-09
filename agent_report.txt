@@ -1,0 +1,50 @@
+=== Directory Contents ===
+total 164
+drwxr-xr-x  8 root root  4096 Mar  9 15:28 .
+drwx------ 10 root root  4096 Mar  9 15:25 ..
+-rw-r--r--  1 root root   179 Mar  9 14:37 .env
+drwxr-xr-x  8 root root  4096 Mar  9 15:25 .git
+-rw-r--r--  1 root root    51 Mar  8 16:56 .gitignore
+-rw-r--r--  1 root root     0 Mar  9 14:32 OpenAitoken.env
+-rw-r--r--  1 root root  1704 Mar  8 17:58 README.md
+drwxr-xr-x  2 root root  4096 Mar  8 20:12 __pycache__
+-rw-r--r--  1 root root  1144 Mar  9 14:49 agent.py
+-rw-r--r--  1 root root     0 Mar  9 15:28 agent_report.txt
+-rwxr-xr-x  1 root root   395 Mar  8 16:49 auto_update.sh
+-rw-r--r--  1 root root   691 Mar  9 15:27 check_server.py
+drwxr-xr-x  3 root root  4096 Mar  3 18:13 clients
+-rw-r--r--  1 root root   253 Mar  8 18:47 config.yaml
+drwxr-xr-x  4 root root  4096 Mar  8 19:16 data
+-rw-r--r--  1 root root  1170 Mar  9 15:25 git.log
+-rw-r--r--  1 root root  1550 Mar  9 15:25 git_errors.log
+-rw-r--r--  1 root root  3479 Mar  8 20:21 heatpump_new.py.backup
+-rw-r--r--  1 root root   185 Mar  9 15:22 main.log
+-rw-r--r--  1 root root 22504 Mar  9 09:34 main.py
+-rw-r--r--  1 root root 11444 Mar  9 08:03 main.py.borked
+-rw-r--r--  1 root root  9930 Mar  3 18:40 main.py.save
+-rw-r--r--  1 root root  4057 Mar  9 14:49 main_fixed.py
+drwxr-xr-x  2 root root  4096 Mar  3 09:46 modules
+-rw-r--r--  1 root root 15587 Mar  8 22:22 new_main.py
+-rw-r--r--  1 root root  4290 Mar  9 15:22 prices.json
+-rw-r--r--  1 root root     2 Mar  8 19:37 prices_test.json
+-rw-r--r--  1 root root    80 Mar  8 20:12 shared_data.py
+-rw-r--r--  1 root root    82 Mar  9 15:10 test.txt
+drwxr-xr-x  3 root root  4096 Mar  3 18:13 ui
+
+=== Running Processes ===
+root         649  0.0  0.2  33064  2872 ?        Ss   Mar03   0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root         710  0.0  0.3 110132  3248 ?        Ssl  Mar03   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root      161962  0.2  3.9 488368 38688 pts/2    Sl   15:22   0:00 /usr/bin/python3 /root/master_kees/main.py
+root      162286  0.0  0.9  17832  9160 pts/2    S+   15:28   0:00 python3 /root/master_kees/check_server.py
+root      162289  0.0  0.0   2892   972 pts/2    S+   15:28   0:00 /bin/sh -c ps aux | grep -E 'python3|flask|mqtt'
+root      162291  0.0  0.2   7008  2268 pts/2    S+   15:28   0:00 grep -E python3|flask|mqtt
+
+=== Last 20 Log Lines ===
+/root/master_kees/main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+  client = mqtt.Client()
+ * Serving Flask app 'main'
+ * Debug mode: off
+
+=== Port Status (80, 1883) ===
+tcp        0      0 0.0.0.0:1883            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN     
