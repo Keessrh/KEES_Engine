@@ -1,23 +1,2 @@
-/root/master_kees/new_main.py:16: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+/root/master_kees/new_main.py:17: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
   client = mqtt.Client()
-Running heatpump logic
- * Serving Flask app 'new_main'
- * Debug mode: on
-/root/master_kees/new_main.py:16: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
-  client = mqtt.Client()
-Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1536, in __call__
-    return self.wsgi_app(environ, start_response)
-  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1514, in wsgi_app
-    response = self.handle_exception(e)
-  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1511, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 919, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 917, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 902, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-  File "/root/master_kees/new_main.py", line 65, in data
-    now = datetime.now(CET)
-TypeError: tzinfo argument must be None or of a tzinfo subclass, not type 'function'

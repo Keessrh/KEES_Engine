@@ -28,3 +28,11 @@ INFO:__main__:Entering index route
 INFO:werkzeug:80.115.161.162 - - [09/Mar/2025 17:04:55] "GET / HTTP/1.1" 200 -
 INFO:__main__:Entering index route
 INFO:werkzeug:80.115.161.162 - - [09/Mar/2025 17:04:55] "GET / HTTP/1.1" 200 -
+INFO:__main__:Entering index route
+INFO:werkzeug:80.115.161.162 - - [09/Mar/2025 17:05:13] "GET / HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/root/master_kees/new_main.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:__main__:Attempting MQTT connection...
+INFO:__main__:Connected to MQTT broker in new_main.py
+INFO:__main__:Attempting MQTT connection...
+INFO:__main__:Connected to MQTT broker in new_main.py
