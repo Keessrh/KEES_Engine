@@ -60,8 +60,9 @@ def update_cop_24h():
         time.sleep(60)
 
 @app.route("/")
+    try:
 def index():
-    logger.info(f"Rendering index, huizen: {huizen}")
+            logger.info(f"Rendering index, huizen: {huizen}")
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -165,10 +166,14 @@ def index():
         .replace("{{current_time}}", current_time)\
         .replace("{{next_time}}", next_time)
     return render_template_string(html)
+    except Exception as e:
+        logger.error(f"Index crash: {str(e)}", exc_info=True)
+        return "Crash: " + str(e)
 
 @app.route("/data")
+    try:
 def data():
-    logger.info(f"Serving /data, huizen: {huizen}")
+            logger.info(f"Serving /data, huizen: {huizen}")
     now = datetime.now(CET)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     current_hour_str = current_hour.strftime("%Y-%m-%dT%H:00:00.000+01:00")
@@ -187,6 +192,9 @@ def data():
             state = 5 if current_price <= 0.15 else 4 if current_price <= 0.25 else 3 if current_price <= 0.35 else 2
             huis_data["energy_state_input_holding"] = state
     return json.dumps({"huis_data": huizen, "current_time": now.strftime("%a, %d %b %Y %H:%M:%S CET")})
+    except Exception as e:
+        logger.error(f"Data crash: {str(e)}", exc_info=True)
+        return "Crash: " + str(e)
 
 @app.route("/set_state/<huis_id>/<device_name>/<int:state>")
 def set_state(huis_id, device_name, state):
