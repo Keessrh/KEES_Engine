@@ -3,6 +3,7 @@ import logging
 import yaml
 import json
 import paho.mqtt.client as mqtt
+client.on_message = lambda c, u, m: process_data(m.topic, m.payload.decode())
 from flask import Flask, render_template_string
 from data.prices_tibber import fetch_tibber_prices
 from data.prices_entsoe import fetch_entsoe_prices
@@ -23,6 +24,8 @@ MQTT_BROKER = "159.223.10.31"
 MQTT_PORT = 1883
 logger.info("Attempting MQTT connection...")
 client.connect(MQTT_BROKER, MQTT_PORT)
+client.subscribe("julianalaan_39/telemetry")
+client.subscribe("julianalaan_39/command")
 logger.info("Connected to MQTT broker in new_main.py")
 
 CET = tz.gettz('Europe/Amsterdam')
