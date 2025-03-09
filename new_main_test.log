@@ -1,18 +1,7 @@
 /root/master_kees/new_main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
   client = mqtt.Client()
-Traceback (most recent call last):
-  File "/root/master_kees/new_main.py", line 25, in <module>
-    client.connect(MQTT_BROKER, MQTT_PORT)
-  File "/usr/local/lib/python3.10/dist-packages/paho/mqtt/client.py", line 1435, in connect
-    return self.reconnect()
-  File "/usr/local/lib/python3.10/dist-packages/paho/mqtt/client.py", line 1598, in reconnect
-    self._sock = self._create_socket()
-  File "/usr/local/lib/python3.10/dist-packages/paho/mqtt/client.py", line 4609, in _create_socket
-    sock = self._create_socket_connection()
-  File "/usr/local/lib/python3.10/dist-packages/paho/mqtt/client.py", line 4640, in _create_socket_connection
-    return socket.create_connection(addr, timeout=self._connect_timeout, source_address=source)
-  File "/usr/lib/python3.10/socket.py", line 845, in create_connection
-    raise err
-  File "/usr/lib/python3.10/socket.py", line 833, in create_connection
-    sock.connect(sa)
-ConnectionRefusedError: [Errno 111] Connection refused
+Running heatpump logic
+ * Serving Flask app 'new_main'
+ * Debug mode: on
+/root/master_kees/new_main.py:21: DeprecationWarning: Callback API version 1 is deprecated, update to latest version
+  client = mqtt.Client()
