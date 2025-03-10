@@ -3,3 +3,4 @@ git.log
 git_errors.log
 *.pyc
 __pycache__/
+*.env
