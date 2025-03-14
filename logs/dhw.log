@@ -88,3 +88,12 @@ Price: 96, Decision: OFF
 2025-03-14 21:38:08,795 - Starting DHW control with interval 3600s
 2025-03-14 21:38:08,821 - Sleeping 1312s until 2025-03-14 22:00:01
 2025-03-14 21:38:08,821 - Connected to MQTT broker with code 0
+2025-03-14 21:40:15,739 - Starting DHW control with interval 3600s
+2025-03-14 21:40:15,761 - Connected to MQTT broker with code 0
+2025-03-14 21:40:15,762 - Sleeping 1185s until 2025-03-14 22:00:01
+2025-03-14 21:41:44,224 - Starting DHW control with interval 3600s
+2025-03-14 21:41:44,237 - Sleeping 1097s until 2025-03-14 22:00:01
+2025-03-14 21:41:44,237 - Connected to MQTT broker with code 0
+2025-03-14 21:43:46,953 - Starting DHW control with interval 3600s
+2025-03-14 21:43:46,976 - Sleeping 974s until 2025-03-14 22:00:01
+2025-03-14 21:43:46,976 - Connected to MQTT broker with code 0

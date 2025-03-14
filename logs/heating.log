@@ -222,3 +222,12 @@ Price: 96, Decision: ES8
 2025-03-14 21:38:08,786 - Starting heating control with interval 3600s
 2025-03-14 21:38:08,819 - Sleeping 1312s until 2025-03-14 22:00:01
 2025-03-14 21:38:08,820 - Connected to MQTT broker with code 0
+2025-03-14 21:40:15,734 - Starting heating control with interval 3600s
+2025-03-14 21:40:15,760 - Sleeping 1185s until 2025-03-14 22:00:01
+2025-03-14 21:40:15,760 - Connected to MQTT broker with code 0
+2025-03-14 21:41:44,214 - Starting heating control with interval 3600s
+2025-03-14 21:41:44,236 - Sleeping 1097s until 2025-03-14 22:00:01
+2025-03-14 21:41:44,236 - Connected to MQTT broker with code 0
+2025-03-14 21:43:46,972 - Starting heating control with interval 3600s
+2025-03-14 21:43:46,988 - Sleeping 974s until 2025-03-14 22:00:01
+2025-03-14 21:43:46,988 - Connected to MQTT broker with code 0

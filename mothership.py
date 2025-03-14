@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import time
-import json
+import yaml
+import json  # Added back
 import logging
 from pathlib import Path
 from datetime import datetime
@@ -22,7 +23,7 @@ def load_config():
         logger.warning("config.yaml missing or empty—using defaults")
         return {"interval": 5}
     with open(config_path, "r") as f:
-        config = json.load(f) or {"interval": 5}
+        config = yaml.safe_load(f) or {"interval": 5}
     return config
 
 def get_current_price(prices):
