@@ -1,0 +1,116 @@
+2025-03-12 08:33:00 Starting Tibber price fetcher
+2025-03-12 08:33:00 Tibber prices fetched: 24 today, 0 tomorrow, current: 0.3172 at 2025-03-12T08:00:00.000+01:00
+2025-03-12 08:33:00 Tibber cache updated: 24h
+2025-03-12 08:33:00 Waiting until 2025-03-12 13:00:00+01:00 for price check (4.4 hours)
+2025-03-12 08:33:25 Tibber fetcher stopped
+2025-03-12 09:16:18 Starting Tibber price fetcher
+2025-03-12 09:16:18 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:16:18 Tibber cache updated: 24h
+2025-03-12 09:16:18 Waiting until 2025-03-12 13:00:00+01:00 (3.7 hours)
+2025-03-12 09:16:57 Tibber fetcher stopped
+2025-03-12 09:19:46 Starting Tibber price fetcher
+2025-03-12 09:19:46 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:19:46 Tibber cache updated: 24h
+2025-03-12 09:19:46 Waiting until 2025-03-12 13:00:00+01:00 (3.7 hours)
+2025-03-12 09:31:29 Starting Tibber price fetcher
+2025-03-12 09:31:29 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:31:29 Tibber cache updated: 24h
+2025-03-12 09:31:29 Waiting until 2025-03-12 13:00:00+01:00 (3.5 hours)
+2025-03-12 09:36:02 Starting Tibber price fetcher
+2025-03-12 09:36:02 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:36:02 Tibber cache updated: 24h
+2025-03-12 09:36:02 Waiting until 2025-03-12 13:00:00+01:00 (3.4 hours)
+2025-03-12 09:39:23 Starting Tibber price fetcher
+2025-03-12 09:39:24 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:39:24 Tibber cache updated: 24h
+2025-03-12 09:39:24 Waiting until 2025-03-12 13:00:00+01:00 (3.3 hours)
+2025-03-12 09:43:19 Starting Tibber price fetcher
+2025-03-12 09:43:19 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:43:19 Tibber cache updated: 24h
+2025-03-12 09:43:19 Waiting until 2025-03-12 13:00:00+01:00 (3.3 hours)
+2025-03-12 09:45:31 Starting Tibber price fetcher
+2025-03-12 09:45:31 Tibber prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:45:31 Tibber cache updated: 24h
+2025-03-12 09:45:31 Waiting until 2025-03-12 13:00:00+01:00 (3.2 hours)
+2025-03-12T11:09:50 - Starting Tibber price fetcher
+2025-03-12T11:09:50 - Fetched 24 hours at 2025-03-12T11:09:50.865341+01:00
+2025-03-12T11:09:50 - Waiting until Wed, 12 Mar 2025 13:00 CET (1.8 hours)
+2025-03-12T13:00:03 - Fetched 24 hours at 2025-03-12T13:00:03.894496+01:00
+2025-03-12T13:05:04 - Fetched 48 hours at 2025-03-12T13:05:04.191737+01:00
+2025-03-12T13:05:04 - Tomorrow's prices received
+2025-03-12T13:05:04 - Waiting until Thu, 13 Mar 2025 13:00 CET (23.9 hours)
+2025-03-12T15:33:39 - Starting Tibber price fetcher
+2025-03-12T15:33:39 - Fetched 48 hours at 2025-03-12T15:33:39.654812+01:00
+2025-03-12T15:33:39 - Waiting until Thu, 13 Mar 2025 13:00 CET (21.4 hours)
+2025-03-12T15:50:04 - Starting Tibber price fetcher
+2025-03-12T15:50:04 - Fetched 48 hours at 2025-03-12T15:50:04.559842+01:00
+2025-03-12T15:50:04 - Waiting until Thu, 13 Mar 2025 13:00 CET (21.2 hours)
+2025-03-12T16:11:21 - Starting Tibber price fetcher
+2025-03-12T16:11:21 - Fetched 48 hours at 2025-03-12T16:11:21.947069+01:00
+2025-03-12T16:11:21 - Waiting until Thu, 13 Mar 2025 13:00 CET (20.8 hours)
+2025-03-12T16:11:37 - Tibber fetcher stopped
+2025-03-12T16:15:11 - Starting Tibber price fetcher
+2025-03-12T16:15:11 - Fetched 48 hours at 2025-03-12T16:15:11.221077+01:00
+2025-03-12T16:15:11 - Waiting until Thu, 13 Mar 2025 13:00 CET (20.7 hours)
+2025-03-12T16:15:19 - Tibber fetcher stopped
+2025-03-12T16:20:18 - Starting Tibber price fetcher
+2025-03-12T16:20:18 - Fetched 48 hours at 2025-03-12T16:20:18.828095+01:00
+2025-03-12T16:20:18 - Waiting until Thu, 13 Mar 2025 13:00 CET (20.7 hours)
+2025-03-12T16:20:28 - Tibber fetcher stopped
+2025-03-12T16:21:36 - Starting Tibber price fetcher
+2025-03-12T16:21:36 - Fetched 48 hours at 2025-03-12T16:21:36.408816+01:00
+2025-03-12T16:21:36 - Waiting until Thu, 13 Mar 2025 13:00 CET (20.6 hours)
+2025-03-12T16:26:23 - Starting Tibber price fetcher
+2025-03-12T16:26:23 - Fetched 48 hours at 2025-03-12T16:26:23.507121+01:00
+2025-03-12T16:26:23 - Waiting until Thu, 13 Mar 2025 13:00 CET (20.6 hours)
+2025-03-12T16:26:32 - Tibber fetcher stopped
+2025-03-12T16:28:42 - Starting Tibber price fetcher
+2025-03-12T16:28:42 - Fetched 48 hours at 2025-03-12T16:28:42.721984+01:00
+2025-03-12T16:28:42 - Waiting until Thu, 13 Mar 2025 13:00 CET (20.5 hours)
+2025-03-12T16:28:48 - Tibber fetcher stopped
+2025-03-13T19:15:39 - Starting Tibber price fetcher
+2025-03-13T19:15:39 - Fetched 48 hours at 2025-03-13T19:15:39.921059+01:00
+2025-03-13T19:15:39 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.7 hours)
+2025-03-13T19:16:00 - Starting Tibber price fetcher
+2025-03-13T19:16:00 - Fetched 48 hours at 2025-03-13T19:16:00.721023+01:00
+2025-03-13T19:16:00 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.7 hours)
+2025-03-13T19:18:20 - Starting Tibber price fetcher
+2025-03-13T19:18:21 - Fetched 48 hours at 2025-03-13T19:18:21.139508+01:00
+2025-03-13T19:18:21 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.7 hours)
+2025-03-13T19:21:18 - Starting Tibber price fetcher
+2025-03-13T19:21:18 - Fetched 48 hours at 2025-03-13T19:21:18.802040+01:00
+2025-03-13T19:21:18 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.6 hours)
+2025-03-13 21:05:10,014 - Tibber fetcher started
+2025-03-13 21:05:10,014 - Waiting 15.9h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:10:53,871 - Tibber fetcher started
+2025-03-13 21:10:54,045 - Fetched 48 hours
+2025-03-13 21:10:54,046 - Cache updated: 48 hours
+2025-03-13 21:10:54,046 - Test fetch done
+2025-03-13 21:10:54,346 - Tibber fetcher started
+2025-03-13 21:10:54,487 - Fetched 48 hours
+2025-03-13 21:10:54,488 - Cache updated: 48 hours
+2025-03-13 21:10:54,488 - Test fetch done
+2025-03-13 21:10:54,893 - Tibber fetcher started
+2025-03-13 21:10:55,047 - Fetched 48 hours
+2025-03-13 21:10:55,048 - Cache updated: 48 hours
+2025-03-13 21:10:55,048 - Test fetch done
+2025-03-13 21:10:55,410 - Tibber fetcher started
+2025-03-13 21:10:55,549 - Fetched 48 hours
+2025-03-13 21:10:55,550 - Cache updated: 48 hours
+2025-03-13 21:10:55,550 - Test fetch done
+2025-03-13 21:10:56,010 - Tibber fetcher started
+2025-03-13 21:10:56,208 - Fetched 48 hours
+2025-03-13 21:10:56,209 - Cache updated: 48 hours
+2025-03-13 21:10:56,209 - Test fetch done
+2025-03-13 21:19:03,568 - Tibber fetcher started
+2025-03-13 21:19:03,772 - Fetched 48 hours
+2025-03-13 21:19:03,774 - Cache updated: 48 hours
+2025-03-13 21:19:03,774 - Waiting 15.7h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:21:55,909 - Tibber fetcher started
+2025-03-13 21:21:56,045 - Fetched 48 hours
+2025-03-13 21:21:56,046 - Cache updated: 48 hours
+2025-03-13 21:21:56,046 - Waiting 15.6h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:30:28,340 - Tibber fetcher started
+2025-03-13 21:30:28,469 - Fetched 48 hours
+2025-03-13 21:30:28,470 - Cache updated: 48 hours
+2025-03-13 21:30:28,471 - Waiting 15.5h ’til 2025-03-14 13:00:00+01:00

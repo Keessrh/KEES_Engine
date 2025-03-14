@@ -1,0 +1,105 @@
+2025-03-12 08:33:34 Starting ENTSO-E price fetcher
+2025-03-12 08:33:34 No prices parsed from response
+2025-03-12 08:33:34 Initial ENTSO-E fetch failed, using cached or default data
+2025-03-12 08:33:34 Waiting until 2025-03-12 13:00:00+01:00 for price check (4.4 hours)
+2025-03-12 08:33:44 ENTSO-E fetcher stopped
+2025-03-12 08:40:19 Starting ENTSO-E price fetcher
+2025-03-12 08:40:19 No prices parsed from response
+2025-03-12 08:40:19 Initial ENTSO-E fetch failed, using cached or default data
+2025-03-12 08:40:19 Waiting until 2025-03-12 13:00:00+01:00 for price check (4.3 hours)
+2025-03-12 08:40:32 ENTSO-E fetcher stopped
+2025-03-12 08:48:20 Starting ENTSO-E price fetcher
+2025-03-12 08:48:20 No prices parsed from response
+2025-03-12 08:48:20 Initial ENTSO-E fetch failed, using cached or default data
+2025-03-12 08:48:20 Waiting until 2025-03-12 13:00:00+01:00 for price check (4.2 hours)
+2025-03-12 08:48:41 ENTSO-E fetcher stopped
+2025-03-12 08:53:04 Starting ENTSO-E price fetcher
+2025-03-12 08:53:04 ENTSO-E prices fetched: 24 today, 0 tomorrow, current: 0.05 at 2025-03-12T08:00:00.000+01:00
+2025-03-12 08:53:04 ENTSO-E cache updated: 24h
+2025-03-12 08:53:04 Waiting until 2025-03-12 13:00:00+01:00 for price check (4.1 hours)
+2025-03-12 08:53:42 ENTSO-E fetcher stopped
+2025-03-12 09:16:57 Starting ENTSO-E price fetcher
+2025-03-12 09:16:58 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:16:58 ENTSO-E cache updated: 24h
+2025-03-12 09:16:58 Waiting until 2025-03-12 13:00:00+01:00 (3.7 hours)
+2025-03-12 09:17:46 ENTSO-E fetcher stopped
+2025-03-12 09:19:25 Starting ENTSO-E price fetcher
+2025-03-12 09:19:25 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:19:25 ENTSO-E cache updated: 24h
+2025-03-12 09:19:25 Waiting until 2025-03-12 13:00:00+01:00 (3.7 hours)
+2025-03-12 09:19:26 ENTSO-E fetcher stopped
+2025-03-12 09:19:46 Starting ENTSO-E price fetcher
+2025-03-12 09:19:46 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:19:46 ENTSO-E cache updated: 24h
+2025-03-12 09:19:46 Waiting until 2025-03-12 13:00:00+01:00 (3.7 hours)
+2025-03-12 09:31:29 Starting ENTSO-E price fetcher
+2025-03-12 09:31:29 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:31:29 ENTSO-E cache updated: 24h
+2025-03-12 09:31:29 Waiting until 2025-03-12 13:00:00+01:00 (3.5 hours)
+2025-03-12 09:36:02 Starting ENTSO-E price fetcher
+2025-03-12 09:36:02 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:36:02 ENTSO-E cache updated: 24h
+2025-03-12 09:36:02 Waiting until 2025-03-12 13:00:00+01:00 (3.4 hours)
+2025-03-12 09:39:23 Starting ENTSO-E price fetcher
+2025-03-12 09:39:24 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:39:24 ENTSO-E cache updated: 24h
+2025-03-12 09:39:24 Waiting until 2025-03-12 13:00:00+01:00 (3.3 hours)
+2025-03-12 09:45:31 Starting ENTSO-E price fetcher
+2025-03-12 09:45:31 ENTSO-E prices fetched: 24 today, 0 tomorrow
+2025-03-12 09:45:31 ENTSO-E cache updated: 24h
+2025-03-12 09:45:31 Waiting until 2025-03-12 13:00:00+01:00 (3.2 hours)
+2025-03-12T10:58:57 - Starting ENTSO-E price fetcher
+2025-03-12T10:58:57 - Fetched 24 hours at 2025-03-12T10:58:57.658168+01:00
+2025-03-12T10:58:57 - Waiting until Wed, 12 Mar 2025 13:00 CET (2.0 hours)
+2025-03-12T13:00:02 - Fetched 24 hours at 2025-03-12T13:00:02.241415+01:00
+2025-03-12T13:05:03 - Fetched 24 hours at 2025-03-12T13:05:03.250745+01:00
+2025-03-12T13:10:10 - Fetched 47 hours at 2025-03-12T13:10:10.260648+01:00
+2025-03-12T13:10:10 - Tomorrow's prices received
+2025-03-12T13:10:10 - Waiting until Thu, 13 Mar 2025 13:00 CET (23.8 hours)
+2025-03-13T19:15:32 - Starting ENTSO-E price fetcher
+2025-03-13T19:15:32 - Fetched 47 hours at 2025-03-13T19:15:32.444190+01:00
+2025-03-13T19:15:32 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.7 hours)
+2025-03-13T19:17:19 - Starting ENTSO-E price fetcher
+2025-03-13T19:17:20 - Fetched 47 hours at 2025-03-13T19:17:20.251437+01:00
+2025-03-13T19:17:20 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.7 hours)
+2025-03-13T19:21:18 - Starting ENTSO-E price fetcher
+2025-03-13T19:21:18 - Fetched 47 hours at 2025-03-13T19:21:18.918899+01:00
+2025-03-13T19:21:18 - Waiting until Fri, 14 Mar 2025 13:00 CET (17.6 hours)
+2025-03-13 21:05:15,224 - ENTSO-E fetcher started
+2025-03-13 21:05:15,225 - Waiting 15.9h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:10:53,873 - ENTSO-E fetcher started
+2025-03-13 21:10:54,123 - Fetched 47 hours
+2025-03-13 21:10:54,124 - Cache updated: 47 hours
+2025-03-13 21:10:54,124 - Test fetch done
+2025-03-13 21:10:54,633 - ENTSO-E fetcher started
+2025-03-13 21:10:54,874 - Fetched 47 hours
+2025-03-13 21:10:54,880 - Cache updated: 47 hours
+2025-03-13 21:10:54,880 - Test fetch done
+2025-03-13 21:10:55,245 - ENTSO-E fetcher started
+2025-03-13 21:10:55,467 - Fetched 47 hours
+2025-03-13 21:10:55,472 - Cache updated: 47 hours
+2025-03-13 21:10:55,472 - Test fetch done
+2025-03-13 21:10:56,025 - ENTSO-E fetcher started
+2025-03-13 21:10:56,269 - Fetched 47 hours
+2025-03-13 21:10:56,270 - Cache updated: 47 hours
+2025-03-13 21:10:56,270 - Test fetch done
+2025-03-13 21:10:56,598 - ENTSO-E fetcher started
+2025-03-13 21:10:56,818 - Fetched 47 hours
+2025-03-13 21:10:56,819 - Cache updated: 47 hours
+2025-03-13 21:10:56,819 - Test fetch done
+2025-03-13 21:19:03,579 - ENTSO-E fetcher started
+2025-03-13 21:19:03,880 - Fetched 47 hours
+2025-03-13 21:19:03,881 - Cache updated: 47 hours
+2025-03-13 21:19:03,881 - Waiting 15.7h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:26:43,454 - ENTSO-E fetcher started
+2025-03-13 21:26:43,636 - Fetched 47 hours
+2025-03-13 21:26:43,637 - Cache updated: 47 hours
+2025-03-13 21:26:43,637 - Waiting 15.6h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:28:14,523 - ENTSO-E fetcher started
+2025-03-13 21:28:14,753 - Fetched 47 hours
+2025-03-13 21:28:14,755 - Cache updated: 47 hours
+2025-03-13 21:28:14,755 - Waiting 15.5h ’til 2025-03-14 13:00:00+01:00
+2025-03-13 21:29:22,150 - ENTSO-E fetcher started
+2025-03-13 21:29:22,369 - Fetched 47 hours
+2025-03-13 21:29:22,370 - Cache updated: 47 hours
+2025-03-13 21:29:22,370 - Waiting 15.5h ’til 2025-03-14 13:00:00+01:00
