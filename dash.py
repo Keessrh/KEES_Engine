@@ -2,7 +2,6 @@ from flask import Flask, render_template_string
 import json
 import csv
 from pathlib import Path
-from datetime import datetime
 
 app = Flask(__name__)
 
@@ -55,20 +54,14 @@ def get_current_states():
     try:
         with open(HEATING_CSV, 'r') as f:
             rows = list(csv.reader(f))
-            for row in reversed(rows):
-                if row and 'ES' in row[0]:
-                    es_state = row[1].strip()
-                    break
-    except FileNotFoundError:
+            es_state = rows[-1][4].strip() if rows else 'OFF'  # Last row, col 4
+    except (FileNotFoundError, IndexError):
         pass
     try:
         with open(DHW_CSV, 'r') as f:
             rows = list(csv.reader(f))
-            for row in reversed(rows):
-                if row and 'DHW' in row[0]:
-                    dhw_state = row[1].strip()
-                    break
-    except FileNotFoundError:
+            dhw_state = rows[-1][4].strip() if rows else 'OFF'  # Last row, col 4
+    except (FileNotFoundError, IndexError):
         pass
     return es_state, dhw_state
 
@@ -81,31 +74,31 @@ def get_price():
         return 61
 
 def get_history():
-    history = []
+    history = {}
     try:
-        with open(HEATING_CSV, 'r') as hf, open(DHW_CSV, 'r') as df:
-            h_rows = list(csv.reader(hf))
-            d_rows = list(csv.reader(df))
-            # Assume timestamp in col 2 (e.g., "2025-03-14 22:00:01"), ES/DHW in col 1
-            h_dict = {row[2]: row[1] for row in h_rows if len(row) > 2 and 'ES' in row[0]}
-            d_dict = {row[2]: row[1] for row in d_rows if len(row) > 2 and 'DHW' in row[0]}
-            all_times = sorted(set(h_dict.keys()) | set(d_dict.keys()), reverse=True)
-            for t in all_times[:5]:  # Last 5 entries
-                es = h_dict.get(t, 'OFF')
-                dhw = d_dict.get(t, 'OFF')
-                # Fake price history (hourly from current price, adjust if CSV has it)
-                hour = int(t.split(':')[1])
-                price = get_price() - (22 - hour) * 3 if hour <= 22 else 61
-                history.append({'time': t.split(' ')[1], 'price': price, 'decision': f'{es}/{dhw}'})
+        # Load heating data (hourly only)
+        with open(HEATING_CSV, 'r') as hf:
+            h_rows = [row for row in csv.reader(hf) if len(row) > 4 and ":00:01" in row[0]]
+            for row in h_rows:
+                time = row[0].split('T')[1].split('.')[0]  # "22:00:01"
+                history[time] = {'price': row[1], 'es': row[4], 'dhw': 'OFF'}
+        # Overlay DHW data
+        with open(DHW_CSV, 'r') as df:
+            d_rows = [row for row in csv.reader(df) if len(row) > 4 and ":00:01" in row[0]]
+            for row in d_rows:
+                time = row[0].split('T')[1].split('.')[0]
+                if time in history:
+                    history[time]['dhw'] = row[4]
+                else:
+                    history[time] = {'price': row[1], 'es': 'OFF', 'dhw': row[4]}
+        # Format last 5
+        result = [
+            {'time': t, 'price': data['price'], 'decision': f"{data['es']}/{data['dhw']}"}
+            for t, data in sorted(history.items(), reverse=True)[:5]
+        ]
+        return result[::-1] if result else []  # Oldest first, empty if no hourly data
     except (FileNotFoundError, IndexError):
-        # Fallback fake history if CSVs lack timestamps
-        current_price = get_price()
-        now = datetime.now()
-        for i in range(5):
-            time = f"{22-i:02d}:00:01"
-            price = current_price - i * 3 if i <= 4 else 61
-            history.append({'time': time, 'price': price, 'decision': 'ES7/OFF'})
-    return history
+        return []  # No fallback unless explicitly wanted
 
 @app.route('/')
 def dashboard():
