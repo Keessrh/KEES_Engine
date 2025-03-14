@@ -57,3 +57,31 @@ Price: 96, Decision: OFF
 2025-03-14 21:14:47,621 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
 2025-03-14 21:14:52,626 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
 2025-03-14 21:14:57,632 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:15:02,638 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:07,644 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:15:12,650 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:21,217 - Starting DHW control with interval 5s
+2025-03-14 21:16:21,236 - Price: 58, Decision: ON, Solar: 0, Tank Temp: 0
+2025-03-14 21:16:21,236 - Connected to MQTT broker with code 0
+2025-03-14 21:16:26,238 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:31,244 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:36,249 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:16:41,254 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:16:46,261 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:51,267 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:16:56,273 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:01,281 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:06,287 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:11,293 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:16,298 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:21,304 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:26,311 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:31,317 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:36,321 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:41,328 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:46,330 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:51,336 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:56,343 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:18:01,349 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:18:06,358 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:18:11,364 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3

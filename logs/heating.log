@@ -179,3 +179,43 @@ Price: 96, Decision: ES8
 2025-03-14 21:14:49,888 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
 2025-03-14 21:14:54,894 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
 2025-03-14 21:14:59,899 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:04,906 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:15:09,908 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:15:20,442 - Starting heating control with interval 5s
+2025-03-14 21:15:20,464 - Price: 58, Decision: ES2, Solar: 0, Tank Temp: 0
+2025-03-14 21:15:20,464 - Connected to MQTT broker with code 0
+2025-03-14 21:15:25,468 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:30,469 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:15:35,476 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:40,482 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:45,489 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:50,495 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:15:55,502 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:00,508 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:05,515 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:10,520 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:21,205 - Starting heating control with interval 5s
+2025-03-14 21:16:21,232 - Price: 58, Decision: ES2, Solar: 0, Tank Temp: 0
+2025-03-14 21:16:21,232 - Connected to MQTT broker with code 0
+2025-03-14 21:16:26,238 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:31,244 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:36,250 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:16:41,254 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:16:46,260 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:16:51,266 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:16:56,272 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:01,280 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:06,288 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:11,293 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:16,299 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:21,305 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:26,311 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:31,317 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:36,321 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:41,328 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:46,330 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:17:51,336 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:17:56,342 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:18:01,349 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:18:06,356 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:18:11,364 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
