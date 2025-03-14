@@ -12,3 +12,13 @@ Price: 96, Decision: ES8
 Price: 96, Decision: ES8
 Price: 96, Decision: ES8
 Price: 96, Decision: ES8
+2025-03-14 20:59:26,134 - Starting heating control with interval 5s
+2025-03-14 20:59:26,139 - Price: 76, Decision: ES7, Solar: 0, Tank Temp: 0
+2025-03-14 20:59:26,140 - Connected to MQTT broker with code 0
+2025-03-14 20:59:31,144 - Price: 76, Decision: ES7, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 20:59:36,150 - Price: 76, Decision: ES7, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 20:59:41,156 - Price: 76, Decision: ES7, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 20:59:46,162 - Price: 76, Decision: ES7, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 20:59:51,168 - Price: 76, Decision: ES7, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 20:59:56,174 - Price: 76, Decision: ES7, Solar: 0.0, Tank Temp: 68.3
+2025-03-14 21:00:01,176 - Price: 58, Decision: ES2, Solar: 0.0, Tank Temp: 67.3
