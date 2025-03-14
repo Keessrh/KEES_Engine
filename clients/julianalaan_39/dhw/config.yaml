@@ -1,3 +1,7 @@
 interval: 5  # seconds (use 3600 for production)
 log_path: "data/"
 price_file: "/root/master_kees/Dynamic_Prices/prices_percent.json"
+mqtt:
+  broker: "159.223.10.31"
+  port: 1883
+  topic: "julianalaan_39/telemetry"
