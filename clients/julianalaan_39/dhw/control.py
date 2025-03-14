@@ -6,16 +6,25 @@ import os
 import yaml
 import sys
 import paho.mqtt.client as mqtt
+import logging
 
-# Get the directory of this script
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Ensure log file is writable
+LOG_FILE = "/root/master_kees/logs/dhw.log"
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
+logging.basicConfig(
+    filename=LOG_FILE,
+    level=logging.INFO,
+    format="%(asctime)s - %(message)s",
+    force=True  # Reset any existing handlers
+)
+logger = logging.getLogger("dhw")
 
 def load_config():
     try:
         with open(os.path.join(BASE_DIR, "config.yaml"), "r") as f:
             return yaml.safe_load(f)
     except Exception as e:
-        print(f"Error loading config.yaml: {e}", file=sys.stderr)
+        logger.error(f"Error loading config.yaml: {e}")
         sys.exit(1)
 
 def get_price_percent(price_file):
@@ -25,7 +34,7 @@ def get_price_percent(price_file):
         now = datetime.now().strftime("%Y-%m-%dT%H:00")
         return data["prices"].get(now, 0)
     except Exception as e:
-        print(f"Error reading {price_file}: {e}", file=sys.stderr)
+        logger.error(f"Error reading {price_file}: {e}")
         return 0
 
 def decide_dhw(price):
@@ -45,11 +54,11 @@ def log_decision(log_path, price, decision, solar, tank_temp):
         with open(csv_file, "a") as f:
             f.write(line)
     except Exception as e:
-        print(f"Error logging to {csv_file}: {e}", file=sys.stderr)
+        logger.error(f"Error logging to {csv_file}: {e}")
 
 # MQTT callbacks
 def on_connect(client, userdata, flags, rc):
-    print(f"Connected to MQTT broker with code {rc}")
+    logger.info(f"Connected to MQTT broker with code {rc}")
     client.subscribe(userdata["topic"])
 
 def on_message(client, userdata, msg):
@@ -57,9 +66,12 @@ def on_message(client, userdata, msg):
     userdata["solar"] = float(payload.get("opwek", 0))
     userdata["tank_temp"] = float(payload.get("dhw_water_temp", 0))
 
+# Get the directory of this script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def main():
     config = load_config()
-    print(f"Starting DHW control with interval {config['interval']}s")
+    logger.info(f"Starting DHW control with interval {config['interval']}s")
     
     # MQTT setup
     telemetry = {"solar": 0, "tank_temp": 0, "topic": config["mqtt"]["topic"]}
@@ -72,7 +84,7 @@ def main():
     while True:
         price = get_price_percent(config["price_file"])
         decision = decide_dhw(price)
-        print(f"Price: {price}, Decision: {decision}, Solar: {telemetry['solar']}, Tank Temp: {telemetry['tank_temp']}")
+        logger.info(f"Price: {price}, Decision: {decision}, Solar: {telemetry['solar']}, Tank Temp: {telemetry['tank_temp']}")
         log_decision(config["log_path"], price, decision, telemetry["solar"], telemetry["tank_temp"])
         time.sleep(config["interval"])
 
