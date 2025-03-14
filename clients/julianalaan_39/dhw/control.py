@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import yaml
 import sys
 import paho.mqtt.client as mqtt
 import logging
 
-# Ensure log file is writable
 LOG_FILE = "/root/master_kees/logs/dhw.log"
 os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
     format="%(asctime)s - %(message)s",
-    force=True  # Reset any existing handlers
+    force=True
 )
 logger = logging.getLogger("dhw")
 
@@ -56,7 +55,6 @@ def log_decision(log_path, price, decision, solar, tank_temp):
     except Exception as e:
         logger.error(f"Error logging to {csv_file}: {e}")
 
-# MQTT callbacks
 def on_connect(client, userdata, flags, rc):
     logger.info(f"Connected to MQTT broker with code {rc}")
     client.subscribe(userdata["topic"])
@@ -66,27 +64,32 @@ def on_message(client, userdata, msg):
     userdata["solar"] = float(payload.get("opwek", 0))
     userdata["tank_temp"] = float(payload.get("dhw_water_temp", 0))
 
-# Get the directory of this script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def sleep_to_next_hour():
+    now = datetime.now()
+    next_hour = (now + timedelta(hours=1)).replace(minute=0, second=1, microsecond=0)
+    sleep_time = (next_hour - now).total_seconds()
+    logger.info(f"Sleeping {sleep_time:.0f}s until {next_hour}")
+    time.sleep(sleep_time)
 
 def main():
     config = load_config()
     logger.info(f"Starting DHW control with interval {config['interval']}s")
-    
-    # MQTT setup
     telemetry = {"solar": 0, "tank_temp": 0, "topic": config["mqtt"]["topic"]}
     client = mqtt.Client(userdata=telemetry)
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(config["mqtt"]["broker"], config["mqtt"]["port"])
     client.loop_start()
-    
+    sleep_to_next_hour()
     while True:
         price = get_price_percent(config["price_file"])
         decision = decide_dhw(price)
         logger.info(f"Price: {price}, Decision: {decision}, Solar: {telemetry['solar']}, Tank Temp: {telemetry['tank_temp']}")
         log_decision(config["log_path"], price, decision, telemetry["solar"], telemetry["tank_temp"])
-        time.sleep(config["interval"])
+        logger.info("Cycle complete, sleeping until next hour")
+        sleep_to_next_hour()
 
 if __name__ == "__main__":
     main()

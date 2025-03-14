@@ -85,3 +85,6 @@ Price: 96, Decision: OFF
 2025-03-14 21:18:01,349 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
 2025-03-14 21:18:06,358 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
 2025-03-14 21:18:11,364 - Price: 58, Decision: ON, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 21:38:08,795 - Starting DHW control with interval 3600s
+2025-03-14 21:38:08,821 - Sleeping 1312s until 2025-03-14 22:00:01
+2025-03-14 21:38:08,821 - Connected to MQTT broker with code 0

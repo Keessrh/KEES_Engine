@@ -3922,3 +3922,5 @@
 2025-03-14 21:18:11,114 - INFO - julianalaan_39/dhw current state: 2025-03-14T21:18:06.358586,58,0.0,67.3,ON
 2025-03-14 21:18:11,114 - INFO - julianalaan_39/dhw decision: ON
 2025-03-14 21:18:11,114 - INFO - Cycle complete, sleeping 5s
+2025-03-14 21:38:08,403 - INFO - Mothership starting...
+2025-03-14 21:38:08,403 - ERROR - Mothership crashed: Expecting value: line 1 column 1 (char 0)
