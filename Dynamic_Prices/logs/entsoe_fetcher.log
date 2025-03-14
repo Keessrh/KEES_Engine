@@ -117,3 +117,7 @@
 2025-03-14 13:05:03,645 - Fetched 24 hours
 2025-03-14 13:05:03,647 - Cache updated: 24 hours
 2025-03-14 13:05:03,647 - Retrying in 5m
+2025-03-14 13:10:06,963 - Fetched 48 hours
+2025-03-14 13:10:06,965 - Cache updated: 48 hours
+2025-03-14 13:10:06,965 - Tomorrow’s prices fetched
+2025-03-14 13:10:06,966 - Waiting 23.8h ’til 2025-03-15 13:00:00+01:00
