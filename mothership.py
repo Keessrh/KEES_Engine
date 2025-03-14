@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import time
 import yaml
+import json
 import logging
 from pathlib import Path
 from datetime import datetime
@@ -16,13 +17,14 @@ logging.basicConfig(
 logger = logging.getLogger("mothership")
 
 def load_config():
-    """Load config.yaml from /root/master_kees/."""
+    """Load config.yaml, return defaults if empty/missing."""
     config_path = Path("/root/master_kees/config.yaml")
-    if not config_path.exists():
-        logger.error("config.yaml not found!")
-        raise FileNotFoundError("config.yaml missing")
+    if not config_path.exists() or config_path.stat().st_size == 0:
+        logger.warning("config.yaml missing or empty—using defaults")
+        return {"interval": 5}  # 5s for testing
     with open(config_path, "r") as f:
-        return yaml.safe_load(f)
+        config = yaml.safe_load(f) or {"interval": 5}  # Default if None
+    return config
 
 def get_current_price(prices):
     """Get price percentage for the current hour."""
@@ -57,16 +59,16 @@ def decide_dhw_state(price_percent):
         return False  # Off
     return price_percent <= 60  # On if <=60%, Off if >60%
 
-def monitor_clients(config):
+def monitor_clients():
     """Monitor clients and log decisions."""
     price_file = Path("/root/master_kees/Dynamic_Prices/prices_percent.json")
-    client_base = Path("/root/master_kees/clients")
+    clients = ["julianalaan_39"]  # Hardcoded for now
 
     # Load prices
     prices = {}
     if price_file.exists():
         with open(price_file, "r") as f:
-            data = yaml.safe_load(f)
+            data = json.load(f)  # JSON, not YAML
             prices = data.get("prices", {})
         logger.info(f"Price data loaded: {list(prices.items())[:5]}...")
         current_price = get_current_price(prices)
@@ -75,36 +77,39 @@ def monitor_clients(config):
         logger.warning("prices_percent.json not found—using defaults")
         current_price = None
 
-    # Process each client
-    for client in config.get("clients", []):
-        client_path = client_base / client
+    # Process clients
+    for client in clients:
         for system in ["heating", "dhw"]:
-            config_path = client_path / system / "config.yaml"
-            if config_path.exists():
-                logger.info(f"Monitoring {client}/{system}")
-                if system == "heating":
-                    decision = decide_heating_state(current_price)
-                    logger.info(f"{client}/{system} decision: ES{decision}")
-                else:  # dhw
-                    decision = decide_dhw_state(current_price)
-                    logger.info(f"{client}/{system} decision: {'ON' if decision else 'OFF'}")
+            csv_path = Path(f"/root/master_kees/clients/{client}/{system}/data/2025-03-14.csv")
+            if csv_path.exists():
+                with open(csv_path, "r") as f:
+                    last_line = f.readlines()[-1].strip()
+                    logger.info(f"{client}/{system} current state: {last_line}")
             else:
-                logger.warning(f"{client}/{system} config missing")
+                logger.warning(f"{client}/{system} CSV missing")
+            
+            # Log decisions
+            if system == "heating":
+                decision = decide_heating_state(current_price)
+                logger.info(f"{client}/{system} decision: ES{decision}")
+            else:  # dhw
+                decision = decide_dhw_state(current_price)
+                logger.info(f"{client}/{system} decision: {'ON' if decision else 'OFF'}")
 
 def main():
     logger.info("Mothership starting...")
     config = load_config()
-    logger.info("Config loaded successfully")
+    logger.info("Config loaded (or defaults applied)")
     logger.info("Assuming price fetchers and fuser are running independently")
 
-    # Main loop (runs once for test)
+    # Main loop
     while True:
         try:
-            monitor_clients(config)
-            interval = config.get("interval", 3600)  # Default 1 hour
+            monitor_clients()
+            interval = config.get("interval", 5)  # Default 5s
             logger.info(f"Cycle complete, sleeping {interval}s")
             time.sleep(interval)
-            break  # Test mode
+            # Remove 'break' to keep it running
         except Exception as e:
             logger.error(f"Cycle failed: {str(e)}—retrying in 60s")
             time.sleep(60)
