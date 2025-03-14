@@ -1,4 +1,4 @@
-interval: 5
+interval: 3600
 price_file: /root/master_kees/Dynamic_Prices/prices_percent.json
 log_path: data
 mqtt:
