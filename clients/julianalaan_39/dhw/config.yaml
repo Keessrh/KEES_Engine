@@ -1,0 +1,4 @@
+# /root/master_kees/clients/julianalaan_39/dhw/config.yaml
+interval: 5  # seconds (use 3600 for production)
+log_path: "data/"
+price_file: "/root/master_kees/Dynamic_Prices/prices_percent.json"
