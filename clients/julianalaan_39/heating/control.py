@@ -21,9 +21,8 @@ def get_price_percent(price_file):
     try:
         with open(price_file, "r") as f:
             data = json.load(f)
-        # Get current hour's price
         now = datetime.now().strftime("%Y-%m-%dT%H:00")
-        return data["prices"].get(now, 0)  # Default to 0 if hour missing
+        return data["prices"].get(now, 0)
     except Exception as e:
         print(f"Error reading {price_file}: {e}", file=sys.stderr)
         return 0
@@ -47,8 +46,11 @@ def decide_heating(price):
 
 def log_decision(log_path, price, decision):
     try:
+        # Ensure log_path is absolute
+        abs_log_path = os.path.join(BASE_DIR, log_path)
+        os.makedirs(abs_log_path, exist_ok=True)  # Create data/ if it doesn’t exist
         today = datetime.now().strftime("%Y-%m-%d")
-        csv_file = os.path.join(log_path, f"{today}.csv")
+        csv_file = os.path.join(abs_log_path, f"{today}.csv")
         header = "timestamp,price_percent,decision\n"
         line = f"{datetime.now().isoformat()},{price},{decision}\n"
         if not os.path.exists(csv_file):
@@ -65,8 +67,8 @@ def main():
     while True:
         price = get_price_percent(config["price_file"])
         decision = decide_heating(price)
-        log_decision(config["log_path"], price, decision)
         print(f"Price: {price}, Decision: {decision}")
+        log_decision(config["log_path"], price, decision)
         time.sleep(config["interval"])
 
 if __name__ == "__main__":
