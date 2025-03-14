@@ -1,7 +1,7 @@
-interval: 5  # seconds (use 3600 for production)
-log_path: "data/"
-price_file: "/root/master_kees/Dynamic_Prices/prices_percent.json"
+interval: 5
+price_file: /root/master_kees/Dynamic_Prices/prices_percent.json
+log_path: data
 mqtt:
-  broker: "159.223.10.31"
+  broker: 159.223.10.31
   port: 1883
-  topic: "julianalaan_39/telemetry"
+  topic: julianalaan_39/telemetry

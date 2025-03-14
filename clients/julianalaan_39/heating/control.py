@@ -8,14 +8,14 @@ import sys
 import paho.mqtt.client as mqtt
 import logging
 
-# Get the directory of this script
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Setup logging
+# Ensure log file is writable
+LOG_FILE = "/root/master_kees/logs/heating.log"
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 logging.basicConfig(
-    filename="/root/master_kees/logs/heating.log",
+    filename=LOG_FILE,
     level=logging.INFO,
-    format="%(asctime)s - %(message)s"
+    format="%(asctime)s - %(message)s",
+    force=True  # Reset any existing handlers
 )
 logger = logging.getLogger("heating")
 
@@ -77,6 +77,9 @@ def on_message(client, userdata, msg):
     payload = json.loads(msg.payload.decode())
     userdata["solar"] = float(payload.get("opwek", 0))
     userdata["tank_temp"] = float(payload.get("dhw_water_temp", 0))
+
+# Get the directory of this script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def main():
     config = load_config()
