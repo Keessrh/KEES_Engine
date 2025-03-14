@@ -231,3 +231,6 @@ Price: 96, Decision: ES8
 2025-03-14 21:43:46,972 - Starting heating control with interval 3600s
 2025-03-14 21:43:46,988 - Sleeping 974s until 2025-03-14 22:00:01
 2025-03-14 21:43:46,988 - Connected to MQTT broker with code 0
+2025-03-14 22:00:01,079 - Price: 61, Decision: ES7, Solar: 0.0, Tank Temp: 67.3
+2025-03-14 22:00:01,080 - Cycle complete, sleeping until next hour
+2025-03-14 22:00:01,080 - Sleeping 3600s until 2025-03-14 23:00:01
