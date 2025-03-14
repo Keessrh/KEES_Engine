@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-import os
-import subprocess
 import time
 import yaml
 import logging
 from pathlib import Path
+from datetime import datetime
 
 # Setup logging
 log_dir = Path("/root/master_kees/logs")
@@ -25,62 +24,90 @@ def load_config():
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
 
-def start_price_fetchers():
-    """Run Dynamic_Prices fetchers in sequence."""
-    fetchers = ["tibber_fetcher.py", "entsoe_fetcher.py", "price_fuser.py"]
-    base_path = Path("/root/master_kees/Dynamic_Prices")
-    for fetcher in fetchers:
-        fetcher_path = base_path / fetcher
-        if fetcher_path.exists():
-            logger.info(f"Starting {fetcher}")
-            result = subprocess.run(["python3", str(fetcher_path)], capture_output=True, text=True)
-            if result.returncode == 0:
-                logger.info(f"{fetcher} completed successfully")
-            else:
-                logger.error(f"{fetcher} failed: {result.stderr}")
-        else:
-            logger.warning(f"{fetcher} not found, skipping")
+def get_current_price(prices):
+    """Get price percentage for the current hour."""
+    now = datetime.now().strftime("%Y-%m-%dT%H:00")
+    return prices.get(now, None)
+
+def decide_heating_state(price_percent):
+    """Mirror HA logic for heating (ES1-8)."""
+    if price_percent is None:
+        logger.warning("No price data—defaulting to ES1")
+        return 1  # ES1
+    if price_percent == 0:
+        return 5  # ES5
+    elif 1 <= price_percent <= 20:
+        return 6  # ES6
+    elif 20 < price_percent <= 40:
+        return 3  # ES3
+    elif 40 < price_percent <= 60:
+        return 2  # ES2
+    elif 60 < price_percent <= 80:
+        return 7  # ES7
+    elif 80 < price_percent < 100:
+        return 8  # ES8
+    elif price_percent >= 100:
+        return 1  # ES1
+    return 1  # Fallback
+
+def decide_dhw_state(price_percent):
+    """Mirror HA logic for DHW (on/off)."""
+    if price_percent is None:
+        logger.warning("No price data—defaulting to OFF")
+        return False  # Off
+    return price_percent <= 60  # On if <=60%, Off if >60%
 
 def monitor_clients(config):
-    """Monitor client dirs and log decisions (no control yet)."""
-    client_base = Path("/root/master_kees/clients/julianalaan_39")
+    """Monitor clients and log decisions."""
     price_file = Path("/root/master_kees/Dynamic_Prices/prices_percent.json")
+    client_base = Path("/root/master_kees/clients")
 
-    # Check price data
+    # Load prices
+    prices = {}
     if price_file.exists():
         with open(price_file, "r") as f:
-            prices = yaml.safe_load(f)  # JSON-like structure
-        logger.info(f"Price data loaded: {prices[:5]}...")  # Log first 5
+            data = yaml.safe_load(f)
+            prices = data.get("prices", {})
+        logger.info(f"Price data loaded: {list(prices.items())[:5]}...")
+        current_price = get_current_price(prices)
+        logger.info(f"Current hour price: {current_price}%")
     else:
-        logger.warning("prices_percent.json not found in Dynamic_Prices/")
-        return
+        logger.warning("prices_percent.json not found—using defaults")
+        current_price = None
 
-    # Monitor heating and DHW
-    for system in ["heating", "dhw"]:
-        config_path = client_base / system / "config.yaml"
-        data_dir = client_base / system / "data"
-        if config_path.exists():
-            logger.info(f"Monitoring {system}: simulating HA logic")
-            # Placeholder: Mirror HA logic (ES1-8 for heating, on/off for DHW)
-            decision = "ES3" if system == "heating" else "ON"  # Dummy decisions
-            logger.info(f"{system} decision: {decision} (based on prices)")
-        else:
-            logger.warning(f"{system} missing config")
+    # Process each client
+    for client in config.get("clients", []):
+        client_path = client_base / client
+        for system in ["heating", "dhw"]:
+            config_path = client_path / system / "config.yaml"
+            if config_path.exists():
+                logger.info(f"Monitoring {client}/{system}")
+                if system == "heating":
+                    decision = decide_heating_state(current_price)
+                    logger.info(f"{client}/{system} decision: ES{decision}")
+                else:  # dhw
+                    decision = decide_dhw_state(current_price)
+                    logger.info(f"{client}/{system} decision: {'ON' if decision else 'OFF'}")
+            else:
+                logger.warning(f"{client}/{system} config missing")
 
 def main():
     logger.info("Mothership starting...")
     config = load_config()
     logger.info("Config loaded successfully")
+    logger.info("Assuming price fetchers and fuser are running independently")
 
-    # Start price fetchers
-    start_price_fetchers()
-
-    # Monitor clients in a loop (runs once for test)
+    # Main loop (runs once for test)
     while True:
-        monitor_clients(config)
-        logger.info("Cycle complete, sleeping 60s (test mode)")
-        time.sleep(60)
-        break  # One cycle for test
+        try:
+            monitor_clients(config)
+            interval = config.get("interval", 3600)  # Default 1 hour
+            logger.info(f"Cycle complete, sleeping {interval}s")
+            time.sleep(interval)
+            break  # Test mode
+        except Exception as e:
+            logger.error(f"Cycle failed: {str(e)}—retrying in 60s")
+            time.sleep(60)
 
 if __name__ == "__main__":
     try:
