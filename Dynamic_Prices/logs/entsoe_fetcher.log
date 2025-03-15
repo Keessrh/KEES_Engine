@@ -181,3 +181,11 @@
 2025-03-15 13:00:06,002 - Cache updated: 24 hours
 2025-03-15 13:00:06,002 - Tomorrow’s prices fetched
 2025-03-15 13:00:06,002 - Waiting 24.0h ’til 2025-03-16 13:00:00+01:00
+2025-03-15 16:23:02,386 - ENTSO-E fetcher started
+2025-03-15 16:23:02,811 - ENTSO-E fetcher started
+2025-03-15 16:23:02,822 - Fetched 48 hours
+2025-03-15 16:23:02,824 - Cache updated: 48 hours
+2025-03-15 16:23:02,824 - Waiting 20.6h ’til 2025-03-16 13:00:00+01:00
+2025-03-15 16:23:03,066 - Fetched 48 hours
+2025-03-15 16:23:03,067 - Cache updated: 48 hours
+2025-03-15 16:23:03,067 - Waiting 20.6h ’til 2025-03-16 13:00:00+01:00
