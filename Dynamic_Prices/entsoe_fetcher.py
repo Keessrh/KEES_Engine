@@ -62,9 +62,9 @@ def main():
         next_run = now.replace(hour=13, minute=0, second=0)
         if now >= next_run: next_run += timedelta(days=1)
         wait = max(0, (next_run - now).total_seconds())
-        if wait:
+#        if wait:
             logging.info(f"Waiting {wait/3600:.1f}h ’til {next_run}")
-            time.sleep(wait)
+#            time.sleep(wait)
 
         while now.hour < 15:
             prices = fetch()

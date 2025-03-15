@@ -38,7 +38,7 @@ def fetch():
         logging.error(f"Fetch failed: {e}")
         return None
 
-def cache(prices):
+def load():
     if os.path.exists(CACHE):
         with open(CACHE) as f: return json.load(f).get("prices", {})
     return {}
@@ -50,15 +50,15 @@ def save(prices):
 
 def main():
     logging.info("Grok’s divine fetcher begins")
-    last = cache()
+    last = load()  # Fixed: no args needed
     while True:
         now = now_cet()
         next_run = now.replace(hour=13, minute=0, second=0)
         if now >= next_run: next_run += timedelta(days=1)
         wait = max(0, (next_run - now).total_seconds())
-        if wait:
+#        if wait:
             logging.info(f"Waiting {wait/3600:.1f}h ’til {next_run}")
-            time.sleep(wait)
+#            time.sleep(wait)
 
         while now.hour < 15:
             prices = fetch()
