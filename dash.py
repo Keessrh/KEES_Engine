@@ -2,6 +2,7 @@ from flask import Flask, render_template_string
 import json
 import csv
 from pathlib import Path
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ TEMPLATE = """
         body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
         h1 { font-size: 24px; }
         .status { font-size: 18px; margin: 10px; }
-        .es-status { font-size: 28px; font-weight: bold; margin: 15px; }
+        .es-status { font-size: 48px; font-weight: bold; margin: 15px; }
         .es-on { color: green; }
         .es-off { color: red; }
         .dhw-on { color: blue; }
@@ -53,14 +54,12 @@ def get_current_states():
     dhw_state = 'OFF'
     try:
         with open(HEATING_CSV, 'r') as f:
-            rows = list(csv.reader(f))
-            es_state = rows[-1][4].strip() if rows else 'OFF'  # Last row, col 4
+            es_state = list(csv.reader(f))[-1][4].strip()
     except (FileNotFoundError, IndexError):
         pass
     try:
         with open(DHW_CSV, 'r') as f:
-            rows = list(csv.reader(f))
-            dhw_state = rows[-1][4].strip() if rows else 'OFF'  # Last row, col 4
+            dhw_state = list(csv.reader(f))[-1][4].strip()
     except (FileNotFoundError, IndexError):
         pass
     return es_state, dhw_state
@@ -68,37 +67,38 @@ def get_current_states():
 def get_price():
     try:
         with open(PRICE_FILE, 'r') as f:
-            data = json.load(f)
-            return data.get('price_percent', 61)
-    except (FileNotFoundError, json.JSONDecodeError):
+            data = json.load(f)['prices']
+            now = datetime.now().strftime('%Y-%m-%dT%H:00')
+            return data.get(now, 61)
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
         return 61
 
 def get_history():
     history = {}
     try:
-        # Load heating data (hourly only)
+        # Read heating CSV, filter hourly entries
         with open(HEATING_CSV, 'r') as hf:
-            h_rows = [row for row in csv.reader(hf) if len(row) > 4 and ":00:01" in row[0]]
+            h_rows = [r for r in csv.reader(hf) if ':00:01' in r[0]][-5:]  # Last 5 hourly
             for row in h_rows:
-                time = row[0].split('T')[1].split('.')[0]  # "22:00:01"
+                time = row[0].split('T')[1].split(':00:01')[0]  # "HH:00"
                 history[time] = {'price': row[1], 'es': row[4], 'dhw': 'OFF'}
-        # Overlay DHW data
+        # Overlay DHW states
         with open(DHW_CSV, 'r') as df:
-            d_rows = [row for row in csv.reader(df) if len(row) > 4 and ":00:01" in row[0]]
+            d_rows = [r for r in csv.reader(df) if ':00:01' in r[0]][-5:]
             for row in d_rows:
-                time = row[0].split('T')[1].split('.')[0]
+                time = row[0].split('T')[1].split(':00:01')[0]
                 if time in history:
                     history[time]['dhw'] = row[4]
                 else:
                     history[time] = {'price': row[1], 'es': 'OFF', 'dhw': row[4]}
-        # Format last 5
+        # Format last 5 entries
         result = [
-            {'time': t, 'price': data['price'], 'decision': f"{data['es']}/{data['dhw']}"}
-            for t, data in sorted(history.items(), reverse=True)[:5]
+            {'time': t, 'price': d['price'], 'decision': f"{d['es']}/{d['dhw']}"}
+            for t, d in sorted(history.items(), reverse=True)
         ]
-        return result[::-1] if result else []  # Oldest first, empty if no hourly data
+        return result[::-1]  # Oldest first
     except (FileNotFoundError, IndexError):
-        return []  # No fallback unless explicitly wanted
+        return []
 
 @app.route('/')
 def dashboard():
