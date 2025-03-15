@@ -42374,3 +42374,423 @@
 2025-03-15 05:19:57,512 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
 2025-03-15 05:19:57,513 - INFO - julianalaan_39/dhw decision: ON
 2025-03-15 05:19:57,513 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:02,518 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:02,518 - INFO - Current hour price: 39%
+2025-03-15 05:20:02,519 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:02,519 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:02,519 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:02,519 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:02,519 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:07,524 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:07,525 - INFO - Current hour price: 39%
+2025-03-15 05:20:07,525 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:07,525 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:07,525 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:07,525 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:07,525 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:12,531 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:12,532 - INFO - Current hour price: 39%
+2025-03-15 05:20:12,532 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:12,532 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:12,532 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:12,533 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:12,533 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:17,535 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:17,535 - INFO - Current hour price: 39%
+2025-03-15 05:20:17,535 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:17,535 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:17,536 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:17,536 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:17,536 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:22,541 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:22,541 - INFO - Current hour price: 39%
+2025-03-15 05:20:22,542 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:22,542 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:22,542 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:22,542 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:22,542 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:27,547 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:27,548 - INFO - Current hour price: 39%
+2025-03-15 05:20:27,548 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:27,548 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:27,548 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:27,548 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:27,548 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:32,554 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:32,554 - INFO - Current hour price: 39%
+2025-03-15 05:20:32,554 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:32,554 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:32,554 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:32,554 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:32,554 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:37,561 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:37,561 - INFO - Current hour price: 39%
+2025-03-15 05:20:37,561 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:37,561 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:37,561 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:37,561 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:37,561 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:42,567 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:42,568 - INFO - Current hour price: 39%
+2025-03-15 05:20:42,568 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:42,568 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:42,568 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:42,568 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:42,568 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:47,574 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:47,575 - INFO - Current hour price: 39%
+2025-03-15 05:20:47,575 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:47,576 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:47,576 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:47,576 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:47,576 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:52,578 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:52,579 - INFO - Current hour price: 39%
+2025-03-15 05:20:52,580 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:52,580 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:52,580 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:52,580 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:52,580 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:20:57,586 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:20:57,586 - INFO - Current hour price: 39%
+2025-03-15 05:20:57,586 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:20:57,586 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:20:57,586 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:20:57,586 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:20:57,586 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:02,587 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:02,588 - INFO - Current hour price: 39%
+2025-03-15 05:21:02,588 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:02,588 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:02,588 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:02,588 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:02,588 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:07,594 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:07,594 - INFO - Current hour price: 39%
+2025-03-15 05:21:07,594 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:07,594 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:07,594 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:07,595 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:07,595 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:12,600 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:12,600 - INFO - Current hour price: 39%
+2025-03-15 05:21:12,600 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:12,601 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:12,601 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:12,601 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:12,601 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:17,607 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:17,608 - INFO - Current hour price: 39%
+2025-03-15 05:21:17,608 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:17,608 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:17,608 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:17,608 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:17,608 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:22,614 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:22,615 - INFO - Current hour price: 39%
+2025-03-15 05:21:22,615 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:22,616 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:22,616 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:22,616 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:22,616 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:27,622 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:27,623 - INFO - Current hour price: 39%
+2025-03-15 05:21:27,624 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:27,624 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:27,624 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:27,624 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:27,624 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:32,630 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:32,631 - INFO - Current hour price: 39%
+2025-03-15 05:21:32,631 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:32,631 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:32,631 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:32,631 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:32,631 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:37,637 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:37,638 - INFO - Current hour price: 39%
+2025-03-15 05:21:37,638 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:37,638 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:37,639 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:37,639 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:37,639 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:42,645 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:42,645 - INFO - Current hour price: 39%
+2025-03-15 05:21:42,645 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:42,646 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:42,646 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:42,646 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:42,646 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:47,648 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:47,648 - INFO - Current hour price: 39%
+2025-03-15 05:21:47,649 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:47,649 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:47,649 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:47,649 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:47,649 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:52,655 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:52,655 - INFO - Current hour price: 39%
+2025-03-15 05:21:52,655 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:52,655 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:52,656 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:52,656 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:52,656 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:21:57,662 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:21:57,663 - INFO - Current hour price: 39%
+2025-03-15 05:21:57,663 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:21:57,663 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:21:57,663 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:21:57,664 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:21:57,664 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:02,669 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:02,670 - INFO - Current hour price: 39%
+2025-03-15 05:22:02,671 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:02,671 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:02,671 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:02,671 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:02,671 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:07,678 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:07,679 - INFO - Current hour price: 39%
+2025-03-15 05:22:07,679 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:07,680 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:07,680 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:07,680 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:07,680 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:12,685 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:12,685 - INFO - Current hour price: 39%
+2025-03-15 05:22:12,686 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:12,686 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:12,686 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:12,686 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:12,686 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:17,692 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:17,693 - INFO - Current hour price: 39%
+2025-03-15 05:22:17,693 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:17,693 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:17,694 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:17,694 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:17,694 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:22,699 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:22,699 - INFO - Current hour price: 39%
+2025-03-15 05:22:22,699 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:22,699 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:22,699 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:22,699 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:22,699 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:27,705 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:27,705 - INFO - Current hour price: 39%
+2025-03-15 05:22:27,705 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:27,705 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:27,705 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:27,705 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:27,705 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:32,711 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:32,712 - INFO - Current hour price: 39%
+2025-03-15 05:22:32,712 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:32,712 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:32,712 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:32,712 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:32,712 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:37,715 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:37,716 - INFO - Current hour price: 39%
+2025-03-15 05:22:37,716 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:37,716 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:37,717 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:37,717 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:37,717 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:42,721 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:42,722 - INFO - Current hour price: 39%
+2025-03-15 05:22:42,722 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:42,722 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:42,723 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:42,723 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:42,723 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:47,725 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:47,725 - INFO - Current hour price: 39%
+2025-03-15 05:22:47,726 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:47,726 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:47,726 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:47,726 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:47,726 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:52,730 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:52,730 - INFO - Current hour price: 39%
+2025-03-15 05:22:52,730 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:52,730 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:52,731 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:52,731 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:52,731 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:22:57,736 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:22:57,736 - INFO - Current hour price: 39%
+2025-03-15 05:22:57,737 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:22:57,737 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:22:57,737 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:22:57,737 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:22:57,737 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:02,741 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:02,742 - INFO - Current hour price: 39%
+2025-03-15 05:23:02,743 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:02,743 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:02,743 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:02,743 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:02,743 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:07,747 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:07,747 - INFO - Current hour price: 39%
+2025-03-15 05:23:07,747 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:07,747 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:07,747 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:07,747 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:07,747 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:12,752 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:12,752 - INFO - Current hour price: 39%
+2025-03-15 05:23:12,752 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:12,752 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:12,752 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:12,752 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:12,753 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:17,758 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:17,758 - INFO - Current hour price: 39%
+2025-03-15 05:23:17,759 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:17,759 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:17,759 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:17,759 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:17,759 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:22,764 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:22,764 - INFO - Current hour price: 39%
+2025-03-15 05:23:22,765 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:22,765 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:22,765 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:22,765 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:22,765 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:27,769 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:27,770 - INFO - Current hour price: 39%
+2025-03-15 05:23:27,770 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:27,770 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:27,770 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:27,770 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:27,770 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:32,775 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:32,776 - INFO - Current hour price: 39%
+2025-03-15 05:23:32,776 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:32,776 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:32,776 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:32,777 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:32,777 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:37,780 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:37,781 - INFO - Current hour price: 39%
+2025-03-15 05:23:37,782 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:37,782 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:37,782 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:37,783 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:37,783 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:42,786 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:42,787 - INFO - Current hour price: 39%
+2025-03-15 05:23:42,787 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:42,787 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:42,787 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:42,787 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:42,787 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:47,791 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:47,792 - INFO - Current hour price: 39%
+2025-03-15 05:23:47,792 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:47,792 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:47,792 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:47,792 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:47,793 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:52,797 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:52,798 - INFO - Current hour price: 39%
+2025-03-15 05:23:52,798 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:52,798 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:52,798 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:52,798 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:52,798 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:23:57,802 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:23:57,802 - INFO - Current hour price: 39%
+2025-03-15 05:23:57,803 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:23:57,803 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:23:57,803 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:23:57,803 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:23:57,803 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:02,808 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:02,808 - INFO - Current hour price: 39%
+2025-03-15 05:24:02,809 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:02,809 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:02,809 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:02,809 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:02,809 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:07,814 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:07,815 - INFO - Current hour price: 39%
+2025-03-15 05:24:07,815 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:07,815 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:07,815 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:07,815 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:07,815 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:12,820 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:12,820 - INFO - Current hour price: 39%
+2025-03-15 05:24:12,821 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:12,821 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:12,821 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:12,821 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:12,821 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:17,825 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:17,826 - INFO - Current hour price: 39%
+2025-03-15 05:24:17,826 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:17,826 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:17,826 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:17,827 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:17,827 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:22,831 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:22,831 - INFO - Current hour price: 39%
+2025-03-15 05:24:22,832 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:22,832 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:22,832 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:22,832 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:22,832 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:27,836 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:27,837 - INFO - Current hour price: 39%
+2025-03-15 05:24:27,837 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:27,837 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:27,837 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:27,837 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:27,837 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:32,841 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:32,842 - INFO - Current hour price: 39%
+2025-03-15 05:24:32,842 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:32,842 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:32,842 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:32,842 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:32,842 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:37,848 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:37,848 - INFO - Current hour price: 39%
+2025-03-15 05:24:37,848 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:37,848 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:37,848 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:37,849 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:37,849 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:42,852 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:42,853 - INFO - Current hour price: 39%
+2025-03-15 05:24:42,853 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:42,853 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:42,853 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:42,853 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:42,853 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:47,858 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:47,858 - INFO - Current hour price: 39%
+2025-03-15 05:24:47,858 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:47,858 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:47,858 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:47,858 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:47,858 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:52,863 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:52,863 - INFO - Current hour price: 39%
+2025-03-15 05:24:52,864 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:52,864 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:52,864 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:52,864 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:52,864 - INFO - Cycle complete, sleeping 5s
+2025-03-15 05:24:57,869 - INFO - Price data loaded: [('2025-03-14T00:00', 57), ('2025-03-14T01:00', 54), ('2025-03-14T02:00', 54), ('2025-03-14T03:00', 52), ('2025-03-14T04:00', 53)]...
+2025-03-15 05:24:57,869 - INFO - Current hour price: 39%
+2025-03-15 05:24:57,869 - INFO - julianalaan_39/heating current state: 2025-03-14T23:00:01.101047,53,0.0,67.3,ES2
+2025-03-15 05:24:57,869 - INFO - julianalaan_39/heating decision: ES3
+2025-03-15 05:24:57,870 - INFO - julianalaan_39/dhw current state: 2025-03-14T23:00:01.100373,53,0.0,67.3,ON
+2025-03-15 05:24:57,870 - INFO - julianalaan_39/dhw decision: ON
+2025-03-15 05:24:57,870 - INFO - Cycle complete, sleeping 5s
