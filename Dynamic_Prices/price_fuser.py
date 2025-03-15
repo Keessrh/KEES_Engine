@@ -39,7 +39,12 @@ def fuse():
         # Hardcode 34hr: 15T00:00 - 16T23:00
         start = datetime(2025, 3, 15, 0, 0, tzinfo=CET)
         end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
-        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe and start.strftime('%Y-%m-%dT%H:00') <= h <= end.strftime('%Y-%m-%dT%H:00')}
+        start_str = start.strftime('%Y-%m-%dT%H:00')
+        end_str = end.strftime('%Y-%m-%dT%H:00')
+        # Filter inputs first
+        tibber = {h: v for h, v in tibber.items() if h >= start_str and h <= end_str}
+        entsoe = {h: v for h, v in entsoe.items() if h >= start_str and h <= end_str}
+        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe}
         if not avg:
             logging.warning("No data in 34hr window")
             return
