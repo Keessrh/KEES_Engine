@@ -169,3 +169,6 @@ Price: 96, Decision: OFF
 2025-03-15 21:00:01,060 - Price: 78, Decision: OFF, Solar: 0.0, Tank Temp: 70.4
 2025-03-15 21:00:01,060 - Cycle complete, sleeping until next hour
 2025-03-15 21:00:01,060 - Sleeping 3600s until 2025-03-15 22:00:01
+2025-03-15 22:00:01,065 - Price: 76, Decision: OFF, Solar: 0.0, Tank Temp: 69.3
+2025-03-15 22:00:01,065 - Cycle complete, sleeping until next hour
+2025-03-15 22:00:01,065 - Sleeping 3600s until 2025-03-15 23:00:01
