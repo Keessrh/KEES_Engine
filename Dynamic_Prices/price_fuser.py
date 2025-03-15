@@ -36,7 +36,7 @@ def fuse():
         if not (tibber and entsoe):
             logging.warning("Missing data—holding last fusion")
             return
-        # Force 34hr: 15T00:00 - 16T23:00 (dynamic later)
+        # Hardcode 34hr: 15T00:00 - 16T23:00
         start = datetime(2025, 3, 15, 0, 0, tzinfo=CET)
         end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
         avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe and start.strftime('%Y-%m-%dT%H:00') <= h <= end.strftime('%Y-%m-%dT%H:00')}
@@ -44,7 +44,7 @@ def fuse():
             logging.warning("No data in 34hr window")
             return
         min_a, max_a = min(avg.values()), max(avg.values())
-        logging.info(f"Min: {min_a}, Max: {max_a}, 13:00: {avg.get('2025-03-15T13:00')}, 17:00: {avg.get('2025-03-15T17:00')}, 18:00: {avg.get('2025-03-15T18:00')}")
+        logging.info(f"Keys: {sorted(avg.keys())}, Min: {min_a}, Max: {max_a}, 13:00: {avg.get('2025-03-15T13:00')}, 17:00: {avg.get('2025-03-15T17:00')}, 18:00: {avg.get('2025-03-15T18:00')}")
         percents = {"retrieved": now_cet().strftime("%Y-%m-%dT%H:%M:%S"), 
                    "prices": {h: int(100 * (a - min_a) / (max_a - min_a)) if max_a > min_a else 50 for h, a in avg.items()}}
         with open('prices_percent.json', 'w') as f: json.dump(percents, f)
@@ -59,4 +59,4 @@ if __name__ == "__main__":
     observer.schedule(Watcher(), path='.', recursive=False)
     observer.start()
     logging.info("Watching")
-    while True: time.slee
+    while True: time.sleep(1)
