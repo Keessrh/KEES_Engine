@@ -6,3 +6,15 @@
 2025-03-15 16:59:03,005 - Fuser begins
 2025-03-15 16:59:03,005 - Fused 48 hours
 2025-03-15 16:59:03,006 - Watching
+2025-03-15 17:10:27,678 - Entropy claims us
+2025-03-15 17:10:42,031 - Fuser begins
+2025-03-15 17:10:42,040 - Fused 48 hours
+2025-03-15 17:10:42,052 - Watching
+2025-03-15 17:10:42,428 - Change in ./prices_tibber.json
+2025-03-15 17:10:44,430 - Fused 48 hours
+2025-03-15 17:10:44,430 - Change in ./prices_tibber.json
+2025-03-15 17:10:46,434 - Fused 48 hours
+2025-03-15 17:10:46,434 - Change in ./prices_entsoe.json
+2025-03-15 17:10:48,437 - Fused 48 hours
+2025-03-15 17:10:48,437 - Change in ./prices_entsoe.json
+2025-03-15 17:10:50,440 - Fused 48 hours
