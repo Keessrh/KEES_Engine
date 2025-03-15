@@ -36,10 +36,9 @@ def fuse():
         if not (tibber and entsoe):
             logging.warning("Missing data—holding last fusion")
             return
-        # Dynamic 34hr: today 00:00 - tomorrow 23:00 from last 13:00
-        now = now_cet()
-        start = (now - timedelta(days=1 if now.hour < 13 else 0)).replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=CET)
-        end = (start + timedelta(days=1)).replace(hour=23, minute=0, second=0, microsecond=0, tzinfo=CET)
+        # Force 34hr: 15T00:00 - 16T23:00 (dynamic later)
+        start = datetime(2025, 3, 15, 0, 0, tzinfo=CET)
+        end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
         avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe and start.strftime('%Y-%m-%dT%H:00') <= h <= end.strftime('%Y-%m-%dT%H:00')}
         if not avg:
             logging.warning("No data in 34hr window")
@@ -60,4 +59,4 @@ if __name__ == "__main__":
     observer.schedule(Watcher(), path='.', recursive=False)
     observer.start()
     logging.info("Watching")
-    while True: time.sleep(1)
+    while True: time.slee
