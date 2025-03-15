@@ -6,7 +6,9 @@ from datetime import datetime, timedelta
 import pytz
 
 CET = pytz.timezone("Europe/Amsterdam")
-logging.basicConfig(filename='logs/price_fuser.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+LOG_DIR = "/root/master_kees/Dynamic_Prices/logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+logging.basicConfig(filename=os.path.join(LOG_DIR, 'price_fuser.log'), level=logging.INFO, format='%(asctime)s - %(message)s')
 
 def signal_handler(signum, frame):
     logging.info("Entropy claims us")
@@ -41,10 +43,10 @@ def fuse():
         end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
         start_str = start.strftime('%Y-%m-%dT%H:00')
         end_str = end.strftime('%Y-%m-%dT%H:00')
-        # Filter inputs first
+        # Double filter: inputs and avg
         tibber = {h: v for h, v in tibber.items() if h >= start_str and h <= end_str}
         entsoe = {h: v for h, v in entsoe.items() if h >= start_str and h <= end_str}
-        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe}
+        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe and h >= start_str and h <= end_str}
         if not avg:
             logging.warning("No data in 34hr window")
             return
