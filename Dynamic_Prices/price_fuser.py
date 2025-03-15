@@ -43,7 +43,7 @@ def fuse():
         end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
         start_str = start.strftime('%Y-%m-%dT%H:00')
         end_str = end.strftime('%Y-%m-%dT%H:00')
-        # Filter inputs FIRST
+        # Filter inputs and use them
         tibber_filtered = {h: v for h, v in tibber.items() if h >= start_str and h <= end_str}
         entsoe_filtered = {h: v for h, v in entsoe.items() if h >= start_str and h <= end_str}
         avg = {h: (tibber_filtered[h] + entsoe_filtered[h]) / 2 for h in tibber_filtered if h in entsoe_filtered}
