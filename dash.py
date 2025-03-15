@@ -80,13 +80,13 @@ def get_history():
         with open(HEATING_CSV, 'r') as hf:
             h_rows = [r for r in csv.reader(hf) if ':00:01' in r[0]][-5:]  # Last 5 hourly
             for row in h_rows:
-                time = row[0].split('T')[1].split(':00:01')[0]  # "HH:00"
+                time = row[0].split('T')[1][:5]  # "HH:00"
                 history[time] = {'price': row[1], 'es': row[4], 'dhw': 'OFF'}
         # Overlay DHW states
         with open(DHW_CSV, 'r') as df:
             d_rows = [r for r in csv.reader(df) if ':00:01' in r[0]][-5:]
             for row in d_rows:
-                time = row[0].split('T')[1].split(':00:01')[0]
+                time = row[0].split('T')[1][:5]
                 if time in history:
                     history[time]['dhw'] = row[4]
                 else:
