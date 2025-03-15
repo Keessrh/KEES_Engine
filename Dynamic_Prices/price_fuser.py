@@ -2,7 +2,10 @@
 import json, logging, os, signal, time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from datetime import datetime, timedelta
+import pytz
 
+CET = pytz.timezone("Europe/Amsterdam")
 logging.basicConfig(filename='logs/price_fuser.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 def signal_handler(signum, frame):
@@ -20,6 +23,9 @@ class Watcher(FileSystemEventHandler):
             time.sleep(2)
             fuse()
 
+def now_cet():
+    return datetime.now(CET)
+
 def fuse():
     try:
         tibber = entsoe = {}
@@ -30,13 +36,17 @@ def fuse():
         if not (tibber and entsoe):
             logging.warning("Missing data—holding last fusion")
             return
-        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe}
-        if avg:
-            min_a, max_a = min(avg.values()), max(avg.values())
-            percents = {"retrieved": time.strftime("%Y-%m-%dT%H:%M:%S"), 
-                       "prices": {h: int(100 * (a - min_a) / (max_a - min_a)) if max_a > min_a else 50 for h, a in avg.items()}}
-            with open('prices_percent.json', 'w') as f: json.dump(percents, f)
-            logging.info(f"Fused {len(percents['prices'])} hours")
+        # Filter to 34hr: today 00:00 - tomorrow 23:00
+        now = now_cet()
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1 if now.hour < 13 else 0)
+        end = (start + timedelta(days=1)).replace(hour=23, minute=0)
+        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe and start.strftime('%Y-%m-%dT%H:00') <= h <= end.strftime('%Y-%m-%dT%H:00')}
+        min_a, max_a = min(avg.values()), max(avg.values())
+        logging.info(f"Min: {min_a}, Max: {max_a}, 13:00: {avg.get('2025-03-15T13:00')}, 17:00: {avg.get('2025-03-15T17:00')}, 18:00: {avg.get('2025-03-15T18:00')}")
+        percents = {"retrieved": now_cet().strftime("%Y-%m-%dT%H:%M:%S"), 
+                   "prices": {h: int(100 * (a - min_a) / (max_a - min_a)) if max_a > min_a else 50 for h, a in avg.items()}}
+        with open('prices_percent.json', 'w') as f: json.dump(percents, f)
+        logging.info(f"Fused {len(percents['prices'])} hours")
     except Exception as e:
         logging.error(f"Fusion failed: {e}")
 
