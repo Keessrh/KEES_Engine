@@ -43,15 +43,15 @@ def fuse():
         end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
         start_str = start.strftime('%Y-%m-%dT%H:00')
         end_str = end.strftime('%Y-%m-%dT%H:00')
-        # Filter inputs
-        tibber = {h: v for h, v in tibber.items() if h >= start_str and h <= end_str}
-        entsoe = {h: v for h, v in entsoe.items() if h >= start_str and h <= end_str}
-        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe}
+        # Filter inputs FIRST
+        tibber_filtered = {h: v for h, v in tibber.items() if h >= start_str and h <= end_str}
+        entsoe_filtered = {h: v for h, v in entsoe.items() if h >= start_str and h <= end_str}
+        avg = {h: (tibber_filtered[h] + entsoe_filtered[h]) / 2 for h in tibber_filtered if h in entsoe_filtered}
         if not avg:
             logging.warning("No data in 34hr window")
             return
         min_a, max_a = min(avg.values()), max(avg.values())
-        logging.info(f"Tibber keys: {sorted(tibber.keys())}, Entsoe keys: {sorted(entsoe.keys())}")
+        logging.info(f"Tibber keys: {sorted(tibber_filtered.keys())}, Entsoe keys: {sorted(entsoe_filtered.keys())}")
         logging.info(f"Avg keys: {sorted(avg.keys())}, Min: {min_a}, Max: {max_a}, 13:00: {avg.get('2025-03-15T13:00')}, 17:00: {avg.get('2025-03-15T17:00')}, 18:00: {avg.get('2025-03-15T18:00')}")
         percents = {"retrieved": now_cet().strftime("%Y-%m-%dT%H:%M:%S"), 
                    "prices": {h: int(100 * (a - min_a) / (max_a - min_a)) if max_a > min_a else 50 for h, a in avg.items()}}
