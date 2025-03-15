@@ -273,3 +273,6 @@ Price: 96, Decision: ES8
 2025-03-15 11:00:01,052 - Price: 17, Decision: ES6, Solar: 1891.0, Tank Temp: 65.4
 2025-03-15 11:00:01,055 - Cycle complete, sleeping until next hour
 2025-03-15 11:00:01,055 - Sleeping 3600s until 2025-03-15 12:00:01
+2025-03-15 12:00:01,100 - Price: 8, Decision: ES6, Solar: 4204.0, Tank Temp: 67.3
+2025-03-15 12:00:01,101 - Cycle complete, sleeping until next hour
+2025-03-15 12:00:01,101 - Sleeping 3600s until 2025-03-15 13:00:01
