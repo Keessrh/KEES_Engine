@@ -36,10 +36,14 @@ def fuse():
         if not (tibber and entsoe):
             logging.warning("Missing data—holding last fusion")
             return
-        # Filter to 34hr: March 15 00:00 - March 16 23:00 (hardcode for now, tweak later)
-        start = datetime(2025, 3, 15, 0, 0, tzinfo=CET)
-        end = datetime(2025, 3, 16, 23, 0, tzinfo=CET)
+        # Dynamic 34hr: today 00:00 - tomorrow 23:00 from last 13:00
+        now = now_cet()
+        start = (now - timedelta(days=1 if now.hour < 13 else 0)).replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=CET)
+        end = (start + timedelta(days=1)).replace(hour=23, minute=0, second=0, microsecond=0, tzinfo=CET)
         avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe and start.strftime('%Y-%m-%dT%H:00') <= h <= end.strftime('%Y-%m-%dT%H:00')}
+        if not avg:
+            logging.warning("No data in 34hr window")
+            return
         min_a, max_a = min(avg.values()), max(avg.values())
         logging.info(f"Min: {min_a}, Max: {max_a}, 13:00: {avg.get('2025-03-15T13:00')}, 17:00: {avg.get('2025-03-15T17:00')}, 18:00: {avg.get('2025-03-15T18:00')}")
         percents = {"retrieved": now_cet().strftime("%Y-%m-%dT%H:%M:%S"), 
