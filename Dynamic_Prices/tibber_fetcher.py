@@ -50,16 +50,25 @@ def save(prices):
 
 def main():
     logging.info("Grok’s divine fetcher begins")
-    last = load()  # Fixed: no args needed
+    last = load()
+    prices = fetch()  # Fetch on startup
+    if prices:
+        save(prices)
+        last = prices
+    else:
+        logging.warning("Startup fetch failed—using cache")
+        save(last)
+    
     while True:
         now = now_cet()
         next_run = now.replace(hour=13, minute=0, second=0)
         if now >= next_run: next_run += timedelta(days=1)
         wait = max(0, (next_run - now).total_seconds())
-#        if wait:
+        if wait:
             logging.info(f"Waiting {wait/3600:.1f}h ’til {next_run}")
-#            time.sleep(wait)
+            time.sleep(wait)
 
+        prices = None
         while now.hour < 15:
             prices = fetch()
             if prices and len(prices) >= 48:
@@ -72,7 +81,8 @@ def main():
 
         if not prices:
             logging.warning("Using cache")
-            save(last)
+            prices = last
+            save(prices)
         time.sleep(max(0, (now.replace(hour=13, minute=0, second=0) + timedelta(days=1) - now_cet()).total_seconds()))
 
 if __name__ == "__main__":
