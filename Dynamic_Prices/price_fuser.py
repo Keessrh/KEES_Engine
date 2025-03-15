@@ -1,80 +1,50 @@
-import json
-import os
-import time
+#!/usr/bin/env python3
+import json, logging, os, signal, time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import logging
 
-logging.basicConfig(filename='logs/price_fuser.log', level=logging.ERROR,
-                    format='%(asctime)s: %(message)s')
+logging.basicConfig(filename='logs/price_fuser.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
-class PriceWatcher(FileSystemEventHandler):
+def signal_handler(signum, frame):
+    logging.info("Entropy claims us")
+    observer.stop()
+    exit(0)
+
+signal.signal(signal.SIGTERM, signal_handler)
+signal.signal(signal.SIGINT, signal_handler)
+
+class Watcher(FileSystemEventHandler):
     def on_modified(self, event):
-        if event.src_path.endswith('prices_tibber.json') or event.src_path.endswith('prices_entsoe.json'):
-            print(f"Detected change in {event.src_path} - fusing prices!", flush=True)
-            time.sleep(2)  # Wait 2s for fetcher to finish writing
-            fuse_prices()
+        if event.src_path.endswith(('prices_tibber.json', 'prices_entsoe.json')):
+            logging.info(f"Change in {event.src_path}")
+            time.sleep(2)
+            fuse()
 
-def fuse_prices():
+def fuse():
     try:
-        tibber, entsoe = None, None
-        for _ in range(2):
-            try:
-                if os.path.exists('prices_tibber.json'):
-                    with open('prices_tibber.json', 'r') as f:
-                        tibber_data = json.load(f)
-                        tibber = tibber_data.get("prices", {})
-                if os.path.exists('prices_entsoe.json'):
-                    with open('prices_entsoe.json', 'r') as f:
-                        entsoe_data = json.load(f)
-                        entsoe = entsoe_data.get("prices", {})
-                if tibber and entsoe:
-                    break
-                raise FileNotFoundError("Missing JSON file(s)")
-            except Exception as e:
-                logging.error(f"Attempt failed: {str(e)}")
-                time.sleep(300)
-
-        if not tibber or not entsoe:
-            if os.path.exists('prices_percent.json'):
-                with open('prices_percent.json', 'r') as f:
-                    last_percent = json.load(f)
-                logging.warning("Using last prices_percent.json")
-                return
-            else:
-                logging.error("No data or fallback available!")
-                return
-
-        averages = {}
-        for hour in tibber:
-            if hour in entsoe:
-                avg = (tibber[hour] + entsoe[hour]) / 2
-                averages[hour] = avg
-
-        if averages:
-            min_avg, max_avg = min(averages.values()), max(averages.values())
-            percents = {
-                "retrieved": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                "prices": {
-                    hour: int(((avg - min_avg) / (max_avg - min_avg)) * 100) if max_avg > min_avg else 50
-                    for hour, avg in averages.items()
-                }
-            }
-            with open('prices_percent.json', 'w') as f:
-                json.dump(percents, f, indent=2)
+        tibber = entsoe = {}
+        if os.path.exists('prices_tibber.json'):
+            with open('prices_tibber.json') as f: tibber = json.load(f).get("prices", {})
+        if os.path.exists('prices_entsoe.json'):
+            with open('prices_entsoe.json') as f: entsoe = json.load(f).get("prices", {})
+        if not (tibber and entsoe):
+            logging.warning("Missing data—holding last fusion")
+            return
+        avg = {h: (tibber[h] + entsoe[h]) / 2 for h in tibber if h in entsoe}
+        if avg:
+            min_a, max_a = min(avg.values()), max(avg.values())
+            percents = {"retrieved": time.strftime("%Y-%m-%dT%H:%M:%S"), 
+                       "prices": {h: int(100 * (a - min_a) / (max_a - min_a)) if max_a > min_a else 50 for h, a in avg.items()}}
+            with open('prices_percent.json', 'w') as f: json.dump(percents, f)
+            logging.info(f"Fused {len(percents['prices'])} hours")
     except Exception as e:
-        logging.error(f"Failed: {str(e)}")
+        logging.error(f"Fusion failed: {e}")
 
 if __name__ == "__main__":
-    print("Starting price fuser - initial fusion...", flush=True)
-    fuse_prices()
+    logging.info("Fuser begins")
+    fuse()
     observer = Observer()
-    observer.schedule(PriceWatcher(), path='/root/master_kees/Dynamic_Prices/', recursive=False)
+    observer.schedule(Watcher(), path='.', recursive=False)
     observer.start()
-    print("Price fuser running... watching for updates!", flush=True)
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+    logging.info("Watching")
+    while True: time.sleep(1)
