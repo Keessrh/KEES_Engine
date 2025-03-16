@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
-import json, logging, os, signal, time, requests, pytz
+import json
+import logging
+import os
+import signal
+import time
+import requests
 from datetime import datetime, timedelta
+import pytz
 
 API_URL = "https://api.tibber.com/v1-beta/gql"
 TOKEN = "BxfErG_8Ps08ymt3hOkrZmIkNjSj92VCT638Q5DVo24"
-CACHE = "prices_tibber.json"
-LOG = "logs/tibber_fetcher.log"
+CACHE = "/root/master_kees/Dynamic_Prices/prices_tibber.json"
+LOG = "/root/master_kees/Dynamic_Prices/logs/tibber_fetcher.log"
 CET = pytz.timezone("Europe/Amsterdam")
-QUERY = "{viewer{homes{currentSubscription{priceInfo{today{total startsAt}tomorrow{total startsAt}}}}}}"
+QUERY = "{viewer{homes{currentSubscription{priceInfo{today{total startsAt}tomorrow{total startsAt}}}}}"
 
-os.makedirs("logs", exist_ok=True)
+os.makedirs(os.path.dirname(LOG), exist_ok=True)
 logging.basicConfig(filename=LOG, level=logging.INFO, format="%(asctime)s - %(message)s")
 
 def signal_handler(signum, frame):
@@ -22,68 +28,70 @@ signal.signal(signal.SIGINT, signal_handler)
 def now_cet():
     return datetime.now(CET)
 
-def load_cache():
-    try:
-        with open(CACHE, "r") as f:
-            return json.load(f).get("prices", {})
-    except (FileNotFoundError, json.JSONDecodeError):
-        return {}
-
-def fetch():
+def fetch_tibber():
     try:
         r = requests.post(API_URL, json={"query": QUERY}, headers={"Authorization": f"Bearer {TOKEN}"}, timeout=10)
-        if r.status_code == 200:
-            data = r.json()
-            if "errors" in data: raise Exception("GraphQL error")
-            prices = {item["startsAt"][:16]: round(item["total"], 3) 
-                      for item in data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["today"] + 
-                                  (data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["tomorrow"] or [])}
-            logging.info(f"Fetched {len(prices)} hours")
-            return prices
-        raise Exception(f"HTTP {r.status_code}")
+        if r.status_code != 200:
+            raise Exception(f"HTTP {r.status_code}")
+        data = r.json()
+        if "errors" in data:
+            raise Exception(f"GraphQL error: {data['errors']}")
+        prices = {p["startsAt"][:16]: round(p["total"], 3) for p in data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["today"] + (data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["tomorrow"] or [])}
+        logging.info(f"Fetched {len(prices)} hours")
+        return prices
     except Exception as e:
         logging.error(f"Fetch failed: {e}")
         return None
 
-def save(prices):
-    with open(CACHE, "w") as f:
+def save_prices(prices, filename=CACHE):
+    with open(filename, "w") as f:
         json.dump({"retrieved": now_cet().isoformat(), "prices": prices}, f)
     logging.info(f"Saved {len(prices)} hours")
 
-def main():
-    logging.info("Tibber fetcher starts")
-    prices = load_cache()  # Keep old data
-    
-    # Fetch at startup only if cache empty
-    if not prices:
-        logging.info("No cache—fetching now")
-        prices = fetch()
-        if prices:
-            save(prices)
-        else:
-            logging.warning("Startup fetch failed—empty cache")
-            prices = {}
+def load_cache(filename=CACHE):
+    try:
+        with open(filename) as f:
+            data = json.load(f)
+            retrieved = datetime.fromisoformat(data["retrieved"].replace("Z", "+00:00")).replace(tzinfo=pytz.UTC).astimezone(CET)
+            if now_cet() - retrieved < timedelta(days=2):
+                return data["prices"]
+    except:
+        return {}
+    return {}
 
+def main():
+    logging.info("Tibber fetcher initialized")
+    prices = load_cache()
+    if not prices:
+        logging.info("No valid cache—fetching on startup")
+        prices = fetch_tibber() or {}
+        save_prices(prices)
+    
     while True:
         now = now_cet()
-        next_run = now.replace(hour=13, minute=0, second=0)
-        if now >= next_run: next_run += timedelta(days=1)
-        wait = max(0, (next_run - now).total_seconds())
+        next_fetch = now.replace(hour=13, minute=0, second=0)
+        if now >= next_fetch:
+            next_fetch += timedelta(days=1)
+        wait = max(0, (next_fetch - now).total_seconds())
         if wait:
-            logging.info(f"Waiting {wait/3600:.1f}h")
+            logging.info(f"Waiting {wait/3600:.1f}h til {next_fetch}")
             time.sleep(wait)
         
-        new_prices = fetch()
-        if new_prices:
-            prices.update(new_prices)  # Merge, don’t overwrite
-            save(prices)
-        else:
-            logging.warning("Fetch failed—retrying in 5m")
+        deadline = now_cet().replace(hour=15, minute=0, second=0)
+        while now_cet() < deadline:
+            new_prices = fetch_tibber()
+            if new_prices and len(new_prices) >= 34:  # Full 34hr post-13:00
+                prices = new_prices
+                save_prices(prices)
+                break
+            logging.info("Incomplete data—retrying in 5m")
             time.sleep(300)
-            new_prices = fetch()
-            if new_prices:
-                prices.update(new_prices)
-            save(prices)
+        
+        if len(prices) < 34:
+            logging.warning("Failed to fetch 34hr—using cache")
+            save_prices(prices)
+        
+        time.sleep(24 * 3600)
 
 if __name__ == "__main__":
     main()
