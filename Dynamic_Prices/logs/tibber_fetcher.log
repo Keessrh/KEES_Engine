@@ -367,3 +367,11 @@
 2025-03-16 13:18:28,243 - Fetched 48 hours
 2025-03-16 13:18:28,244 - Saved 48 hours
 2025-03-16 13:18:28,245 - Waiting 23.7h til 2025-03-17 13:00:00.245137+01:00
+2025-03-16 13:20:03,250 - Fetch failed: HTTP 400
+2025-03-16 13:20:03,251 - Incomplete data—retrying in 5m
+2025-03-16 13:20:03,640 - Fetch failed: HTTP 400
+2025-03-16 13:20:03,641 - Incomplete data—retrying in 5m
+2025-03-16 13:20:27,639 - Tibber fetcher initialized
+2025-03-16 13:20:27,823 - Fetched 48 hours
+2025-03-16 13:20:27,823 - Saved 48 hours
+2025-03-16 13:20:27,824 - Waiting 23.7h til 2025-03-17 13:00:00.824100+01:00
