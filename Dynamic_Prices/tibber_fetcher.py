@@ -22,6 +22,13 @@ signal.signal(signal.SIGINT, signal_handler)
 def now_cet():
     return datetime.now(CET)
 
+def load_cache():
+    try:
+        with open(CACHE, "r") as f:
+            return json.load(f).get("prices", {})
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
 def fetch():
     try:
         r = requests.post(API_URL, json={"query": QUERY}, headers={"Authorization": f"Bearer {TOKEN}"}, timeout=10)
@@ -31,12 +38,6 @@ def fetch():
             prices = {item["startsAt"][:16]: round(item["total"], 3) 
                       for item in data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["today"] + 
                                   (data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["tomorrow"] or [])}
-            now = now_cet()
-            # Start: Today 00:00 if before 13:00, else today 13:00
-            start = now.replace(hour=0, minute=0, second=0) if now.hour < 13 else now.replace(hour=13, minute=0, second=0)
-            # End: Tomorrow 23:00 from start
-            end = (start.replace(hour=0, minute=0, second=0) + timedelta(days=1)).replace(hour=23, minute=0, second=0)
-            prices = {h: v for h, v in prices.items() if h >= start.strftime('%Y-%m-%dT%H:00') and h <= end.strftime('%Y-%m-%dT%H:00')}
             logging.info(f"Fetched {len(prices)} hours")
             return prices
         raise Exception(f"HTTP {r.status_code}")
@@ -51,14 +52,17 @@ def save(prices):
 
 def main():
     logging.info("Tibber fetcher starts")
-    prices = fetch()  # Startup fetch
-    if prices:
-        save(prices)
-    else:
-        logging.warning("Startup fetch failed—retrying in 5m")
-        time.sleep(300)
-        prices = fetch() or {}
-        save(prices)
+    prices = load_cache()  # Keep old data
+    
+    # Fetch at startup only if cache empty
+    if not prices:
+        logging.info("No cache—fetching now")
+        prices = fetch()
+        if prices:
+            save(prices)
+        else:
+            logging.warning("Startup fetch failed—empty cache")
+            prices = {}
 
     while True:
         now = now_cet()
@@ -68,13 +72,17 @@ def main():
         if wait:
             logging.info(f"Waiting {wait/3600:.1f}h")
             time.sleep(wait)
-        prices = fetch()
-        if prices:
+        
+        new_prices = fetch()
+        if new_prices:
+            prices.update(new_prices)  # Merge, don’t overwrite
             save(prices)
         else:
             logging.warning("Fetch failed—retrying in 5m")
             time.sleep(300)
-            prices = fetch() or {}
+            new_prices = fetch()
+            if new_prices:
+                prices.update(new_prices)
             save(prices)
 
 if __name__ == "__main__":
