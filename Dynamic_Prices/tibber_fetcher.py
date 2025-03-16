@@ -32,8 +32,10 @@ def fetch():
                       for item in data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["today"] + 
                                   (data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["tomorrow"] or [])}
             now = now_cet()
-            start = now.replace(hour=13, minute=0, second=0) if now.hour >= 13 else now.replace(hour=13, minute=0, second=0) - timedelta(days=1)
-            end = (start + timedelta(days=1)).replace(hour=23, minute=0, second=0)
+            # Start: Today 00:00 if before 13:00, else today 13:00
+            start = now.replace(hour=0, minute=0, second=0) if now.hour < 13 else now.replace(hour=13, minute=0, second=0)
+            # End: Tomorrow 23:00 from start
+            end = (start.replace(hour=0, minute=0, second=0) + timedelta(days=1)).replace(hour=23, minute=0, second=0)
             prices = {h: v for h, v in prices.items() if h >= start.strftime('%Y-%m-%dT%H:00') and h <= end.strftime('%Y-%m-%dT%H:00')}
             logging.info(f"Fetched {len(prices)} hours")
             return prices
