@@ -355,3 +355,7 @@
 2025-03-16 13:05:03,325 - Saved 48 hours
 2025-03-16 13:05:03,556 - Fetched 48 hours
 2025-03-16 13:05:03,557 - Saved 48 hours
+2025-03-16 13:10:02,716 - Fetch failed: HTTP 400
+2025-03-16 13:10:02,717 - Incomplete data—retrying in 5m
+2025-03-16 13:10:03,023 - Fetch failed: HTTP 400
+2025-03-16 13:10:03,024 - Incomplete data—retrying in 5m
