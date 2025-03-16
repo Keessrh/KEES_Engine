@@ -46,7 +46,7 @@ def fuse_prices():
         if now < last_13:
             last_13 -= timedelta(days=1)
         start = last_13
-        end = start.replace(hour=23, minute=0, second=0) + timedelta(days=1)  # 34hr
+        end = start + timedelta(hours=34)  # Exact 34hr
         start_str = start.strftime("%Y-%m-%dT%H:00")
         end_str = end.strftime("%Y-%m-%dT%H:00")
         
