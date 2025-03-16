@@ -37,16 +37,24 @@ def fuse_prices():
     try:
         tibber = load_json(TIBBER_FILE)
         entsoe = load_json(ENTSOE_FILE)
-        prices = tibber if len(tibber) >= 34 else entsoe if len(entsoe) >= 34 else tibber if tibber else entsoe if entsoe else {}
         
         now = now_cet()
         last_13 = now.replace(hour=13, minute=0, second=0)
         if now < last_13:
             last_13 -= timedelta(days=1)
         start = last_13
-        end = start + timedelta(days=1, hours=10)
+        end = start.replace(hour=23, minute=0, second=0) + timedelta(days=1)  # 34hr
         start_str = start.strftime("%Y-%m-%dT%H:00")
         end_str = end.strftime("%Y-%m-%dT%H:00")
+        
+        # Base prices: fullest cache
+        prices = tibber if len(tibber) >= 34 else entsoe if len(entsoe) >= 34 else entsoe if len(entsoe) > len(tibber) else tibber
+        
+        # Merge with fresh data (Tibber priority)
+        if tibber:
+            prices.update(tibber)
+        if entsoe:
+            prices.update(entsoe)
         
         prices_filtered = {h: v for h, v in prices.items() if start_str <= h <= end_str}
         if len(prices_filtered) < 34:
