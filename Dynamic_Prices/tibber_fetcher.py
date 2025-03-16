@@ -88,17 +88,12 @@ def main():
         deadline = now_cet().replace(hour=15, minute=0, second=0)
         while now_cet() < deadline:
             new_prices = fetch_tibber()
-            if len(new_prices) >= 34:
-                prices = new_prices
-                save_prices(prices)
-                break
             prices.update(new_prices)
+            save_prices(prices)
+            if len(new_prices) >= 34:
+                break
             logging.info("Incomplete data—retrying in 5m")
             time.sleep(300)
-        
-        if len(prices) < 34:
-            logging.warning("Failed to fetch 34hr—keeping merged data")
-            save_prices(prices)
         
         time.sleep(24 * 3600)
 
