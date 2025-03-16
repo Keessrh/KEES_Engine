@@ -44,7 +44,7 @@ def fetch_entsoe():
         }
         r = requests.get(API_URL, params=params, timeout=10)
         if r.status_code != 200:
-            raise Exception(f"HTTP {r.status_code}")
+            raise Exception(f"HTTP {r.status_code}: {r.text}")
         root = ET.fromstring(r.text)
         prices = {}
         for p in root.findall(".//{*}Period"):
@@ -57,31 +57,17 @@ def fetch_entsoe():
         return prices
     except Exception as e:
         logging.error(f"Fetch failed: {e}")
-        return None
+        return {}
 
 def save_prices(prices, filename=CACHE):
     with open(filename, "w") as f:
         json.dump({"retrieved": now_cet().isoformat(), "prices": prices}, f)
     logging.info(f"Saved {len(prices)} hours")
 
-def load_cache(filename=CACHE):
-    try:
-        with open(filename) as f:
-            data = json.load(f)
-            retrieved = datetime.fromisoformat(data["retrieved"].replace("Z", "+00:00")).replace(tzinfo=pytz.UTC).astimezone(CET)
-            if now_cet() - retrieved < timedelta(days=2):
-                return data["prices"]
-    except:
-        return {}
-    return {}
-
 def main():
     logging.info("ENTSO-E fetcher initialized")
-    prices = load_cache()
-    if len(prices) < 34:
-        logging.info("Cache <34hr—fetching on startup")
-        prices = fetch_entsoe() or prices
-        save_prices(prices)
+    prices = fetch_entsoe()
+    save_prices(prices)
     
     while True:
         now = now_cet()
@@ -95,16 +81,15 @@ def main():
         
         deadline = now_cet().replace(hour=15, minute=0, second=0)
         while now_cet() < deadline:
-            new_prices = fetch_entsoe()
-            if new_prices and len(new_prices) >= 34:
-                prices = new_prices
+            prices = fetch_entsoe()
+            if len(prices) >= 34:
                 save_prices(prices)
                 break
             logging.info("Incomplete data—retrying in 5m")
             time.sleep(300)
         
         if len(prices) < 34:
-            logging.warning("Failed to fetch 34hr—using cache")
+            logging.warning("Failed to fetch 34hr—keeping last data")
             save_prices(prices)
         
         time.sleep(24 * 3600)

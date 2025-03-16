@@ -26,11 +26,18 @@ signal.signal(signal.SIGINT, signal_handler)
 def now_cet():
     return datetime.now(CET)
 
+def load_json(filename):
+    try:
+        with open(filename) as f:
+            return json.load(f)["prices"]
+    except:
+        return {}
+
 def fuse_prices():
     try:
         tibber = load_json(TIBBER_FILE)
         entsoe = load_json(ENTSOE_FILE)
-        prices = tibber if tibber else entsoe if entsoe else {}
+        prices = tibber if len(tibber) >= 34 else entsoe if len(entsoe) >= 34 else tibber if tibber else entsoe if entsoe else {}
         
         now = now_cet()
         last_13 = now.replace(hour=13, minute=0, second=0)
@@ -61,16 +68,9 @@ def fuse_prices():
     except Exception as e:
         logging.error(f"Fusion failed: {e}")
 
-def load_json(filename):
-    try:
-        with open(filename) as f:
-            return json.load(f)["prices"]
-    except:
-        return {}
-
 def main():
     logging.info("Price fuser initialized")
-    fuse_prices()  # Startup fuse
+    fuse_prices()
     while True:
         now = now_cet()
         next_fuse = now.replace(hour=13, minute=15, second=0)
