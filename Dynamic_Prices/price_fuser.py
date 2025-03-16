@@ -38,9 +38,8 @@ def fuse_prices():
         tibber = load_json(TIBBER_FILE)
         entsoe = load_json(ENTSOE_FILE)
         
-        # Merge all data, Tibber overrides ENTSO-E
         prices = entsoe.copy()
-        prices.update(tibber)
+        prices.update(tibber)  # Tibber overrides ENTSO-E
         
         now = now_cet()
         last_13 = now.replace(hour=13, minute=0, second=0)

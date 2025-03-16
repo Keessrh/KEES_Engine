@@ -92,7 +92,7 @@ def main():
         while now_cet() < deadline:
             new_prices = fetch_entsoe()
             if len(new_prices) >= 34:
-                prices = new_prices  # Replace only if full range
+                prices = new_prices
                 save_prices(prices)
                 break
             prices.update(new_prices)
