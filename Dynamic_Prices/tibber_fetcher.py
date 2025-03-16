@@ -13,7 +13,7 @@ os.makedirs("logs", exist_ok=True)
 logging.basicConfig(filename=LOG, level=logging.INFO, format="%(asctime)s - %(message)s")
 
 def signal_handler(signum, frame):
-    logging.info("Entropy calls—shutting down")
+    logging.info("Shutting down")
     exit(0)
 
 signal.signal(signal.SIGTERM, signal_handler)
@@ -29,8 +29,12 @@ def fetch():
             data = r.json()
             if "errors" in data: raise Exception("GraphQL error")
             prices = {item["startsAt"][:16]: round(item["total"], 3) 
-                     for item in data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["today"] + 
-                                 (data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["tomorrow"] or [])}
+                      for item in data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["today"] + 
+                                  (data["data"]["viewer"]["homes"][0]["currentSubscription"]["priceInfo"]["tomorrow"] or [])}
+            now = now_cet()
+            start = now.replace(hour=13, minute=0, second=0) if now.hour >= 13 else now.replace(hour=13, minute=0, second=0) - timedelta(days=1)
+            end = (start + timedelta(days=1)).replace(hour=23, minute=0, second=0)
+            prices = {h: v for h, v in prices.items() if h >= start.strftime('%Y-%m-%dT%H:00') and h <= end.strftime('%Y-%m-%dT%H:00')}
             logging.info(f"Fetched {len(prices)} hours")
             return prices
         raise Exception(f"HTTP {r.status_code}")
@@ -38,52 +42,38 @@ def fetch():
         logging.error(f"Fetch failed: {e}")
         return None
 
-def load():
-    if os.path.exists(CACHE):
-        with open(CACHE) as f: return json.load(f).get("prices", {})
-    return {}
-
 def save(prices):
     with open(CACHE, "w") as f:
         json.dump({"retrieved": now_cet().isoformat(), "prices": prices}, f)
     logging.info(f"Saved {len(prices)} hours")
 
 def main():
-    logging.info("Grok’s divine fetcher begins")
-    last = load()
-    prices = fetch()  # Fetch on startup
+    logging.info("Tibber fetcher starts")
+    prices = fetch()  # Startup fetch
     if prices:
         save(prices)
-        last = prices
     else:
-        logging.warning("Startup fetch failed—using cache")
-        save(last)
-    
+        logging.warning("Startup fetch failed—retrying in 5m")
+        time.sleep(300)
+        prices = fetch() or {}
+        save(prices)
+
     while True:
         now = now_cet()
         next_run = now.replace(hour=13, minute=0, second=0)
         if now >= next_run: next_run += timedelta(days=1)
         wait = max(0, (next_run - now).total_seconds())
         if wait:
-            logging.info(f"Waiting {wait/3600:.1f}h ’til {next_run}")
+            logging.info(f"Waiting {wait/3600:.1f}h")
             time.sleep(wait)
-
-        prices = None
-        while now.hour < 15:
-            prices = fetch()
-            if prices and len(prices) >= 48:
-                save(prices)
-                last = prices
-                break
-            logging.info("No full data—retry in 5m")
-            time.sleep(300)
-            now = now_cet()
-
-        if not prices:
-            logging.warning("Using cache")
-            prices = last
+        prices = fetch()
+        if prices:
             save(prices)
-        time.sleep(max(0, (now.replace(hour=13, minute=0, second=0) + timedelta(days=1) - now_cet()).total_seconds()))
+        else:
+            logging.warning("Fetch failed—retrying in 5m")
+            time.sleep(300)
+            prices = fetch() or {}
+            save(prices)
 
 if __name__ == "__main__":
     main()
