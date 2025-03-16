@@ -64,15 +64,15 @@ def load_cache(filename=CACHE):
         return {}
 
 def save_prices(prices, filename=CACHE):
+    current = load_cache(filename)
+    current.update(prices)  # Merge new into current
     with open(filename, "w") as f:
-        json.dump({"retrieved": now_cet().isoformat(), "prices": prices}, f)
-    logging.info(f"Saved {len(prices)} hours")
+        json.dump({"retrieved": now_cet().isoformat(), "prices": current}, f)
+    logging.info(f"Saved {len(current)} hours")
 
 def main():
     logging.info("Tibber fetcher initialized")
-    prices = load_cache()
-    new_prices = fetch_tibber()
-    prices.update(new_prices)
+    prices = fetch_tibber()
     save_prices(prices)
     
     while True:
@@ -87,10 +87,9 @@ def main():
         
         deadline = now_cet().replace(hour=15, minute=0, second=0)
         while now_cet() < deadline:
-            new_prices = fetch_tibber()
-            prices.update(new_prices)
+            prices = fetch_tibber()
             save_prices(prices)
-            if len(new_prices) >= 34:
+            if len(prices) >= 34:
                 break
             logging.info("Incomplete data—retrying in 5m")
             time.sleep(300)
