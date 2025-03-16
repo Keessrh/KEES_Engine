@@ -33,10 +33,7 @@ def fetch_entsoe():
     try:
         now = now_cet()
         start = now.replace(hour=0, minute=0, second=0)
-        if now.hour >= 13:
-            end = start + timedelta(days=2)
-        else:
-            end = start + timedelta(days=1)
+        end = start + timedelta(days=2 if now.hour >= 13 else 1)
         params = {
             "securityToken": TOKEN,
             "documentType": "A44",
@@ -81,9 +78,9 @@ def load_cache(filename=CACHE):
 def main():
     logging.info("ENTSO-E fetcher initialized")
     prices = load_cache()
-    if not prices:
-        logging.info("No valid cache—fetching on startup")
-        prices = fetch_entsoe() or {}
+    if len(prices) < 34:
+        logging.info("Cache <34hr—fetching on startup")
+        prices = fetch_entsoe() or prices
         save_prices(prices)
     
     while True:

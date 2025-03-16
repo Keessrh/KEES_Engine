@@ -62,9 +62,9 @@ def load_cache(filename=CACHE):
 def main():
     logging.info("Tibber fetcher initialized")
     prices = load_cache()
-    if not prices:
-        logging.info("No valid cache—fetching on startup")
-        prices = fetch_tibber() or {}
+    if len(prices) < 34:
+        logging.info("Cache <34hr—fetching on startup")
+        prices = fetch_tibber() or prices
         save_prices(prices)
     
     while True:
@@ -80,7 +80,7 @@ def main():
         deadline = now_cet().replace(hour=15, minute=0, second=0)
         while now_cet() < deadline:
             new_prices = fetch_tibber()
-            if new_prices and len(new_prices) >= 34:  # Full 34hr post-13:00
+            if new_prices and len(new_prices) >= 34:
                 prices = new_prices
                 save_prices(prices)
                 break

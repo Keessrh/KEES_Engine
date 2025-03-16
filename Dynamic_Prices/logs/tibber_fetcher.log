@@ -271,3 +271,8 @@
 2025-03-16 09:24:04,460 - Waiting 3.6h
 2025-03-16 11:45:22,120 - Tibber fetcher initialized
 2025-03-16 11:45:22,120 - Waiting 1.2h til 2025-03-16 13:00:00.120912+01:00
+2025-03-16 11:58:40,091 - Tibber fetcher initialized
+2025-03-16 11:58:40,093 - Cache <34hr—fetching on startup
+2025-03-16 11:58:40,236 - Fetch failed: HTTP 400
+2025-03-16 11:58:40,237 - Saved 11 hours
+2025-03-16 11:58:40,238 - Waiting 1.0h til 2025-03-16 13:00:00.238190+01:00
