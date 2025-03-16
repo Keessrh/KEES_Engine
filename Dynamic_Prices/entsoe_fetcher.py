@@ -59,6 +59,13 @@ def fetch_entsoe():
         logging.error(f"Fetch failed: {e}")
         return {}
 
+def load_cache(filename=CACHE):
+    try:
+        with open(filename) as f:
+            return json.load(f)["prices"]
+    except:
+        return {}
+
 def save_prices(prices, filename=CACHE):
     with open(filename, "w") as f:
         json.dump({"retrieved": now_cet().isoformat(), "prices": prices}, f)
@@ -66,7 +73,9 @@ def save_prices(prices, filename=CACHE):
 
 def main():
     logging.info("ENTSO-E fetcher initialized")
-    prices = fetch_entsoe()
+    prices = load_cache()
+    new_prices = fetch_entsoe()
+    prices.update(new_prices)
     save_prices(prices)
     
     while True:
@@ -81,15 +90,17 @@ def main():
         
         deadline = now_cet().replace(hour=15, minute=0, second=0)
         while now_cet() < deadline:
-            prices = fetch_entsoe()
-            if len(prices) >= 34:
+            new_prices = fetch_entsoe()
+            if len(new_prices) >= 34:
+                prices = new_prices  # Replace only if full range
                 save_prices(prices)
                 break
+            prices.update(new_prices)
             logging.info("Incomplete data—retrying in 5m")
             time.sleep(300)
         
         if len(prices) < 34:
-            logging.warning("Failed to fetch 34hr—keeping last data")
+            logging.warning("Failed to fetch 34hr—keeping merged data")
             save_prices(prices)
         
         time.sleep(24 * 3600)
