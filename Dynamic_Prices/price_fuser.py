@@ -39,9 +39,10 @@ def load_fallback_prices():
 def wait_for_full_fetch():
     deadline = now_cet().replace(hour=17, minute=0)
     while now_cet() < deadline and not os.path.exists("/tmp/full_fetch_done"):
+        logging.info("Waiting for full fetch flag...")
         time.sleep(300)
     if not os.path.exists("/tmp/full_fetch_done"):
-        logging.warning("No full fetch, using fallback")
+        logging.warning("No full fetch by 17:00—using fallback prices")
 
 def fuse_prices():
     tibber = load_json(TIBBER_FILE)
@@ -77,10 +78,15 @@ def fuse_prices():
 
 def main():
     logging.info("Price fuser initialized")
-    wait_for_full_fetch()
-    fuse_prices()
-    if os.path.exists("/tmp/full_fetch_done"):
-        os.remove("/tmp/full_fetch_done")
+    now = now_cet()
+    if now.hour < 13:
+        logging.info("Pre-13:00: fusing with available data")
+        fuse_prices()
+    else:
+        wait_for_full_fetch()
+        fuse_prices()
+        if os.path.exists("/tmp/full_fetch_done"):
+            os.remove("/tmp/full_fetch_done")
     while True:
         now = now_cet()
         next_fuse = now.replace(hour=17, minute=15, second=0)
