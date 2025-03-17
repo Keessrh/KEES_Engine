@@ -301,3 +301,7 @@
 2025-03-17 14:26:24,584 - Using 48 fallback prices
 2025-03-17 14:26:24,584 - Fused 48 hours: 2025-03-17T13:00 to 2025-03-19T12:00
 2025-03-17 14:26:24,585 - Waiting 2.8h til 2025-03-17 17:15:00.584983+01:00
+2025-03-17 15:21:31,140 - Shutting down
+2025-03-17 15:21:31,385 - Price fuser initialized
+2025-03-17 15:21:31,385 - Scaling range: Min=0.134, Max=0.353, Total Entries: 72
+2025-03-17 15:21:31,385 - Fused 72 price entries

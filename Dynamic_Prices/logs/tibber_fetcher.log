@@ -445,3 +445,7 @@
 2025-03-17 14:26:24,803 - Tibber fetcher initialized
 2025-03-17 14:26:24,990 - FULL FETCH: 72 hours, Source=Tibber
 2025-03-17 14:26:24,991 - Waiting 22.6h til 2025-03-18 13:00:00.991887+01:00
+2025-03-17 15:21:31,158 - Shutting down
+2025-03-17 15:21:31,614 - Tibber fetcher initialized
+2025-03-17 15:21:31,809 - FULL FETCH: 72 hours, Source=Tibber
+2025-03-17 15:21:31,810 - Waiting 21.6h til 2025-03-18 13:00:00.810269+01:00

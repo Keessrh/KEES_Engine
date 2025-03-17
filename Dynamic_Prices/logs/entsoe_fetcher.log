@@ -440,3 +440,8 @@
 2025-03-17 14:26:25,519 - FULL FETCH: 47 hours—close enough, Range: 2025-03-17T00:00 to 2025-03-18T23:00
 2025-03-17 14:26:25,519 - Partial fetch: 47 hours updated, Source=ENTSO-E
 2025-03-17 14:26:25,520 - Waiting 22.6h til 2025-03-18 13:00:00.520356+01:00
+2025-03-17 15:21:31,184 - Shutting down
+2025-03-17 15:21:31,625 - ENTSO-E fetcher initialized
+2025-03-17 15:21:31,932 - FULL FETCH: 47 hours—close enough, Range: 2025-03-17T00:00 to 2025-03-18T23:00
+2025-03-17 15:21:31,932 - Partial fetch: 47 hours updated, Source=ENTSO-E
+2025-03-17 15:21:31,933 - Waiting 21.6h til 2025-03-18 13:00:00.933290+01:00
