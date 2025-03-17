@@ -23,16 +23,13 @@ def now_cet():
     return datetime.now(CET)
 
 def load_json(filename):
-    """Load price data from JSON file, return full dataset."""
     try:
         with open(filename) as f:
             return json.load(f)["prices"]
-    except Exception as e:
-        logging.error(f"Failed to load {filename}: {e}")
+    except:
         return {}
 
 def load_fallback_prices():
-    """Load previous fused prices in case of failure."""
     try:
         with open(OUTPUT_FILE) as f:
             data = json.load(f)
@@ -44,42 +41,48 @@ def load_fallback_prices():
         return {}
 
 def fuse_prices():
-    """Fuse prices from all available data without filtering by a time window."""
     tibber = load_json(TIBBER_FILE)
     entsoe = load_json(ENTSOE_FILE)
-    
-    # Combine ALL available prices, no filtering
-    prices = {**entsoe, **tibber}
-    
-    if len(prices) >= 1:
-        min_price = min(prices.values())
-        max_price = max(prices.values())
+    prices = entsoe.copy()
+    prices.update(tibber)
 
+    # Use all available prices, no tight filtering
+    prices_filtered = prices
+
+    if len(prices_filtered) >= 48:
+        min_price = min(prices_filtered.values())
+        max_price = max(prices_filtered.values())
         if max_price == min_price:
-            max_price += 0.001  # Prevent divide by zero error
-
-        percent = {h: ((p - min_price) / (max_price - min_price)) * 100 for h, p in prices.items()}
-        logging.info(f"Scaling range: Min={min_price}, Max={max_price}, Total Entries: {len(prices)}")
+            max_price += 0.001
+        percent = {h: round(((p - min_price) / (max_price - min_price)) * 100, 1) if max_price != min_price else 50 for h, p in prices_filtered.items()}
+        logging.info(f"Scaling range: Min={min_price}, Max={max_price}, Window: {len(prices_filtered)} hours")
     else:
-        logging.warning(f"No valid prices found, using fallback")
+        logging.warning(f"Incomplete prices: {len(prices_filtered)} hours, using fallback")
         percent = load_fallback_prices()
-        if not percent:
-            logging.warning("Fallback empty, defaulting to 50%")
-            percent = {now_cet().isoformat(): 50}
-
+        if len(percent) < 48 or not percent:
+            logging.warning("Fallback empty or incomplete, defaulting to 50%")
+            percent = {f"{now_cet().replace(hour=13, minute=0, second=0) + timedelta(hours=i):%Y-%m-%dT%H:00}": 50 for i in range(48)}
+        else:
+            logging.info(f"Using {len(percent)} fallback prices")
+    
     with open(OUTPUT_FILE, "w") as f:
         json.dump({"retrieved": now_cet().isoformat(), "prices": percent}, f)
-
-    logging.info(f"Fused {len(percent)} price entries")
+    logging.info(f"Fused {len(percent)} hours")
 
 def main():
     logging.info("Price fuser initialized")
     
-    # Run IMMEDIATELY—no waiting
+    # Run ASAP—No Waiting
     fuse_prices()
     
     while True:
-        time.sleep(3600)  # Run every hour
+        now = now_cet()
+        next_fuse = now.replace(hour=17, minute=15, second=0)
+        if now >= next_fuse:
+            next_fuse += timedelta(days=1)
+        wait = max(0, (next_fuse - now).total_seconds())
+        logging.info(f"Waiting {wait/3600:.1f}h til {next_fuse}")
+        time.sleep(wait)
         fuse_prices()
 
 if __name__ == "__main__":

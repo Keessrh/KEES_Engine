@@ -305,3 +305,8 @@
 2025-03-17 15:21:31,385 - Price fuser initialized
 2025-03-17 15:21:31,385 - Scaling range: Min=0.134, Max=0.353, Total Entries: 72
 2025-03-17 15:21:31,385 - Fused 72 price entries
+2025-03-17 15:27:22,039 - Shutting down
+2025-03-17 15:27:22,263 - Price fuser initialized
+2025-03-17 15:27:22,267 - Scaling range: Min=0.134, Max=0.353, Window: 72 hours
+2025-03-17 15:27:22,268 - Fused 72 hours
+2025-03-17 15:27:22,268 - Waiting 1.8h til 2025-03-17 17:15:00.268711+01:00
