@@ -30,7 +30,7 @@ def fetch_entsoe():
         start = now.replace(hour=0, minute=0, second=0)
         if now.hour < 13:
             start -= timedelta(days=1)
-        end = start + timedelta(days=2)
+        end = start + timedelta(hours=48)
         params = {
             "securityToken": TOKEN,
             "documentType": "A44",
@@ -50,6 +50,9 @@ def fetch_entsoe():
                 pos = int(pt.find("{*}position").text) - 1
                 hour = start_time.replace(hour=pos).strftime("%Y-%m-%dT%H:00")
                 prices[hour] = round(float(pt.find("{*}price.amount").text) / 1000, 3)
+        if len(prices) >= 47:
+            logging.info(f"FULL FETCH: {len(prices)} hours{'—close enough' if len(prices) < 48 else ''}")
+            open("/tmp/full_fetch_done", "w").close()
         return prices
     except Exception as e:
         logging.error(f"Fetch failed: {e}")
@@ -84,13 +87,6 @@ def main():
     logging.info("ENTSO-E fetcher initialized")
     prices = fetch_entsoe()
     save_prices(prices)
-    now = now_cet()
-    if now.hour < 13:
-        deadline = now + timedelta(minutes=10)
-        while now_cet() < deadline and len(prices) < 48:
-            time.sleep(60)
-            prices = fetch_entsoe()
-            save_prices(prices)
     while True:
         now = now_cet()
         next_fetch = now.replace(hour=13, minute=0, second=0)
@@ -101,10 +97,10 @@ def main():
             logging.info(f"Waiting {wait/3600:.1f}h til {next_fetch}")
             time.sleep(wait)
         deadline = now_cet().replace(hour=17, minute=0)
-        while now_cet() < deadline:
+        while now_cet() < deadline and len(prices) < 47:
             prices = fetch_entsoe()
             save_prices(prices)
-            if len(prices) >= 48:
+            if len(prices) >= 47:
                 break
             logging.info("Incomplete—retrying in 5m")
             time.sleep(300)

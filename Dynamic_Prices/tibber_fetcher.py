@@ -78,14 +78,9 @@ def main():
         os.remove("/tmp/full_fetch_done")
     logging.info("Tibber fetcher initialized")
     prices = fetch_tibber()
+    if len(prices) < 48 and now_cet().hour < 13:
+        logging.info(f"Pre-13:00: only {len(prices)}h fetched—awaiting 13:00 update")
     save_prices(prices)
-    now = now_cet()
-    if now.hour < 13:
-        deadline = now + timedelta(minutes=10)
-        while now_cet() < deadline and len(prices) < 48:
-            time.sleep(60)
-            prices = fetch_tibber()
-            save_prices(prices)
     while True:
         now = now_cet()
         next_fetch = now.replace(hour=13, minute=0, second=0)
@@ -96,7 +91,7 @@ def main():
             logging.info(f"Waiting {wait/3600:.1f}h til {next_fetch}")
             time.sleep(wait)
         deadline = now_cet().replace(hour=17, minute=0)
-        while now_cet() < deadline:
+        while now_cet() < deadline and len(prices) < 48:
             prices = fetch_tibber()
             save_prices(prices)
             if len(prices) >= 48:
