@@ -404,3 +404,4 @@
 2025-03-17 10:06:19,989 - Waiting 2.9h til 2025-03-17 13:00:00.989504+01:00
 2025-03-17 13:00:06,630 - FULL FETCH: 48 hours, Source=Tibber
 2025-03-17 13:00:06,631 - Incomplete—retrying in 5m
+2025-03-17 13:05:06,860 - FULL FETCH: 72 hours, Source=Tibber
