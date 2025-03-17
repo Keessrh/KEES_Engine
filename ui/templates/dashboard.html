@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K.E.E.S. Energy Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #ddd; text-align: center; }
+        h1 { color: #4CAF50; }
+        .status { margin: 20px; padding: 10px; border-radius: 8px; display: inline-block; }
+        .status.running { background-color: #4CAF50; }
+        .status.stopped { background-color: #D32F2F; }
+        .container { width: 90%; margin: auto; }
+        .gear { font-size: 50px; display: inline-block; margin: 10px; }
+        .gear.spinning { animation: spin 2s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <h1>K.E.E.S. Energy Optimization Dashboard</h1>
+    <div class="container">
+        <h2>System Status</h2>
+        <div id="status">
+            <span class="gear" id="tibber">⚙️</span> Tibber
+            <span class="gear" id="entsoe">⚙️</span> ENTSO-E
+            <span class="gear" id="fuser">⚙️</span> Price Fuser
+        </div>
+        <h2>Current Energy State: <span id="energy_state"></span></h2>
+        <h2>DHW State: <span id="dhw_state"></span></h2>
+        <h2>48h Price Prediction</h2>
+        <div id="price_graph"></div>
+    </div>
+    <script>
+        async function updateDashboard() {
+            let statusRes = await fetch("/status");
+            let status = await statusRes.json();
+            document.getElementById("tibber").className = status.Tibber ? "gear spinning" : "gear";
+            document.getElementById("entsoe").className = status["ENTSO-E"] ? "gear spinning" : "gear";
+            document.getElementById("fuser").className = status.Fuser ? "gear spinning" : "gear";
+
+            let pricesRes = await fetch("/prices");
+            let prices = await pricesRes.json();
+            document.getElementById("energy_state").textContent = "ES" + prices.state;
+            document.getElementById("dhw_state").textContent = prices.dhw ? "ON" : "OFF";
+
+            let x = Object.keys(prices.prices);
+            let y = Object.values(prices.prices);
+            let trace = { x, y, mode: 'lines+markers', line: { shape: 'spline' } };
+            Plotly.newPlot("price_graph", [trace], { title: "Price % Over 48h" });
+        }
+        setInterval(updateDashboard, 5000);
+        updateDashboard();
+    </script>
+</body>
+</html>
