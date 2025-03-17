@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-import json
-import logging
-import os
-import signal
-import time
-import requests
+import json, logging, os, signal, time, requests
 from datetime import datetime, timedelta
 from xml.etree import ElementTree as ET
 import pytz
@@ -33,7 +28,9 @@ def fetch_entsoe():
     try:
         now = now_cet()
         start = now.replace(hour=0, minute=0, second=0)
-        end = start + timedelta(days=2 if now.hour >= 13 else 1)
+        if now.hour < 13:
+            start -= timedelta(days=1)
+        end = start + timedelta(days=2)
         params = {
             "securityToken": TOKEN,
             "documentType": "A44",
@@ -53,7 +50,6 @@ def fetch_entsoe():
                 pos = int(pt.find("{*}position").text) - 1
                 hour = start_time.replace(hour=pos).strftime("%Y-%m-%dT%H:00")
                 prices[hour] = round(float(pt.find("{*}price.amount").text) / 1000, 3)
-        logging.info(f"Fetched {len(prices)} hours")
         return prices
     except Exception as e:
         logging.error(f"Fetch failed: {e}")
@@ -68,16 +64,33 @@ def load_cache(filename=CACHE):
 
 def save_prices(prices, filename=CACHE):
     current = load_cache(filename)
-    current.update(prices)  # Merge new into current
+    source = "ENTSO-E" if prices else "None"
+    if len(prices) >= 48:
+        current = prices
+        min_price = min(prices.values())
+        max_price = max(prices.values())
+        logging.info(f"FULL FETCH: {len(prices)} hours, Min={min_price}, Max={max_price}, Source={source}")
+    else:
+        current.update(prices)
+        logging.info(f"Partial fetch: {len(prices)} hours updated, Source={source}")
     with open(filename, "w") as f:
-        json.dump({"retrieved": now_cet().isoformat(), "prices": current}, f)
-    logging.info(f"Saved {len(current)} hours")
+        json.dump({"retrieved": now_cet().isoformat(), "prices": current, "last_fetch": now_cet().isoformat()}, f)
+    if len(prices) >= 48:
+        open("/tmp/full_fetch_done", "w").close()
 
 def main():
+    if os.path.exists("/tmp/full_fetch_done"):
+        os.remove("/tmp/full_fetch_done")
     logging.info("ENTSO-E fetcher initialized")
     prices = fetch_entsoe()
     save_prices(prices)
-    
+    now = now_cet()
+    if now.hour < 13:
+        deadline = now + timedelta(minutes=10)
+        while now_cet() < deadline and len(prices) < 48:
+            time.sleep(60)
+            prices = fetch_entsoe()
+            save_prices(prices)
     while True:
         now = now_cet()
         next_fetch = now.replace(hour=13, minute=0, second=0)
@@ -87,16 +100,14 @@ def main():
         if wait:
             logging.info(f"Waiting {wait/3600:.1f}h til {next_fetch}")
             time.sleep(wait)
-        
-        deadline = now_cet().replace(hour=15, minute=0, second=0)
+        deadline = now_cet().replace(hour=17, minute=0)
         while now_cet() < deadline:
             prices = fetch_entsoe()
             save_prices(prices)
-            if len(prices) >= 34:
+            if len(prices) >= 48:
                 break
-            logging.info("Incomplete data—retrying in 5m")
+            logging.info("Incomplete—retrying in 5m")
             time.sleep(300)
-        
         time.sleep(24 * 3600)
 
 if __name__ == "__main__":

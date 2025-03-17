@@ -367,3 +367,6 @@
 2025-03-16 13:26:53,096 - Fetched 47 hours
 2025-03-16 13:26:53,097 - Saved 47 hours
 2025-03-16 13:26:53,098 - Waiting 23.6h til 2025-03-17 13:00:00.098202+01:00
+2025-03-17 09:43:33,891 - ENTSO-E fetcher initialized
+2025-03-17 09:43:34,176 - Partial fetch: 47 hours updated, Source=ENTSO-E
+2025-03-17 09:44:34,494 - Partial fetch: 47 hours updated, Source=ENTSO-E

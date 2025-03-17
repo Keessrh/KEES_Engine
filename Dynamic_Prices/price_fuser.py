@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import json
-import logging
-import os
-import signal
-import time
+import json, logging, os, signal, time
 from datetime import datetime, timedelta
 import pytz
 
@@ -33,58 +29,71 @@ def load_json(filename):
     except:
         return {}
 
-def fuse_prices():
+def load_fallback_prices():
     try:
-        tibber = load_json(TIBBER_FILE)
-        entsoe = load_json(ENTSOE_FILE)
-        
-        prices = entsoe.copy()
-        prices.update(tibber)  # Tibber overrides ENTSO-E
-        
-        now = now_cet()
-        last_13 = now.replace(hour=13, minute=0, second=0)
-        if now < last_13:
-            last_13 -= timedelta(days=1)
-        start = last_13
-        end = start + timedelta(hours=34)  # Exact 34hr
-        start_str = start.strftime("%Y-%m-%dT%H:00")
-        end_str = end.strftime("%Y-%m-%dT%H:00")
-        
-        prices_filtered = {h: v for h, v in prices.items() if start_str <= h <= end_str}
-        if len(prices_filtered) < 34:
-            logging.warning(f"Only {len(prices_filtered)} hours—using all available")
-        
-        min_price, max_price = 0.206, 0.302
-        percent = {}
-        for h, p in prices_filtered.items():
-            if p <= min_price:
-                percent[h] = 0.0
-            elif p >= max_price:
-                percent[h] = 100.0
-            else:
-                percent[h] = ((p - min_price) / (max_price - min_price)) * 100
-        
-        with open(OUTPUT_FILE, "w") as f:
-            json.dump({"retrieved": now_cet().isoformat(), "prices": percent}, f)
-        logging.info(f"Fused {len(percent)} hours: {start_str} to {end_str}")
-    except Exception as e:
-        logging.error(f"Fusion failed: {e}")
+        with open(OUTPUT_FILE) as f:
+            return json.load(f)["prices"]
+    except:
+        return {}
+
+def wait_for_full_fetch():
+    deadline = now_cet().replace(hour=17, minute=0)
+    while now_cet() < deadline and not os.path.exists("/tmp/full_fetch_done"):
+        time.sleep(300)
+    if not os.path.exists("/tmp/full_fetch_done"):
+        logging.warning("No full fetch, using fallback")
+
+def fuse_prices():
+    tibber = load_json(TIBBER_FILE)
+    entsoe = load_json(ENTSOE_FILE)
+    prices = entsoe.copy()
+    prices.update(tibber)
+    now = now_cet()
+    last_13 = now.replace(hour=13, minute=0, second=0)
+    if now < last_13:
+        last_13 -= timedelta(days=1)
+    start = last_13
+    end = start + timedelta(hours=47)
+    start_str = start.strftime("%Y-%m-%dT%H:00")
+    end_str = end.strftime("%Y-%m-%dT%H:00")
+    prices_filtered = {h: v for h, v in prices.items() if start_str <= h <= end_str}
+    
+    if not prices_filtered or len(prices_filtered) < 48:
+        logging.warning("Incomplete prices, using fallback")
+        percent = load_fallback_prices()
+        if len(percent) < 48:
+            percent = {f"{start + timedelta(hours=i):%Y-%m-%dT%H:00}": 50 for i in range(48)}
+    else:
+        min_price = min(prices_filtered.values())
+        max_price = max(prices_filtered.values())
+        if max_price == min_price:
+            max_price += 0.001
+        percent = {h: ((p - min_price) / (max_price - min_price)) * 100 if max_price != min_price else 50 for h, p in prices_filtered.items()}
+        logging.info(f"Scaling range: Min={min_price}, Max={max_price}, Window: {start_str} to {end_str}")
+    
+    with open(OUTPUT_FILE, "w") as f:
+        json.dump({"retrieved": now_cet().isoformat(), "prices": percent}, f)
+    logging.info(f"Fused {len(percent)} hours: {start_str} to {end_str}")
 
 def main():
     logging.info("Price fuser initialized")
+    wait_for_full_fetch()
     fuse_prices()
+    if os.path.exists("/tmp/full_fetch_done"):
+        os.remove("/tmp/full_fetch_done")
     while True:
         now = now_cet()
-        next_fuse = now.replace(hour=13, minute=15, second=0)
+        next_fuse = now.replace(hour=17, minute=15, second=0)
         if now >= next_fuse:
             next_fuse += timedelta(days=1)
         wait = max(0, (next_fuse - now).total_seconds())
         if wait:
             logging.info(f"Waiting {wait/3600:.1f}h til {next_fuse}")
             time.sleep(wait)
-        
+        wait_for_full_fetch()
         fuse_prices()
-        time.sleep(24 * 3600)
+        if os.path.exists("/tmp/full_fetch_done"):
+            os.remove("/tmp/full_fetch_done")
 
 if __name__ == "__main__":
     main()

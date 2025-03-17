@@ -379,3 +379,6 @@
 2025-03-16 13:26:53,009 - Fetched 48 hours
 2025-03-16 13:26:53,010 - Saved 48 hours
 2025-03-16 13:26:53,010 - Waiting 23.6h til 2025-03-17 13:00:00.010318+01:00
+2025-03-17 09:43:33,889 - Tibber fetcher initialized
+2025-03-17 09:43:34,099 - Partial fetch: 24 hours updated, Source=Tibber
+2025-03-17 09:44:34,287 - Partial fetch: 24 hours updated, Source=Tibber
