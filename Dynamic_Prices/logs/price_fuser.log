@@ -265,3 +265,28 @@
 2025-03-17 14:06:29,764 - Using 48 fallback prices
 2025-03-17 14:06:29,764 - Fused 48 hours: 2025-03-17T13:00 to 2025-03-19T12:00
 2025-03-17 14:06:29,764 - Waiting 3.1h til 2025-03-17 17:15:00.764763+01:00
+2025-03-17 14:10:27,732 - Shutting down
+2025-03-17 14:10:27,868 - Shutting down
+2025-03-17 14:10:28,030 - Price fuser initialized
+2025-03-17 14:10:28,030 - Incomplete prices: 35 hours, using fallback
+2025-03-17 14:10:28,031 - Loaded 48 fallback prices from 2025-03-17T14:06:29.764464+01:00
+2025-03-17 14:10:28,031 - Using 48 fallback prices
+2025-03-17 14:10:28,031 - Fused 48 hours: 2025-03-17T13:00 to 2025-03-19T12:00
+2025-03-17 14:10:28,031 - Waiting 3.1h til 2025-03-17 17:15:00.031530+01:00
+2025-03-17 14:10:33,016 - Price fuser initialized
+2025-03-17 14:10:33,017 - Incomplete prices: 35 hours, using fallback
+2025-03-17 14:10:33,017 - Loaded 48 fallback prices from 2025-03-17T14:10:28.031228+01:00
+2025-03-17 14:10:33,017 - Using 48 fallback prices
+2025-03-17 14:10:33,017 - Fused 48 hours: 2025-03-17T13:00 to 2025-03-19T12:00
+2025-03-17 14:10:33,017 - Waiting 3.1h til 2025-03-17 17:15:00.017824+01:00
+2025-03-17 14:13:40,726 - Shutting down
+2025-03-17 14:13:40,732 - Shutting down
+2025-03-17 14:14:21,939 - Price fuser initialized
+2025-03-17 14:14:21,939 - Waiting for full fetch flag...
+2025-03-17 14:14:46,550 - Shutting down
+2025-03-17 14:14:56,682 - Price fuser initialized
+2025-03-17 14:14:56,683 - Incomplete prices: 35 hours, using fallback
+2025-03-17 14:14:56,683 - Loaded 48 fallback prices from 2025-03-17T14:10:33.017420+01:00
+2025-03-17 14:14:56,683 - Using 48 fallback prices
+2025-03-17 14:14:56,683 - Fused 48 hours: 2025-03-17T13:00 to 2025-03-19T12:00
+2025-03-17 14:14:56,684 - Waiting 3.0h til 2025-03-17 17:15:00.683996+01:00
