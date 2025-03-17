@@ -1,0 +1,56 @@
+.
+├── Dynamic_Prices
+│   ├── entsoe_fetcher.out
+│   ├── entsoe_fetcher.py
+│   ├── logs
+│   │   ├── entsoe_fetcher.log
+│   │   ├── entsoe_fetcher.out
+│   │   ├── price_fuser.log
+│   │   ├── price_fuser.out
+│   │   ├── tibber_fetcher.log
+│   │   └── tibber_fetcher.out
+│   ├── price_fuser.py
+│   ├── prices_entsoe.json
+│   ├── prices_percent.json
+│   ├── prices_tibber.json
+│   ├── tibber_fetcher.out
+│   └── tibber_fetcher.py
+├── README.md
+├── __pycache__
+│   └── shared_data.cpython-310.pyc
+├── auto_update.sh
+├── backup.log
+├── clients
+│   └── julianalaan_39
+│       ├── __pycache__
+│       ├── dhw
+│       ├── heating
+│       ├── heatpump.py
+│       └── heatpump_fixed.py
+├── config.yaml
+├── dash.py
+├── data
+│   ├── data
+│   │   └── prices_tibber.py
+│   ├── prices_entsoe.py
+│   └── prices_tibber.py
+├── file_structure.txt
+├── logs
+│   ├── dhw.log
+│   ├── heating.log
+│   ├── main.log
+│   ├── mothership.log
+│   └── price_fuser.log
+├── main.log
+├── main.py
+├── mothership.py
+├── new_main.py
+├── prices.json
+├── smart_dashboard.py
+├── templates
+│   └── dashboard.html
+└── ui
+    └── templates
+        └── index.html
+
+14 directories, 39 files
