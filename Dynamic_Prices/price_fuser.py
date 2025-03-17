@@ -32,8 +32,12 @@ def load_json(filename):
 def load_fallback_prices():
     try:
         with open(OUTPUT_FILE) as f:
-            return json.load(f)["prices"]
-    except:
+            data = json.load(f)
+            prices = data["prices"]
+            logging.info(f"Loaded {len(prices)} fallback prices from {data['retrieved']}")
+            return prices
+    except Exception as e:
+        logging.error(f"Fallback failed: {e}")
         return {}
 
 def wait_for_full_fetch():
@@ -59,18 +63,21 @@ def fuse_prices():
     end_str = end.strftime("%Y-%m-%dT%H:00")
     prices_filtered = {h: v for h, v in prices.items() if start_str <= h <= end_str}
     
-    if not prices_filtered or len(prices_filtered) < 48:
-        logging.warning("Incomplete prices, using fallback")
-        percent = load_fallback_prices()
-        if len(percent) < 48:
-            percent = {f"{start + timedelta(hours=i):%Y-%m-%dT%H:00}": 50 for i in range(48)}
-    else:
+    if len(prices_filtered) >= 48:
         min_price = min(prices_filtered.values())
         max_price = max(prices_filtered.values())
         if max_price == min_price:
             max_price += 0.001
         percent = {h: ((p - min_price) / (max_price - min_price)) * 100 if max_price != min_price else 50 for h, p in prices_filtered.items()}
         logging.info(f"Scaling range: Min={min_price}, Max={max_price}, Window: {start_str} to {end_str}")
+    else:
+        logging.warning(f"Incomplete prices: {len(prices_filtered)} hours, using fallback")
+        percent = load_fallback_prices()
+        if len(percent) < 48 or not percent:
+            logging.warning("Fallback empty or incomplete, defaulting to 50%")
+            percent = {f"{start + timedelta(hours=i):%Y-%m-%dT%H:00}": 50 for i in range(48)}
+        else:
+            logging.info(f"Using {len(percent)} fallback prices")
     
     with open(OUTPUT_FILE, "w") as f:
         json.dump({"retrieved": now_cet().isoformat(), "prices": percent}, f)

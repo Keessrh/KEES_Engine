@@ -51,7 +51,7 @@ def fetch_entsoe():
                 hour = start_time.replace(hour=pos).strftime("%Y-%m-%dT%H:00")
                 prices[hour] = round(float(pt.find("{*}price.amount").text) / 1000, 3)
         if len(prices) >= 47:
-            logging.info(f"FULL FETCH: {len(prices)} hours{'—close enough' if len(prices) < 48 else ''}")
+            logging.info(f"FULL FETCH: {len(prices)} hours{'—close enough' if len(prices) < 48 else ''}, Range: {min(prices.keys())} to {max(prices.keys())}")
             open("/tmp/full_fetch_done", "w").close()
         return prices
     except Exception as e:
@@ -77,7 +77,7 @@ def save_prices(prices, filename=CACHE):
         current.update(prices)
         logging.info(f"Partial fetch: {len(prices)} hours updated, Source={source}")
     with open(filename, "w") as f:
-        json.dump({"retrieved": now_cet().isoformat(), "prices": current, "last_fetch": now_cet().isoformat()}, f)
+        json.dump({"retrieved": now_cet().isoformat(), "prices": current}, f)
     if len(prices) >= 48:
         open("/tmp/full_fetch_done", "w").close()
 

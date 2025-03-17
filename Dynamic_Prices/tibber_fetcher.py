@@ -59,19 +59,19 @@ def load_cache(filename=CACHE):
 
 def save_prices(prices, filename=CACHE):
     current = load_cache(filename)
-    source = "Tibber" if prices else "None"
-    if len(prices) >= 48:
+    if not current:
         current = prices
-        min_price = min(prices.values())
-        max_price = max(prices.values())
-        logging.info(f"FULL FETCH: {len(prices)} hours, Min={min_price}, Max={max_price}, Source={source}")
     else:
-        current.update(prices)
-        logging.info(f"Partial fetch: {len(prices)} hours updated, Source={source}")
-    with open(filename, "w") as f:
-        json.dump({"retrieved": now_cet().isoformat(), "prices": current, "last_fetch": now_cet().isoformat()}, f)
-    if len(prices) >= 48:
+        for h, p in prices.items():
+            current[h] = p
+    source = "Tibber" if prices else "None"
+    if len(current) >= 48:
+        logging.info(f"FULL FETCH: {len(current)} hours, Source={source}")
         open("/tmp/full_fetch_done", "w").close()
+    else:
+        logging.info(f"Partial fetch merged: {len(prices)} new, {len(current)} total, Source={source}")
+    with open(filename, "w") as f:
+        json.dump({"retrieved": now_cet().isoformat(), "prices": current}, f)
 
 def main():
     if os.path.exists("/tmp/full_fetch_done"):
